@@ -1,3 +1,39 @@
 <overrides>
 	<import file="/WEB-INF/server-props-overrides.xml"/>
+	<properties>
+                <db.user>jean</db.user>
+                <db.pass>class8</db.pass>
+                <db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11</db.dbname>
+        </properties>
+        
+        <file name=".*/WEB-INF/config.xml">
+                <replaceXML xpath="resources">
+                        <resource enabled="true">
+                                <name>main-db</name>
+                                <provider>jeeves.resources.dbms.ApacheDBCPool</provider>
+                                <config>
+                                        <user>${db.user}</user>
+                                        <password>${db.pass}</password>
+                                        <!-- we use org.postgis.DriverWrapper in place of
+                                                 org.postgresql.Driver to support both postgresql and postgis -->
+                                  <driver>org.postgis.DriverWrapper</driver>
+                                        <!--                                    
+                                                jdbc:postgresql:database
+                                                jdbc:postgresql://host/database
+                                                jdbc:postgresql://host:port/database
+                                        
+                                                or if you are using postgis and want the spatial index loaded
+                                                into postgis
+
+                                                jdbc:postgresql_postGIS://host:port/database
+                                        
+                                        -->
+                                  <url>${db.dbname}</url>
+                                        <poolSize>10</poolSize>
+                                <validationQuery>SELECT 1</validationQuery>
+                                </config>
+                        </resource>
+                </replaceXML>   
+        </file>
+	
 </overrides>
