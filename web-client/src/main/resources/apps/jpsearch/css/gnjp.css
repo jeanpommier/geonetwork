@@ -1,0 +1,142 @@
+/* Override other styles --- JP interface */
+
+#header {
+    border-bottom-width: 0px;
+    height: 40px;
+    background : url(../../images/bandeau2.jpg);
+}
+
+#header #title{
+	color:white;
+}
+#mn-top #help-link a{
+	color:white;
+	font-size: 200%;
+	font-weight:bold;
+}
+#mn-top #help-link a:hover{
+	border : 1px dotted white;
+}
+
+#mn-top .pipe {
+	border-left : 0px;
+}
+#mn-top #login-form form,
+#mn-top #lang-form form {
+	background-color:transparent;
+}
+
+.x-layout-collapsed-west {
+  width : 20px;
+}
+
+#west .x-tool-collapse-west {
+	float:right;
+}
+
+.x-menu li.x-menu-sep-li span.x-menu-sep{
+	height:1px;
+}
+
+#toctree .x-panel-header {
+	display:none;
+}
+
+
+
+/************************************************************
+		Bricolages sur l'affichage des résultats
+		 (bricolages sur templates à peine modifiés
+************************************************************/
+li.md div.thumb {
+	float:right;
+	max-width :55px;
+	max-height:55px;
+}
+
+li.md div.thumb .rating {
+	display:none;
+}
+
+li.md div.thumb div.thumbnail img {
+	max-width : 50px;
+	max-height: 50px;
+}
+
+li.md h1 a {
+	font-size:x-small;
+}
+
+li.md .abstract ,
+li.md .subject ,
+li.md .md-links {
+	display:none;
+}
+
+li.md-thumbnail{
+	max-width :45%;
+}
+li.md-thumbnail div.thumbnail {
+	max-width :100px;
+	max-height:100px;
+}
+li.md-thumbnail div.thumbnail img {
+	max-width :95px;
+	max-height:95px;
+}
+.x-tree-node .ilwac,
+.x-tree-node .ilwac + ul .x-tree-node{
+	font-weight:bold;
+	background-color:yellow;
+}
+.x-tree-node .important {
+	font-weight:bold;
+}
+
+/****************************************************************
+		CSS des widgets / plugins
+*****************************************************************/
+.gx_legend_trigger {
+	width:14px;
+	height:14px;
+	background-image:url("../../images/default/down.gif");
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+.gx_legend_trigger.legendVisible {
+	background-image:url("../../images/default/up.gif");
+}
+/************************************************************
+		Bricolages par-dessus les themes
+************************************************************/
+/*** Olive theme ***/
+.x-window-plain .x-window-mc {
+    color: black;
+}
+/*** human theme ***/
+/*.x-accordion-hd,
+#printPanel .x-panel-header {
+	color:#fff;
+    font-weight:bold;
+    background-image: url(../../js/ext/resources/images/human/panel/accordion-hd.gif);
+}
+
+.gx-tree-layer-icon,
+.gx-tree-baselayer-icon {
+	display:none;
+}
+*/
+/****************************************************************
+*		IE fixes
+*****************************************************************/
+.md-view UL LI * .md-logo IMG {
+	width:30px;	
+}
+
+/****************************************************************
+*		Hack dégueu à virer dès que possible
+*****************************************************************/
+#login-form > .x-panel,
+#login-form > .x-panel >.x-panel-bwrap > .x-panel-body {
+	width:340px !important;
+}
