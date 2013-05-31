@@ -47,12 +47,11 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
      */
     onRenderNode: function(node) {
         var a = node.attributes;
-        //console.log('node',node);
         if (node.layer) {a.layer=node.layer;}
-	    if (a.layer && a.layer.params && a.layer.params.LAYERS) {
+	    if (a.layer && ((a.layer.params && a.layer.params.LAYERS) || a.layer.legend)) {
 			var emplacement = node.ui.iconNode;
 			/**************Ajoute interactivité sur le clic / icone de la couche : si l'uuid geonetwork est connu, on ouvre la fiche de mtd en guise d'infos sur la donnée *******/
-			Ext.fly(node.ui.iconNode).on({
+			/*Ext.fly(node.ui.iconNode).on({
 			    "click": function() {
 			    	//console.log('oups, pas de mtd');
 					var uuid = node.attributes.uuid||node.layer.metadata_uuid;
@@ -61,7 +60,7 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
 					}
 			    },
 			    scope: this
-			});
+			});*/
 			/**************Et on insère la fenêtre (fold/unfold) de la légende déroulable ***************************************************/
 			Ext.DomHelper.insertAfter(emplacement, '<img src="'+Ext.BLANK_IMAGE_URL+'" class="gx_legend_trigger" alt="'+translate("showLegend")+'" title="'+translate("showLegend")+'">');
 			node.addListener('click', function(target, event) {
@@ -69,7 +68,7 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
 					this.toggleLegend(target);
 				}
 			}, this);
-		}
+		} 
         
     },
     
@@ -80,29 +79,38 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
         if (node) {
             layer = node.attributes.layer;
             if (layer) {
-            	if (typeof(node.legendVisible)=='undefined') {
-            		try {
-				    	var url= layer.getFullRequestString({
-				           REQUEST: "GetLegendGraphic",
-				           WIDTH: null,
-				           HEIGHT: null,
-				           EXCEPTIONS: "application/vnd.ogc.se_xml",
-				           LAYER: layer.params.LAYERS,
-				           LAYERS: null,
-				           STYLE: null,
-				           STYLES: null,
-				           SRS: null,
-				           FORMAT: "image/gif"
-						});
-				    	var emplacement = node.ui.textNode;
-				    	Ext.DomHelper.insertAfter(emplacement, ['<div class="ext-ux-treenode-legend"><p>Légende : </p><img src="'+url+'" /></div>'].join(""));
-						node.legendVisible=true;
-						window.currentNode=node;
-						var elt = Ext.DomQuery.selectNode("div.ext-ux-treenode-legend", node.ui.elNode);
-						Ext.fly(elt).alignTo(node.ui.checkbox, "tl-tl", [0, 18]);
-					} catch (err) {
-						OpenLayers.Console.log("impossible de récupérer la légende pour cette donnée");
-					}
+            	if (typeof(node.legendVisible)=='undefined') { // the legend has not yet been loaded
+            		var url="";
+            		if (layer.legend) { //if legend url is defined in layertree config
+            			url = layer.legend;
+            		} else { //else, we load it from geoserver
+            			try {
+    				    	var url= layer.getFullRequestString({
+    				           REQUEST: "GetLegendGraphic",
+    				           WIDTH: null,
+    				           HEIGHT: null,
+    				           EXCEPTIONS: "application/vnd.ogc.se_xml",
+    				           LAYER: layer.params.LAYERS,
+    				           LAYERS: null,
+    				           STYLE: null,
+    				           STYLES: null,
+    				           SRS: null,
+    				           FORMAT: "image/gif"
+    						});
+
+            				//console.log(url);
+            			} catch (err) {
+    						OpenLayers.Console.log("impossible de récupérer la légende pour cette donnée");
+    					}
+            		}
+            		if (url!=='') {
+            			var emplacement = node.ui.textNode;
+    			    	Ext.DomHelper.insertAfter(emplacement, ['<div class="ext-ux-treenode-legend"><p>Légende : </p><img src="'+url+'" /></div>'].join(""));
+    					node.legendVisible=true;
+    					window.currentNode=node;
+    					var elt = Ext.DomQuery.selectNode("div.ext-ux-treenode-legend", node.ui.elNode);
+    					Ext.fly(elt).alignTo(node.ui.checkbox, "tl-tl", [0, 18]);
+            		}
             	} else if (node.legendVisible===true) {
             		var elt = Ext.DomQuery.selectNode("div.ext-ux-treenode-legend", node.ui.elNode);
             		if (elt!==null) { 

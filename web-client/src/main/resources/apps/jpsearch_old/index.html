@@ -5,10 +5,10 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="icon" type="image/gif" href="../../images/logos/favicon.gif" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-      <link rel="icon" type="image/gif" href="../../images/logos/favicon.gif" />
-      <link href="../../srv/en/rss.latest?georss=gml" rel="alternate" type="application/rss+xml" title="GeoNetwork opensource GeoRSS | Recent Changes"/>
-      <link href="../../srv/en/portal.opensearch" rel="search" type="application/opensearchdescription+xml" title="GeoNetwork"/>
+    <link href="../../srv/en/rss.latest?georss=gml" rel="alternate" type="application/rss+xml"
+      title="GeoNetwork opensource GeoRSS | Recent Changes"/>
+    <link href="../../srv/en/portal.opensearch" rel="search"
+      type="application/opensearchdescription+xml" title="GeoNetwork"/>
 
 
     <!--<link rel="stylesheet" type="text/css" href="css/style.css"/> TODO : use minified CSS -->
@@ -16,8 +16,8 @@
     <link rel="stylesheet" type="text/css" href="../js/ext/resources/css/xtheme-gray.css"/>
     <link rel="stylesheet" type="text/css" href="../js/ext/resources/css/xtheme-human.css">
     <link rel="stylesheet" type="text/css" href="../js/ext-ux/Rating/rating.css"/>
-    <link rel="stylesheet" type="text/css" href="../js/ext-ux/LightBox/lightbox.css"/>
     <link rel="stylesheet" type="text/css" href="../js/ext-ux/SuperBoxSelect/superboxselect.css" />
+    <link rel="stylesheet" type="text/css" href="../js/ext-ux/LightBox/lightbox.css"/>
     <link rel="stylesheet" type="text/css" href="../js/ext-ux/FileUploadField/file-upload.css"/>
     <link rel="stylesheet" type="text/css" href="../js/ext-ux/MultiselectItemSelector-3.0/Multiselect.css"/>
 	<link rel="stylesheet" type="text/css" href="../js/ext4/resources/css/ext-sandbox.css">
@@ -38,10 +38,15 @@
       <div id="title" class="mn-main"></div>
     </div>
     <div id="mn-top">
-      <div class="pipe" id="help-link"><a href="#" onclick="Ext.getDom('shortcut').style.display='block';">?</a></div>
+      <div class="pipe" id="help-link"><a href="#" onclick="Ext.getDom('shortcut').style.display='block';">Aide</a></div>
       <div class="pipe" id="lang-form"></div>
       <div class="pipe" id="login-form"></div>
       <div class="pipe first" id="mode-form"></div>
+    </div>
+    <div id="legal">
+    	<img src="../images/logos/logo_terrafrica100.png" alt="logo Terrafrica" />
+    	<img src="../images/logos/worldbank_p.jpg" alt="logo Banque Mondiale" />
+      Ce site a été mis en place avec l'appui de la Banque Mondiale dans le cadre du projet ILWAC
     </div>
     
     
@@ -61,9 +66,22 @@
     <script type="text/javascript" src="../js/ext4/builds/ext-all-sandbox.js"></script>
     <script type="text/javascript" src="http://ilwac.ige.fr/sigdt-config/config-ilwac/layertree.js"></script> 
     <script type="text/javascript" src="http://ilwac.ige.fr/sigdt-config/config-ilwac/infotree.js"></script>
+    <script type="text/javascript" src="http://ilwac.ige.fr/sigdt-config/config-ilwac/common.js"></script>
  
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     
    <script type="text/javascript" src="js/App-mini.js"></script>
+   <script type="text/javascript">
+  		var _gaq = _gaq || [];
+  		_gaq.push(['_setAccount', 'UA-30373910-1']);
+  		_gaq.push(['_trackPageview']);
+
+  		(function() {
+    		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ 		})();
+
+	</script>
   </body>
 </html>

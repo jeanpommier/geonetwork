@@ -35,15 +35,24 @@ GeoNetwork.map.printCapabilities = "../../pdf";
 //GeoNetwork.map.PROJECTION = "EPSG:4326";
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-180,-90,180,90);
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-5.1,41,9.7,51);
+var ovmapWmsURL = window.overviewWmsUrl?window.overviewWmsUrl:'http://ilwac.ige.fr/geoserver-prod/wms';
+var ovmapWmsLayers = window.overviewWmsLayers?window.overviewWmsLayers:'ml_fond_carto';
+var ovmapWmsFormat = window.overviewWmsFormat?window.overviewWmsFormat:'image/jpeg';
 
+var plainMapTitle = window.plainMapTitle?window.plainMapTitle:'Fond générique';
+var plainMapWmsUrl = window.plainMapWmsUrl?window.plainMapWmsUrl:'http://ilwac.ige.fr/geoserver-prod/wms';
+var plainMapWmsLayers = window.plainMapWmsLayers?window.plainMapWmsLayers:'ml_fond_carto';
+var plainMapWmsFormat = window.plainMapWmsFormat?window.plainMapWmsFormat:'image/jpeg';
+
+GeoNetwork.map.ovmapLayers = [new OpenLayers.Layer.WMS("Fond générique", ovmapWmsURL, {layers: ovmapWmsLayers, format: ovmapWmsFormat}, {isBaseLayer: true})];
 GeoNetwork.map.BACKGROUND_LAYERS = [
     //new OpenLayers.Layer.WMS("Background layer", "/geoserver/wms", {layers: 'gn:gboundaries', format: 'image/jpeg'}, {isBaseLayer: true})
-    new OpenLayers.Layer.WMS("Fond générique", "http://ilwac.ige.fr/geoserver-prod/wms", {layers: 'ml_fond_carto', format: 'image/jpeg', TILED:'true'}, {isBaseLayer: true})
-    /*,
+    new OpenLayers.Layer.WMS(plainMapTitle, plainMapWmsUrl, {layers: plainMapWmsLayers, format: plainMapWmsFormat, TILED:'true'}, {isBaseLayer: true})
+    ,
     new OpenLayers.Layer.Google(
     	      "Google Satellite",
     	      {type: google.maps.MapTypeId.SATELLITE, 'sphericalMercator': true, numZoomLevels: 22}
-	),
+	)/*,
 	new OpenLayers.Layer.Google(
 		        "Google Hybride",
 		        {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 22, visibility: false}
@@ -74,8 +83,8 @@ GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-2.003750834E7,-2.003750834E7,2.00
 GeoNetwork.map.MAP_OPTIONS = {
 		resolutions: [156543.033928041, 78271.51696402048, 39135.75848201023, 19567.87924100512, 9783.93962050256, 4891.96981025128, 2445.98490512564, 1222.99245256282, 611.49622628141, 305.7481131407048, 152.8740565703525, 76.43702828517624, 38.21851414258813, 19.10925707129406, 9.554628535647032, 4.777314267823516, 2.388657133911758, 1.194328566955879, 0.5971642834779395],
 		projection: GeoNetwork.map.PROJECTION,
-		maxExtent: GeoNetwork.map.EXTENT,
-	    restrictedExtent: GeoNetwork.map.EXTENT,
+		maxExtent: new OpenLayers.Bounds(-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7),
+	    restrictedExtent: new OpenLayers.Bounds(-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7),
 		units: "meters",
 		theme:null,
 		controls: []
@@ -83,9 +92,12 @@ GeoNetwork.map.MAP_OPTIONS = {
 GeoNetwork.map.MAIN_MAP_OPTIONS = {
 		resolutions: [156543.033928041, 78271.51696402048, 39135.75848201023, 19567.87924100512, 9783.93962050256, 4891.96981025128, 2445.98490512564, 1222.99245256282, 611.49622628141, 305.7481131407048, 152.8740565703525, 76.43702828517624, 38.21851414258813, 19.10925707129406, 9.554628535647032, 4.777314267823516, 2.388657133911758, 1.194328566955879, 0.5971642834779395],
 		projection: GeoNetwork.map.PROJECTION,
-		maxExtent: GeoNetwork.map.EXTENT,
-	    restrictedExtent: GeoNetwork.map.EXTENT,
+		maxExtent: new OpenLayers.Bounds(-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7),
+	    restrictedExtent: new OpenLayers.Bounds(-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7),
 		units: "meters",
 		theme:null,
-		controls: [new OpenLayers.Control.MousePosition()]
+		controls: [
+		           new OpenLayers.Control.MousePosition( {'prefix': 'Lon ', 'separator':'°, Lat ', 'suffix':'°','numDigits':3, displayProjection:new OpenLayers.Projection("WGS84")}),
+		           new OpenLayers.Control.OverviewMap({layers: GeoNetwork.map.ovmapLayers, maximized:true,size : new OpenLayers.Size(130,100)})
+		           ]
 };

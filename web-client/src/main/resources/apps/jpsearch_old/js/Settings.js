@@ -20,7 +20,7 @@ OpenLayers.ProxyHost = function(url){
 };
 
 
-GeoNetwork.Util.defaultLocale = 'eng';
+GeoNetwork.Util.defaultLocale = 'en';
 // Restrict locales to a subset of languages
 //GeoNetwork.Util.locales = [
 //            ['fr', 'Français']
@@ -31,32 +31,23 @@ GeoNetwork.searchDefault = {
 GeoNetwork.advancedFormButton = true;
 
 GeoNetwork.Settings.editor = {
-    defaultViewMode : 'simple',
-    editHarvested: false
+    defaultViewMode : 'simple'
 //    defaultViewMode : 'inspire'
 };
 
-// Define if default mode should be used for HTML print output instead of tabs only
-GeoNetwork.printDefaultForTabs = false;
-
-// Define if label needs to be displayed for login form next to username/password fields
-GeoNetwork.hideLoginLabels = true;
-
-
 // Define which type of search to use
-// Old mode (xml.search with lucene, db access and XSL formatting)
-//GeoNetwork.Settings.mdStore = GeoNetwork.data.MetadataResultsStore;
-// IndexOnly mode (xml.search with lucene only) - recommended
+// Default mode
+//GeoNetwork.Settings.mdStore = GeoNetwork.data.MetadataResultsStore();
+//GeoNetwork.Settings.searchService='xml.search';
+// IndexOnly mode : this mode using MetadataResultsFastStore is **experimental**
 GeoNetwork.Settings.mdStore = GeoNetwork.data.MetadataResultsFastStore;
 
-// Latest update info query
-GeoNetwork.Settings.latestQuery = "from=1&to=6&sortBy=changeDate&fast=index";
-GeoNetwork.Settings.latestTpl = GeoNetwork.Templates.THUMBNAIL;
+
 
 GeoNetwork.MapModule = true;
 //GeoNetwork.ProjectionList = [['EPSG:4326', 'WGS84 (lat/lon)']];
 GeoNetwork.ProjectionList = [['EPSG:900913', 'Mercator']];
-GeoNetwork.WMSList = [['Geoserver', 'http://localhost:8080/geoserver-prod/wms?']];
+GeoNetwork.WMSList = [['Geoserver', 'http://localhost/geoserver/wms?']];
 
 GeoNetwork.defaultViewMode = 'view-simple';
 

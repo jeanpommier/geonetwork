@@ -3,6 +3,8 @@ Ext.namespace('GeoNetwork');
 var catalogue;
 var app;
 
+
+
 GeoNetwork.app = function(){
     // private vars:
     var geonetworkUrl;
@@ -43,7 +45,7 @@ GeoNetwork.app = function(){
     
     var metadataResultsView;
     
-    var tBar, bBar;
+    var tBar, bBar, tBar2;
     
     var mainTagCloudViewPanel, tagCloudViewPanel, infoPanel;
     
@@ -94,13 +96,22 @@ GeoNetwork.app = function(){
     
     function initMap(){
         iMap = new GeoNetwork.mapApp();
-        iMap.init(GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAIN_MAP_OPTIONS);
+        var scales = [500000000, 250000000, 125000000, 70000000, 35000000, 17500000, 10000000, 5000000, 2500000, 1000000, 500000, 250000, 100000, 50000, 25000, 15000, 10000, 5000, 2000]; 
+        iMap.init(GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAIN_MAP_OPTIONS, scales);
         metadataResultsView.addMap(iMap.getMap());
         visualizationModeInitialized = true;
         var lt = Ext.getCmp('toctree');
         lt.lines=true;
+        /****** Loads the associated metadata when a layer is ask for metadata **********/
+        lt.on('showMetadataByUuid', function(evt, layer) {
+        	if (layer.uuid) {
+        		catalogue.metadataShow(layer.uuid);
+        	}
+        });
+        
         Ext.getCmp('organizeTab').add(lt);
-        Ext.getCmp('printPanelTab').add(Ext.getCmp('printPanel'));
+        //var printp = Ext.getCmp('printPanel');
+//console.log(printp);
         var msp = Ext.getCmp('mapViewportEastPanel');
         iMap.getViewport().remove(msp);
     }
@@ -123,11 +134,11 @@ GeoNetwork.app = function(){
                 triggerAction: 'all',
                 width: 80,
                 store: new Ext.data.ArrayStore({
-                    idIndex: 2,
-                    fields: ['id', 'name', 'id2'],
+                    idIndex: 0,
+                    fields: ['id', 'name'],
                     data: GeoNetwork.Util.locales
                 }),
-                valueField: 'id2',
+                valueField: 'id',
                 displayField: 'name',
                 value: lang,
                 listeners: {
@@ -150,6 +161,7 @@ GeoNetwork.app = function(){
         	renderTo: 'login-form',
             catalogue: catalogue,
             layout: 'hbox',
+            width:340,
             hideLoginLabels: GeoNetwork.hideLoginLabels
         });
         
@@ -258,7 +270,8 @@ GeoNetwork.app = function(){
         
         
         
-       // Multi select keyword
+        
+        // Multi select keyword
         var themekeyStore = new GeoNetwork.data.OpenSearchSuggestionStore({
             url: services.opensearchSuggest,
             rootId: 1,
@@ -317,19 +330,11 @@ GeoNetwork.app = function(){
         var denominatorField = GeoNetwork.util.SearchFormTools.getScaleDenominatorField(true);
         var statusField = GeoNetwork.util.SearchFormTools.getStatusField(services.getStatus, true);
         
-                // Add hidden fields to be use by quick metadata links from the admin panel (eg. my metadata).
-        var ownerField = new Ext.form.TextField({
-            name: 'E__owner',
-            hidden: true
-        });
-        var isHarvestedField = new Ext.form.TextField({
-            name: 'E__isHarvested',
-            hidden: true
-        });
         advancedCriteria.push(themekeyField, fileFormatField, orgNameField, categoryField, 
                                 when, spatialTypes, denominatorField, 
-                                catalogueField, groupField, 
-                                metadataTypeField, validField, statusField, ownerField, isHarvestedField);
+                                //catalogueField, 
+                                groupField, 
+                                metadataTypeField, validField, statusField);
         var adv = {
             xtype: 'fieldset',
             title: OpenLayers.i18n('advancedSearchOptions'),
@@ -345,10 +350,16 @@ GeoNetwork.app = function(){
         };
         
         var formItems = [];
-        formItems.push(GeoNetwork.util.SearchFormTools.getSimpleFormFields(catalogue.services, 
+        /*formItems.push(GeoNetwork.util.SearchFormTools.getSimpleFormFields(catalogue.services, 
                     GeoNetwork.map.BACKGROUND_LAYERS, GeoNetwork.map.MAP_OPTIONS, true, 
-                    GeoNetwork.searchDefault.activeMapControlExtent, undefined, {width: 290}),
+                    GeoNetwork.searchDefault.activeMapControlExtent, undefined, {width: 290},true),
                     adv);
+                    */
+        formItems.push(GeoNetwork.util.jpSearchFormTools.getSimpleFormFields(catalogue.services, 
+                true, undefined, true),
+                //GeoNetwork.util.jpSearchFormTools.getGeographicFormFields(iMap.getMap(), true),
+                adv,
+                GeoNetwork.util.SearchFormTools.getOptions());
         // Add advanced mode criteria to simple form - end
         
         
@@ -506,7 +517,11 @@ GeoNetwork.app = function(){
             catalogue: catalogue,
             searchBtCmp: Ext.getCmp('searchBt'),
             sortByCmp: Ext.getCmp('E_sortBy'),
-            metadataResultsView: metadataResultsView
+            metadataResultsView: metadataResultsView,
+            enableOverflow:true
+        });
+        tBar2 = new Ext.Toolbar({
+        	items : [ OpenLayers.i18n('sortBy'), tBar.getSortByCombo(),'->',tBar.createTemplateMenu()]
         });
         
         bBar = createBBar();
@@ -518,7 +533,16 @@ GeoNetwork.app = function(){
             bodyCssClass: 'md-view',
             autoWidth: true,
             layout: 'fit',
-            tbar: tBar,
+            tbar: {
+            	xtype: 'container',
+            	layout: 'anchor',
+            	defaults: {anchor: '0'},
+            	defaultType: 'toolbar',
+            	items: [
+        	        tBar2,
+            		tBar
+            	]
+        	},
             items: metadataResultsView,
             // paging bar on the bottom
             bbar: bBar
@@ -531,8 +555,8 @@ GeoNetwork.app = function(){
             createMainTagCloud();
             //createLatestUpdate();
         } else {
-            Ext.get('infoPanel').getUpdater().update({url:'home_eng.html'});
-            Ext.get('helpPanel').getUpdater().update({url:'help_eng.html'});
+            Ext.get('infoPanel').getUpdater().update({url:'home_en.html'});
+            Ext.get('helpPanel').getUpdater().update({url:'help_en.html'});
         }
     }
     /** private: methode[createInfoPanel]
@@ -683,7 +707,7 @@ GeoNetwork.app = function(){
     function createHeader(){
         var info = catalogue.getInfo();
         //Ext.getDom('title').innerHTML = '<img class="catLogo" src="../../images/logos/' + info.siteId + '.gif"/>&nbsp;' + info.name;
-        Ext.getDom('title').innerHTML = '<img class="catLogo" src="../images/logos/logoAEDD.jpg"/>&nbsp;'+
+        Ext.getDom('title').innerHTML = window.portalHeader ? window.portalHeader : '<img class="catLogo" src="../images/logos/logoAEDD.jpg"/>&nbsp;'+
         								'<img class="catLogo" src="../images/logos/logoDGPC.jpg"/>&nbsp;'+ info.name;
         document.title = info.name;
     }
@@ -847,8 +871,10 @@ GeoNetwork.app = function(){
 	    							isBaseLayer: false
 	    							, transitionEffect: 'resize'
 									, buffer: 0
-									,visibility:checked
-									,opacity : (child.opacity===null?'1.0':child.opacity)
+									, visibility:checked
+									, opacity : (child.opacity===null?'1.0':child.opacity)
+									, uuid : child.uuid //if set, links the layer with its metadata
+									, legend : child.legend //if set, links the layer with its metadata
 								}
 	    				);
 	    				layers.push(layer);
@@ -912,7 +938,9 @@ GeoNetwork.app = function(){
 			    		    		,styleMap: m_styleMap
 			    		    		,isBaseLayer: false
 									,visibility:checked
+									,uuid:child.uuid
 									,projection: new OpenLayers.Projection("EPSG:4326")
+									, legend : child.legend //if set, links the layer with its metadata
 	    						}
 	    		    	);
 	    				layers.push(layer);
@@ -937,14 +965,14 @@ GeoNetwork.app = function(){
     return {
         init: function(){
             geonetworkUrl = GeoNetwork.URL || window.location.href.match(/(http.*\/.*)\/apps\/jpsearch.*/, '')[1];
-
+			//console.log(GeoNetwork);
             urlParameters = GeoNetwork.Util.getParameters(location.href);
-            var lang = urlParameters.hl || GeoNetwork.Util.defaultLocale;
+            var lang = GeoNetwork.Util.getCatalogueLang(urlParameters.hl || GeoNetwork.defaultLocale);
             if (urlParameters.extent) {
             	var proj = new OpenLayers.Projection("EPSG:4326");
             	var projMap = new OpenLayers.Projection(GeoNetwork.map.PROJECTION);
                 urlParameters.bounds = new OpenLayers.Bounds(urlParameters.extent[0], urlParameters.extent[1], urlParameters.extent[2], urlParameters.extent[3]);
-                urlParameters.bounds.transform(proj, projMap);
+    			urlParameters.bounds.transform(proj, projMap);
             }
             
             // Init cookie
@@ -978,7 +1006,7 @@ GeoNetwork.app = function(){
             
             // Top navigation widgets
             //createModeSwitcher();
-            createLanguageSwitcher(lang);
+            //createLanguageSwitcher(lang);
             createLoginForm();
             edit();
             
@@ -1025,32 +1053,14 @@ GeoNetwork.app = function(){
 		        border: false,
 		        region: 'center'			
 		    });
-		    //console.log(ilwaclayers_tree);
-            
-		    /*var visiblelayers_tree = new Ext.tree.TreePanel({
-		        title:'visibleLayers',
-		        id: "vltree",
-		        enableDD: true,
-		        autoScroll:true,
-		        loader: new Ext.tree.TreeLoader({
-		            // applyLoader has to be set to false to not interfer with loaders
-		            // of nodes further down the tree hierarchy
-		            applyLoader: false
-		        }),
-		        root: {
-		            nodeType: "async",
-		            // the children property of an Ext.tree.AsyncTreeNode is used to
-		            // provide an initial set of layer nodes. We use the treeConfig
-		            // from above, that we created with OpenLayers.Format.JSON.write.
-		            children: Ext.decode(treeconf)
-		        },    
-		        rootVisible: false,
-		        lines: false,
-		        border: false,
-		        region: 'center'			
-		    });
-            */
-            
+
+		    var toolsPanel = new Ext.Panel({
+				    	title: 'Outils',
+				    	layout:'vbox',
+				    	align:'stretch',
+				    	autoScroll: true,
+				    	items : []
+				    });
             
             //Tab panel
             dataTabPanel = new Ext.TabPanel({
@@ -1071,6 +1081,7 @@ GeoNetwork.app = function(){
 				    	title: 'Organiser',
 				    	id:'organizeTab',
 				    	autoScroll: true,
+				    	layout:'fit',
 				    	items:[]
 				    },
 				    {
@@ -1098,7 +1109,9 @@ GeoNetwork.app = function(){
 		                			//autoScroll: true,
 		                			items : [resultsPanel]
 	                			}]
-	                },{
+	                },
+	                toolsPanel
+	                ,{
 				    	title: 'Imprimer',
 				    	id:'printPanelTab',
 				    	items : []
@@ -1117,6 +1130,7 @@ GeoNetwork.app = function(){
                 items: [{
                     region: 'north',
                     id: 'north',
+                    height : 0,
                     margins: margins
                 	//,tbar:appToolbar
                 },{
@@ -1125,7 +1139,7 @@ GeoNetwork.app = function(){
                     title:'Données',
                     split: true,
                     minWidth: 300,
-                    width: 330,
+                    width: 350,
                     maxWidth: 1100,
                     //autoScroll: true,
                     layout: 'fit',
@@ -1170,16 +1184,18 @@ GeoNetwork.app = function(){
             
             loadLayersFromConfigTree(iMap.getMap(), window.treeConfig);
             
+            Ext.getCmp('searchForm').insert(2, GeoNetwork.util.jpSearchFormTools.getGeographicFormFields(iMap.getMap(), true));
+            Ext.getCmp('searchForm').doLayout();
             Ext.getCmp('center').add(imapvp);
             Ext.getCmp('choisirTab').add(ilwaclayers_tree);
             
-            /* Trigger visualization mode if mode parameter is 1 
+           /* Trigger visualization mode if mode parameter is 1 
              TODO : Add visualization only mode with legend panel on
              */
             if (urlParameters.mode) {
                 app.switchMode(urlParameters.mode, false);
             }
-            
+
             /* Init form field URL according to URL parameters */
             GeoNetwork.util.SearchTools.populateFormFromParams(searchForm, urlParameters);
 
@@ -1191,7 +1207,8 @@ GeoNetwork.app = function(){
                 catalogue.metadataEdit(urlParameters.edit);
             }
             if (urlParameters.create !== undefined) {
-                resultPanel.getTopToolbar().createMetadataAction.fireEvent('click');
+                //resultPanel.getTopToolbar().createMetadataAction.fireEvent('click');
+                tBar.createMetadataAction.fireEvent('click');
             }
             if (urlParameters.uuid !== undefined) {
                 catalogue.metadataShow(urlParameters.uuid, true);
@@ -1206,7 +1223,9 @@ GeoNetwork.app = function(){
                 Ext.getCmp('geometryMap').setExtent();
             }
             if (urlParameters.bounds) {
-                Ext.getCmp('geometryMap').map.zoomToExtent(urlParameters.bounds);
+            	if (Ext.getCmp('geometryMap')) {
+                    Ext.getCmp('geometryMap').map.zoomToExtent(urlParameters.bounds);
+            	}
                 // FIXME : main map apparently haven't finish loading. Without timeout, it freezes
                 iMap.setMaxBounds(urlParameters.bounds);
                 
@@ -1214,8 +1233,62 @@ GeoNetwork.app = function(){
                 	iMap.zoomToFullExtent();
                   }, 250);
             }
-            
+
+            setTimeout(function(){   
+            	Ext.getCmp('printPanelTab').add(app.getIMap().getPrintPanel());
+            	Ext.getCmp('printPanelTab').on('activate', function() {
+            		iMap.setPageLayerVisibility(true);
+            	});
+            	Ext.getCmp('printPanelTab').on('deactivate', function() {
+            		iMap.setPageLayerVisibility(false);
+            	});
+            	if (window.shortcutsCombo) {
+	            	var shortcutsPanel = new GeoExt.ShortcutsComboPanel({ 
+	                    title:OpenLayers.i18n('shortcuts'),
+	                    id:'raccourcisCbPanel',
+	                    autoHeight:true,
+	                    width:'100%',
+	                    padding : 10,
+	                  	cbWidth:200,
+	                  	cbListWidth:195,
+	                    //height: 90,
+	                	//collapsible: true,
+	                    cls:"rac-panel",
+	                    map:iMap.getMap(),
+	                    config:window.shortcutsCombo
+	            	});
+	            	toolsPanel.add(shortcutsPanel);
+            	}
+            	if (window.pratiquesConf) {
+	            	var pratiquesGDTCbPanel = new GeoExt.PratiquesGDTComboPanel({ 
+	                    title:OpenLayers.i18n('pratiquesGDT'),
+	                    id:'pratiquesGDTPanel',
+	                    autoHeight:true,
+	                    width:'100%',
+	                    padding : 10,
+	                  	cbWidth:200,
+	                  	cbListWidth:300,
+	                    //height: 90,
+	                	//collapsible: true,
+	                    cls:"rac-panel",
+	                    map:iMap.getMap(),
+	                    config:window.pratiquesConf
+		            });
+	            	toolsPanel.add(pratiquesGDTCbPanel);
+            	}
+            	if (toolsPanel.items.length==0) {
+            		dataTabPanel.remove(toolsPanel);
+            	}
+
+            }, 500); // without the timeout, we get an error about scale not being initialized. The map may lack time to fully load...
             //resultPanel.setHeight(Ext.getCmp('center').getHeight());
+            
+            Ext.getCmp('searchTab').on('activate', function() {
+        		catalogue.resultsView.setLayersVisibility(true);
+        	});
+        	Ext.getCmp('searchTab').on('deactivate', function() {
+        		catalogue.resultsView.setLayersVisibility(false);
+        	});
             
             var events = ['afterDelete', 'afterRating', 'afterLogout', 'afterLogin'];
             Ext.each(events, function (e) {
@@ -1225,7 +1298,9 @@ GeoNetwork.app = function(){
                     }
                 });
             });
-        },
+			
+           //Ext.getCmp('center').doLayout(); //apparemment c'est trop tôt, ça fait foirer des trucs (des variables pas encore initialisées, je supose)
+         },
         getIMap: function(){
             // init map if not yet initialized
             if (!iMap) {
@@ -1346,7 +1421,7 @@ GeoNetwork.app = function(){
 };
 
 Ext.onReady(function(){
-    var lang = /hl=([a-z]{3})/.exec(location.href);
+    var lang = /hl=([a-z]{2})/.exec(location.href);
     GeoNetwork.Util.setLang(lang && lang[1], '..');
 
     Ext.QuickTips.init();
@@ -1359,9 +1434,11 @@ Ext.onReady(function(){
     app.init();
     catalogue = app.getCatalogue();
     
+    
     Ext.getCmp('center').doLayout();
+
     
     /* Focus on full text search field */
-    Ext.getDom('E_any').focus(true);
-    
+    //Ext.getDom('E_any').focus(true);
+
 });

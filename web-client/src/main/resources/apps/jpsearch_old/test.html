@@ -1,0 +1,125 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>GeoNetwork</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="icon" type="image/gif" href="../../images/logos/favicon.gif" />
+    <link href="../../srv/en/rss.latest?georss=gml" rel="alternate" type="application/rss+xml"
+      title="GeoNetwork opensource GeoRSS | Recent Changes"/>
+    <link href="../../srv/en/portal.opensearch" rel="search"
+      type="application/opensearchdescription+xml" title="GeoNetwork"/>
+
+    
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext/resources/css/ext-all.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext/resources/css/xtheme-gray.css"/>
+    <link rel="stylesheet" type="text/css" href="../../scripts/ext/resources/css/xtheme-olive.css">
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext-ux/Rating/rating.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext-ux/SuperBoxSelect/superboxselect.css" />
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext-ux/LightBox/lightbox.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext-ux/FileUploadField/file-upload.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/js/ext-ux/MultiselectItemSelector-3.0/Multiselect.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/css/gndefault.css"/>
+    <link rel="stylesheet" type="text/css" href="css/gnjp.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/css/gnmapdefault.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/css/gnmetadatadefault.css"/>
+    <link rel="stylesheet" type="text/css" href="../../apps/js/GeoNetwork/resources/css/metadata-view.css"/>
+	<link rel="stylesheet" type="text/css" href="../../apps/js/ext4/resources/css/ext-sandbox.css">
+    
+    <script type="text/javascript" src="../../apps/js/ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../apps/js/ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../apps/js/ext4/builds/ext-all-sandbox.js"></script>
+  </head>
+  <body id="page">
+        <div id="latesttweets">
+            <script type="text/javascript">
+                Ext4.require('Ext4.chart.*');
+Ext4.require('Ext4.layout.container.Fit');
+
+Ext4.onReady(function () {
+    
+    
+    
+    var dataurl = 'http://ilwac.ige.fr/sigdt-config/services-ilwac/ilwac_json_queryHydroStationsDB.php?sampleRythm=1&id=6&type=1';
+	var chart_store = Ext4.create('Ext4.data.JsonStore', {
+	    proxy: {
+	        type: 'jsonp',
+	        url : dataurl,
+	        reader: {
+	            type: 'json',
+	            root: 'data',
+           		idProperty: 'date'
+	        }
+	    },
+	    autoLoad:true,
+		fields: [{name:'date', type: 'string', dateFormat: 'Y-m-d', }, {name:'value', type:'int'}, {name:'label'}]
+	});
+    var panel1 = Ext4.create('widget.panel', {
+        width: 800,
+        height: 400,
+        title: 'Line Chart',
+        renderTo: Ext4.getBody(),
+        layout: 'fit',
+        items: [{
+            xtype: 'chart',
+            //animate: true,
+            //shadow: true,
+            store: chart_store,
+            axes: [
+						        {
+						            type: 'Numeric',
+						            position: 'left',
+						            fields: ['value'],
+						            label: {
+						                renderer: Ext.util.Format.numberRenderer('0.0')
+						            },
+						            title: false,
+						            grid: false,
+						            minimum: 0
+						        },
+						        {
+						            type: 'Category',
+						            position: 'bottom',
+						            fields: ['label'],
+								    constrain: true
+						            ,title: false
+						            ,label: {
+								        rotate: {
+								            degrees: 315
+								        }
+								    }
+								    ,dashSize:0
+						        }
+					    ],
+            series: [
+							        {
+							            type: 'line',
+							            /*highlight: {
+							                size: 7,
+							                radius: 7
+							            },*/
+							            axis: 'left',
+							            xField: 'date',
+							            yField: ['value'],
+							            showMarkers:false,
+							            markerConfig: {
+							                size: 0,
+							                radius: 1,
+							                'stroke-width': 1
+							            },
+							            style : {
+							            	stroke : '#0000FF',
+							            	'stroke-width' : 1,
+							            	fill: '#0000FF',
+							            	opacity : 1
+							            }
+							            ,fill:true
+							        }
+					    ]
+        }]
+    });
+});
+            </script>
+        </div>
+    </body>
+</html>

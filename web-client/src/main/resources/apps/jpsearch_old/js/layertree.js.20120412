@@ -22,17 +22,8 @@ var treeConfig = [
 		        ,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
 		        ,format		: "image/png"
 		        ,type		: 'wms'
-		        , legend	: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
-		    },{
-		        nodeType    : 'gx_layer'
-			        ,layers      : 'global:abn_3l1_stations' 
-			        ,layer       : "abn stations" 
-			        ,url		: 'http://ne-gdt.ige.fr/geoserver-prod/wms?'
-			        ,format		: "image/png"
-			        ,type		: 'wms'
-			        , legend	: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
-					,checked:true
-			    }/*,{
+		        ,legend		: "http://flash-slide-show-maker.com/images/help_clip_image020.jpg"
+		    }/*,{
 		        nodeType    : 'gx_layer'
 		        ,layers      : 'dummy'
 		        ,layer       : "Carte des sols AGRHYMET"
@@ -161,26 +152,26 @@ var treeConfig = [
 					},{
                         nodeType    : 'gx_layer'
                         ,layer      : "Ratios population rurale/urbaine (source : INS)" 
-                        ,url            : 'http://localhost/jean/sigdt-config/ilwac_json_getChartData.php'
+                        ,url            : 'http://ilwac.ige.fr/sigdt-config/ilwac_json_getChartData.php'
 						,uuid		: 'cc2f192e-e202-4e3a-85eb-c6d994f7f6a0'                         //***********************OK						
-                        ,tablenames     : ['v_1c4_pop_urb_rur_reg','v_1c4_pop_urb_rur_cer']
+                        ,tablenames     : ['v_1c4_pop_urb_rur_region','v_1c4_pop_urb_rur_cer']
                         ,changeScales: [5000000,0]
                         ,charting_fields: ["poprur","popurb"]
                         ,other_fields: [] // [ "codecercle", "nomcercle" ]
 						//**************************************************************************************************************                        
  						,context 	: {  //optional field, overrides the default one
 							            getSize: function(feature) {     // on definit ici la taille des camemberts
-											var val1 = parseInt(feature.attributes["poprur"]);
-											var val2 = parseInt(feature.attributes["popurb"]);
-											var valtot = val1 + val2;
+											var val1 = parseInt(feature.attributes["poprur"])
+											var val2 = parseInt(feature.attributes["popurb"])
+											var valtot = val1 + val2
 							                var masize =parseInt(valtot/50000);
 
 							                return masize ;
 							            },
 							            getChartURL: function(feature) {   // on definit ici les secteurs...
-											var val1 = parseInt(feature.attributes["poprur"]);
-											var val2 = parseInt(feature.attributes["popurb"]);
-											var valtot = val1 + val2;
+											var val1 = parseInt(feature.attributes["poprur"])
+											var val2 = parseInt(feature.attributes["popurb"])
+											var valtot = val1 + val2
 							                var values = (val1/valtot)+'' + ',' + (val2/valtot)+'';
 							                var charturl = 'http://chart.apis.google.com/chart?cht=p&chd=t:' + values + '&chs=500x500&chf=bg,s,ffffff00&chco=11FF55,FF0000';    //'&chs=' + size + 'x' + size + 
 							                return charturl;
@@ -195,7 +186,6 @@ var treeConfig = [
                                                 ,format         : "geojson"
                                                 ,type           : 'chart'
                                                 ,checked:false
-                                		        , legend	: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
 					}]
 		    },{
 		        text        : 'Infrastructure'
@@ -527,7 +517,7 @@ var treeConfig = [
 		    },*/{
 		        nodeType    : 'gx_layer'
 		        ,layers      : 'ml:ml_3e1_inwatr'
-		        ,layer       : "Lacs et Plans d'eau (Inwatr_p - FAO)"
+		        ,layer       : "Surfaces en eau (Inwatr_p - FAO)"
 				,uuid       : '6ce1c61e-8285-4353-ac1c-c7c55c8e4a84'                           //***********************OK  
 		        ,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
 		        ,format		: "image/png"
@@ -664,31 +654,6 @@ var treeConfig = [
 						]}
 			]}  
 		]
-	},{
-		text        : 'Sols'
-		,expanded   : false
-		,children   : [
-		    {
-					text        : 'Caractéristiques géomorphologiques / hydrologiques'
-					,children   : [
-								{
-									nodeType    : 'gx_layer'
-									,layers      : 'ml:ml_4b_afsys_twi' 
-									,layer       : "Index topographique d'humidité (Topographic Wetness Indew - TWI)" 
-									,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
-									,format		: "image/png"
-									,type		: 'wms'
-								},{
-									nodeType    : 'gx_layer'
-									,layers      : 'ml:ml_4b_afsys_sca' 
-									,layer       : "Index d'accumulation (Specific Catchment Area - SCA)" 
-									,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
-									,format		: "image/png"
-									,type		: 'wms'
-								}
-					]
-			} 
-		]
 	},
 
 	{
@@ -698,51 +663,51 @@ var treeConfig = [
 				text        : 'Globcover'
 				,expanded   : true
 				,children   : [
-					{
+					/*{
 						nodeType    : 'gx_layer'
 						,draggable  : false
-						,layers      : 'ml:ml_5a1_globcover' 
-						,layer       : "Globcover 2009 (source ESA) " 
-						,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
+						,layers      : 'bf:bf_5a_globcover' 
+						,layer       : "Globcover" 
+						,url		: 'http://ne-gdt.ige.fr/geoserver-prod/wms?'
 						,format		: "image/png"
 						,type		: 'wms'
-					},{
+					},*/{
                                                 nodeType    : 'gx_layer'
                                                 ,draggable  : false
                                                 ,layer      : "Occupation des sols par entité administrative" 
                                                 ,url            : 'http://ilwac.ige.fr/sigdt-config/ilwac_json_getChartData.php'
                                                ,tablenames     : ['v_7d2_globcover_reg','v_7d2_globcover_cer','v_7d2_globcover_com']
-                                                ,changeScales: [4000000,1000000,0]
-                                                ,charting_fields: ["value_11","value_14","value_20","value_30","value_40","value_60","value_110","value_120","value_130","value_140","value_150","value_180","value_190","value_200","value_210","surface","niv"]
+                                                ,changeScales: [5000000,500000,0]
+                                                ,charting_fields: ["value_11","value_14","value_20","value_30","value_40","value_60","value_110","value_120","value_130","value_140","value_150","value_180","value_190","value_200","value_210","surface"]
                                                 ,other_fields: [] // [ "codecercle", "nomcercle" ]
 //**************************************************************************************************************                        
  						,context 	: {  //optional field, overrides the default one
 							            getSize: function(feature) {     // on definit ici la taille des camemberts
 
-											var valtot = parseInt(feature.attributes["surface"]);
-											var niv = feature.attributes["niv"];
-							                var masize = 15 + (valtot / ( niv * niv * 10000 ) );
+											var valtot = parseInt(feature.attributes["surface"])
+											
+							                var masize = 15 + parseInt(valtot/1000000);
 												
 
 							                return masize ;
 							            },
 							            getChartURL: function(feature) {   // on definit ici les secteurs...
-											var val1 = parseInt(feature.attributes["value_11"]);
-											var val2 = parseInt(feature.attributes["value_14"]);
-											var val3 = parseInt(feature.attributes["value_20"]);
-											var val4 = parseInt(feature.attributes["value_30"]);
-											var val5 = parseInt(feature.attributes["value_40"]);
-											var val6 = parseInt(feature.attributes["value_60"]);
-											var val7 = parseInt(feature.attributes["value_110"]);
-											var val8 = parseInt(feature.attributes["value_120"]);
-											var val9 = parseInt(feature.attributes["value_130"]);
-											var val10 = parseInt(feature.attributes["value_140"]);
-											var val11 = parseInt(feature.attributes["value_150"]);
-											var val12 = parseInt(feature.attributes["value_180"]);
-											var val13 = parseInt(feature.attributes["value_190"]);
-											var val14 = parseInt(feature.attributes["value_200"]);
-											var val15 = parseInt(feature.attributes["value_210"]);
-											var valtot = parseInt(feature.attributes["surface"]);
+											var val1 = parseInt(feature.attributes["value_11"])
+											var val2 = parseInt(feature.attributes["value_14"])
+											var val3 = parseInt(feature.attributes["value_20"])
+											var val4 = parseInt(feature.attributes["value_30"])
+											var val5 = parseInt(feature.attributes["value_40"])
+											var val6 = parseInt(feature.attributes["value_60"])
+											var val7 = parseInt(feature.attributes["value_110"])
+											var val8 = parseInt(feature.attributes["value_120"])
+											var val9 = parseInt(feature.attributes["value_130"])
+											var val10 = parseInt(feature.attributes["value_140"])
+											var val11 = parseInt(feature.attributes["value_150"])
+											var val12 = parseInt(feature.attributes["value_180"])
+											var val13 = parseInt(feature.attributes["value_190"])
+											var val14 = parseInt(feature.attributes["value_200"])
+											var val15 = parseInt(feature.attributes["value_210"])
+											var valtot = parseInt(feature.attributes["surface"])
 							                var values = (val1/valtot)+'' + ',' + (val2/valtot)+'' + ',' + (val3/valtot)+'' + ',' + (val4/valtot)+'' + ',' + (val5/valtot)+'' + ',' + (val6/valtot)+'' + ',' + (val7/valtot)+'' + ',' + (val8/valtot)+'' + ',' + (val9/valtot)+'' + ',' + (val10/valtot)+'' + ',' + (val11/valtot)+'' + ',' + (val12/valtot)+'' + ',' + (val13/valtot)+'' + ',' + (val14/valtot)+'' + ',' + (val15/valtot)+'';
 							                var charturl = 'http://chart.apis.google.com/chart?cht=p&chd=t:' + values + '&chs=500x500&chf=bg,s,ffffff00&chco=AAF0F0,FFFF64,DCF064,CDCD66,006400,AAC800,8CA000,BE9600,966400,FFB432,FFEBAF,00DC82,C31400,FFF5D7,0046C8';    //'&chs=' + size + 'x' + size + 
 							                return charturl;
@@ -754,13 +719,10 @@ var treeConfig = [
 										fillOpacity: 0.8,
 										externalGraphic: "${getChartURL}"
 							        }
-
 //**************************************************************************************************************                        
                                                 ,format         : "geojson"
                                                 ,type           : 'chart'
-                                                ,checked:false
-			        							, legend	: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
-					}
+                                                ,checked:false}
 				]
 			},{
 				text        : 'Feux de Brousse repérés au cours des dernières(source FIRMS) :'
@@ -787,7 +749,7 @@ var treeConfig = [
 				,children   : [
 					{
 						nodeType    : 'gx_layer'
-						,layers      : 'ml:ml_5d1_landsat2010_p'
+						,layers      : 'ml:ml_5d1_landsat2010'
 						,layer       : "Composition colorée réalisée à partir des images Landsat 2010"
 						,uuid       : '62b236b3-23ca-4e02-a418-a5cd37b08d88'                         //***********************OK
 						,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
@@ -994,48 +956,13 @@ var treeConfig = [
 				,expanded   : true
 				,children   : [
 					{
-                                                nodeType    : 'gx_layer'
-                                                ,draggable  : false
-                                                ,layer      : "Proportion du territoire atteint par les feux" 
-                                                ,url            : 'http://ilwac.ige.fr/sigdt-config/ilwac_json_getChartData.php'
-                                               ,tablenames     : ['v_7_sb10_reg','v_7_sb10_cer','v_7_sb10_com']
-                                                ,changeScales: [4000000,1000000,0]
-                                                ,charting_fields: ["feu0","feu1","feu2","feu3","surface","niv"]
-                                                ,other_fields: [] // [ "codecercle", "nomcercle" ]
-//**************************************************************************************************************                        
- 						,context 	: {  //optional field, overrides the default one
-							            getSize: function(feature) {     // on definit ici la taille des camemberts
-
-											var valtot = parseInt(feature.attributes["surface"]);
-											var niv = feature.attributes["niv"];
-							                var masize = 10 + (valtot / ( niv * niv * 5000 ) );
-												// on utilise le niveau pour faire une taille variabel
-
-							                return masize ;
-							            },
-							            getChartURL: function(feature) {   // on definit ici les secteurs...
-											var val1 = parseInt(feature.attributes["feu0"]);
-											var val2 = parseInt(feature.attributes["feu1"]);
-											var val3 = parseInt(feature.attributes["feu2"]);
-											var val4 = parseInt(feature.attributes["feu3"]);
-											var valtot = parseInt(feature.attributes["surface"])
-							                var values = (val1/valtot)+'' + ',' + (val2/valtot)+'' + ',' + (val3/valtot)+'' + ',' + (val4/valtot)+'';
-							                var charturl = 'http://chart.apis.google.com/chart?cht=p&chd=t:' + values + '&chs=500x500&chf=bg,s,ffffff00&chco=FFF4D655,FF5454,CE1D14,540905';    //'&chs=' + size + 'x' + size + 
-							                return charturl;
-							            }
-
-	    		            		  }  
-	    		        ,template : { //optional field, overrides the default one. Needs context field to be defined too.
-										pointRadius: "${getSize}",
-										fillOpacity: 0.8,
-										externalGraphic: "${getChartURL}"
-							        }
-//**************************************************************************************************************                        
-                                                ,format         : "geojson"
-                                                ,type           : 'chart'
-                                                ,checked:false
-                                		        , legend: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
-            }
+						nodeType    : 'gx_layer'
+						,layers      : 'ml_7_sb10' 
+						,layer       : "Surfaces brulées" 
+						,url		: 'http://ilwac.ige.fr/geoserver-prod/wms?'
+						,format		: "image/png"
+						,type		: 'wms'
+					}
 				]
 			}
 		]

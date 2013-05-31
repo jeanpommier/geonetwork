@@ -539,6 +539,7 @@ GeoNetwork.MetadataResultsView = Ext.extend(Ext.DataView, {
      */
     dislayLinks: function (records) {
         var view = this;
+        console.log(view);
         Ext.each(records, function (r) {
             var links = r.get('links'),
                 id = r.get('id'),

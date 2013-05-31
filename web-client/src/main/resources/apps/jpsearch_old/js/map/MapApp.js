@@ -31,6 +31,8 @@ GeoNetwork.mapApp = function() {
     var tree, legendPanel, mapLateralPanel, printPanel, printProvider, printPage, pageLayer;
     
     var ilwacinfo;
+    
+    var sliceControl;
 
     var activeNode;
 
@@ -179,14 +181,16 @@ GeoNetwork.mapApp = function() {
             var layer;
             layer = node.attributes.layer;
             if (layer) {
-                GeoNetwork.WindowManager.showWindow("wmsinfo");
-                GeoNetwork.WindowManager.getWindow("wmsinfo").showLayerInfo(layer);
+                //GeoNetwork.WindowManager.showWindow("wmsinfo");
+                //GeoNetwork.WindowManager.getWindow("wmsinfo").showLayerInfo(layer);
+        		tree.fireEvent('showMetadataByUuid', this, layer);
             }
         }
     };
 
     var metadataLayerHandlerContextMenu = function() {
-        var node = Ext.getCmp('toctree').getSelectionModel().getSelectedNode();
+    	var tree =  Ext.getCmp('toctree');
+        var node = tree.getSelectionModel().getSelectedNode();
         metadataLayerHandler(node);
     };
 
@@ -196,12 +200,16 @@ GeoNetwork.mapApp = function() {
      *
      */
     var refreshTocToolbar = function(node) {
-        
-       if ((node) && (node.attributes.layer)) {
+    	Ext.getCmp("tbMetadataButton").disable(); 
+        if ((node) && (node.attributes.layer)) {
             if (node.parentNode.attributes.nodeType == "gx_baselayercontainer") {
                 Ext.getCmp("tbRemoveButton").disable();
             } else {
                 Ext.getCmp("tbRemoveButton").enable();
+
+            	if (node.attributes.layer.uuid) {
+            		Ext.getCmp("tbMetadataButton").enable();
+            	}
             }
 
 //            var layer = node.attributes.layer;
@@ -218,8 +226,8 @@ GeoNetwork.mapApp = function() {
 //                Ext.getCmp("tbStylesButton").enable();
 //            }
 
-            Ext.getCmp("tbMetadataButton").enable();
-            Ext.getCmp("btnZoomToExtent").enable();
+            //Ext.getCmp("tbMetadataButton").enable();
+            //Ext.getCmp("btnZoomToExtent").enable();
 
 
 
@@ -228,7 +236,7 @@ GeoNetwork.mapApp = function() {
 //            Ext.getCmp("tbWmsTimeButton").disable();
 //            Ext.getCmp("tbStylesButton").disable();
             Ext.getCmp("tbMetadataButton").disable(); 
-            Ext.getCmp("btnZoomToExtent").disable();
+            //Ext.getCmp("btnZoomToExtent").disable();
         }
     };
 	var createPrintPanel = function() {
@@ -242,7 +250,7 @@ GeoNetwork.mapApp = function() {
         printPage = new GeoExt.data.PrintPage({
             printProvider: printProvider
         });
-        
+
         pageLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n('printLayer'), {visibility: false});
         pageLayer.addFeatures(printPage.feature);
         
@@ -322,7 +330,7 @@ GeoNetwork.mapApp = function() {
                 }
             }],
             listeners: {
-                beforeexpand: function() {
+            	beforeexpand: function() {
                     this.setVisibility(true);
                 },
                 beforecollapse: function() {
@@ -349,9 +357,9 @@ GeoNetwork.mapApp = function() {
         toctoolbar.push(action);
         action = new GeoExt.Action({
             id: "tbRemoveButton",
-            handler: function() {
+            handler: removeLayerHandlerContextMenu, /*function() {
                 removeLayerHandler(activeNode);
-            },
+            },*/
             iconCls: 'deleteLayer',
             tooltip: OpenLayers.i18n("removeButtonText")
         });
@@ -375,9 +383,10 @@ GeoNetwork.mapApp = function() {
         
         action = new GeoExt.Action({
             id: "tbMetadataButton",
-            handler: function() {
-                metadataLayerHandler(activeNode);
-                    },
+            handler: metadataLayerHandlerContextMenu, /*function() {
+	                //metadataLayerHandler(activeNode);
+	            	metadataLayerHandlerContextMenu();
+                },*/
             iconCls: 'wmsInfo',
             tooltip: OpenLayers.i18n("metadataButtonText")
         });
@@ -420,7 +429,7 @@ GeoNetwork.mapApp = function() {
 
         toolbar.push("-");
 
-        action = new GeoExt.Action({
+       /* action = new GeoExt.Action({
             iconCls: 'zoomlayer',
             id: 'btnZoomToExtent',
             //tooltip: {title: OpenLayers.i18n("zoomlayerTooltipTitle"), text: OpenLayers.i18n("zoomlayerTooltipText")},
@@ -466,9 +475,11 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         toolbar.push("-");
-        
+        */
         action = new GeoExt.Action({
-            control: new OpenLayers.Control.ZoomBox(),
+            control: new OpenLayers.Control.ZoomBox({
+                displayClass: 'olControlZoomIn'
+            }),
             map: map,
             toggleGroup: "move",
             allowDepress: false,
@@ -480,7 +491,7 @@ GeoNetwork.mapApp = function() {
 
         action = new GeoExt.Action({
             control:  new OpenLayers.Control.ZoomBox({
-                    displayClass: 'ZoomOut',
+                    displayClass: 'olControlZoomOut',
                     out: true
                 }),
             toggleGroup: "move",
@@ -506,7 +517,32 @@ GeoNetwork.mapApp = function() {
 
         toolbar.push(action);
         
+        toolbar.push("-"); 
+        
+        // Navigation history - two "button" controls
+        ctrl = new OpenLayers.Control.NavigationHistory();
+        map.addControl(ctrl);
+
+        action = new GeoExt.Action({
+            control: ctrl.previous,
+            disabled: true,
+            map: map,
+            iconCls: 'back'
+            //tooltip: {title: OpenLayers.i18n("previousTooltipTitle"), text: OpenLayers.i18n("previosTooltipText")}
+        });
+        toolbar.push(action);
+
+        action = new GeoExt.Action({
+            control: ctrl.next,
+            disabled: true,
+            map: map,
+            iconCls: 'next'
+            //tooltip: {title: OpenLayers.i18n("nextTooltipTitle"), text: OpenLayers.i18n("nextTooltipText")}
+        });
+        toolbar.push(action);
+
         toolbar.push("-");
+
 
         ilwacinfo = new OpenLayers.Control.GetCoordsAtClickPoint();
 
@@ -542,7 +578,9 @@ GeoNetwork.mapApp = function() {
                 ilwacinfolayer.addFeatures(new OpenLayers.Feature.Vector(point));
                 moveLayerToTop(ilwacinfolayer);
                 GeoNetwork.WindowManager.showWindow("ilwacinfo");
-                GeoNetwork.WindowManager.getWindow("ilwacinfo").setMap(map);
+                //GeoNetwork.WindowManager.getWindow("ilwacinfo").setMap(map);
+                GeoNetwork.WindowManager.getWindow("ilwacinfo").setxy(evt.xy);
+                
                 GeoNetwork.WindowManager.getWindow("ilwacinfo").setLonLat(lonlat_geog.lon, lonlat_geog.lat);
                 return false;
             },
@@ -563,7 +601,37 @@ GeoNetwork.mapApp = function() {
         });
         
         toolbar.push(action);
-        
+
+        // "slice" or "curtain" tool. Ref. website vissir
+        action = new Ext.Button({
+        	tooltip: {title: OpenLayers.i18n("sliceControlTooltipTitle"), 
+        		text: OpenLayers.i18n("sliceControlTooltipText")},
+        	iconCls: 'sliceControl',
+        	map: map,
+            allowDepress: true,
+        	handler: function(button){
+        		if (button.pressed) { //then we want to disable the tool
+        			sliceControl.hideIt();
+        			button.toggle(false);
+        		} else  {
+        			var node = tree.getSelectionModel().getSelectedNode();
+        			button.toggle(false);
+        			if (node) {
+        				var layer = node.attributes.layer;
+        				if (layer && !layer.isBaseLayer) {
+        					if (!sliceControl) {
+        	        			sliceControl = new GeoExt.SliceControl({map:map, toctree: tree, viewport:viewport});
+        	        		} 
+        	        		sliceControl.popIt();
+        	        		sliceControl.show();
+        	        		button.toggle(true);
+        				}
+        			}
+        		}
+        	}
+        });
+        toolbar.push(action);
+
         // create split button for measure controls
 
         var measureSplit = new Ext.SplitButton({
@@ -639,29 +707,6 @@ GeoNetwork.mapApp = function() {
         
         toolbar.push("-");
 
-        // Navigation history - two "button" controls
-        ctrl = new OpenLayers.Control.NavigationHistory();
-        map.addControl(ctrl);
-
-        action = new GeoExt.Action({
-            control: ctrl.previous,
-            disabled: true,
-            map: map,
-            iconCls: 'back'
-            //tooltip: {title: OpenLayers.i18n("previousTooltipTitle"), text: OpenLayers.i18n("previosTooltipText")}
-        });
-        toolbar.push(action);
-
-        action = new GeoExt.Action({
-            control: ctrl.next,
-            disabled: true,
-            map: map,
-            iconCls: 'next'
-            //tooltip: {title: OpenLayers.i18n("nextTooltipTitle"), text: OpenLayers.i18n("nextTooltipText")}
-        });
-        toolbar.push(action);
-
-        toolbar.push("-");
         
         action = new GeoExt.Action({
             iconCls: 'savewmc',
@@ -686,9 +731,25 @@ GeoNetwork.mapApp = function() {
 
 
         toolbar.push('->');
-        toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
-    };
+        toolbar.push({
+        	xtype: 'gxux_geonamessearchcombo', 
+        	fieldLabel: OpenLayers.i18n("Geonames"), 
+        	zoom:8,
+        	map: map,
+        	width:250,
+        	listWidth:250,
+        	loadingText: 'Interrogation de la base Geonames...',
+            emptyText: 'Chercher un lieu (Geonames)',
+            lang: 'fr',
+            countryString: window.geonamesCountryIndicator?'country='+window.geonamesCountryIndicator:'country=BF',
+            locationIcon: '../images/viseur.png',
+            tpl: '<tpl for="."><div class="x-combo-list-item geonamesComboList" lon={lng} lat={lat}><h1>{name}</h1><p>lat: {lat}, lon:{lng} <br />{[OpenLayers.i18n(values.fcodeName)]}</p></div></tpl>'
+    	});	
 
+        //toolbar.push('->');
+        //toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
+    };
+    
     /**
      * Map overlay with scale image and scale selector
      * 
@@ -931,7 +992,7 @@ GeoNetwork.mapApp = function() {
             loader: {
                 baseAttrs: {
                     radioGroup: "foo",
-                    slider: "layeropacityslider",
+                    //slider: "layeropacityslider",
                     uiProvider: "layernodeui"
                 }
             }
@@ -980,6 +1041,7 @@ GeoNetwork.mapApp = function() {
             },          
             listeners:{
                 contextmenu:function(node,e){
+                	
                     if ((node.attributes.nodeType != "gx_overlaylayercontainer") &&
                          (node.attributes.nodeType != "gx_baselayercontainer"))
                     {
@@ -987,12 +1049,29 @@ GeoNetwork.mapApp = function() {
                         var c = node.getOwnerTree().contextMenu;
                         if (node.parentNode.attributes.nodeType == "gx_baselayercontainer") {
                             c.items.get("removeMenu").disable();
+                            c.items.get("metadataMenu").disable();
                         } else {
                             c.items.get("removeMenu").enable();
+
+                            var opm = c.items.get("opacityMenu");
+                            opm.show();
+                            var opms = opm.menu.findById("opacityMenuSlider");
+                            opms.setLayer(node.attributes.layer);
+                            if (opms.layer.opacity==null) {
+                            	opms.setValue(100);
+                            } else {
+                            	opms.setValue(opms.layer.opacity*100);
+                            }
+
+                            c.items.get("metadataMenu").disable();
+                            if (node.attributes.layer) {
+                            	if (node.attributes.layer.uuid) {
+                                    c.items.get("metadataMenu").enable();
+                            	}
+                            }
                         }
 
-                        c.items.get("addMenu").hide();
-                        
+                        c.items.get("addMenu").hide();                        
 //                        var layer = node.attributes.layer;
 //
 //                        if (layer && layer.dimensions && layer.dimensions.time) {
@@ -1020,7 +1099,8 @@ GeoNetwork.mapApp = function() {
                             c.items.get("removeMenu").hide();
 //                            c.items.get("wmsTimeMenu").hide();
 //                            c.items.get("stylesMenu").hide();			
-                            c.items.get("metadataMenu").hide();
+                            c.items.get("metadataMenu").hide();	
+                            c.items.get("opacityMenu").hide();
             
                             c.contextNode=node;
                             c.showAt(e.getXY());
@@ -1031,6 +1111,7 @@ GeoNetwork.mapApp = function() {
                 items:[{
                     text: OpenLayers.i18n("addWMSButtonText"),
                     id: "addMenu",
+                    iconCls:"addMenu",
                     handler: function () {
                         GeoNetwork.WindowManager.showWindow("addwms");
                     }
@@ -1038,12 +1119,33 @@ GeoNetwork.mapApp = function() {
                 {
                     text:OpenLayers.i18n("removeButtonText"),
                     id: "removeMenu",
+                    iconCls:"removeMenu",
                     handler: removeLayerHandlerContextMenu
                 },
                 {
                     text: OpenLayers.i18n("metadataButtonText"),
                     id: "metadataMenu",
+                    iconCls:"metadataMenu",
                     handler: metadataLayerHandlerContextMenu
+                },
+                {
+                    
+                    text:OpenLayers.i18n('opacityButtonText'),
+                    id: "opacityMenu",
+                    iconCls:"opacityMenu",
+                    menu : {
+                    	showSeparator:false,
+                    	items: [{
+                    		xtype: "gx_opacityslider",
+                            id: "opacityMenuSlider",
+                    		layer: null,
+                            aggressive: true,
+                            changeVisibility: true,
+                            width:100,
+                            plugins: new GeoExt.LayerOpacitySliderTip({template: '<div>'+OpenLayers.i18n('opacityWindowTitle')+': {opacity}%</div>'})
+                    	}]
+                    }
+                    
                 }
 //                {
 //                    text: "Styles",
@@ -1064,7 +1166,7 @@ GeoNetwork.mapApp = function() {
             border: false,
             region: 'center'			
         });
-
+        tree.addEvents('showMetadataByUuid');
     };
 
     /**
@@ -1096,7 +1198,7 @@ GeoNetwork.mapApp = function() {
         createToolbars();         
         createTree();
         createLegendPanel();
-        createPrintPanel();
+        //createPrintPanel();
         
         var mapOverlay = createMapOverlay();
        
@@ -1108,7 +1210,7 @@ GeoNetwork.mapApp = function() {
             layout: 'accordion',
             deferredRender:false, 
             items: [
-                tree, printPanel
+                tree/*, printPanel*/
             ]
         });
        
@@ -1298,12 +1400,12 @@ var processLayersSuccess = function(response) {
 
         return findedLayer;
     };
+    
 
     // public space:
     return {
         init: function(layers, mapOptions, fixedScales) {
             //Ext.QuickTips.init();
-
             createMap(mapOptions, fixedScales);
     
             for (var i=0; i<layers.length; i++) {                
@@ -1323,7 +1425,7 @@ var processLayersSuccess = function(response) {
             GeoNetwork.WindowManager.registerWindow("addwms", GeoNetwork.AddWmsLayerWindow, {map: map, id:"addwms"});
             GeoNetwork.WindowManager.registerWindow("wmsinfo", GeoNetwork.WmsLayerMetadataWindow, {map: map, id:"wmsinfo"});
             GeoNetwork.WindowManager.registerWindow("loadwmc", GeoNetwork.LoadWmcWindow, {map: map, id:"loadwmc"});
-            GeoNetwork.WindowManager.registerWindow("ilwacinfo", GeoNetwork.IlwacInfoWindow, {map: map, id:"ilwacinfo", control: ilwacinfo});
+            GeoNetwork.WindowManager.registerWindow("ilwacinfo", GeoNetwork.IlwacInfoWindow, {id:"ilwacinfo", control: ilwacinfo});
 //            GeoNetwork.WindowManager.registerWindow("layerstyles", GeoNetwork.LayerStylesWindow, {map: map, id:"layerstyles"});
 //            GeoNetwork.WindowManager.registerWindow("wmstime", GeoNetwork.WMSTimeWindow, {map: map, id:"wmstime"});
             
@@ -1348,6 +1450,8 @@ var processLayersSuccess = function(response) {
         	    var panel = Ext.getCmp(GeoNetwork.WindowManager.getWindow("addwms").browserPanel.id);
         	    panel.setURL(onlineResource);
         	    return;
+        	} else if (layerList[0][0]=='') { // if no description is available, we replace it with the layer's name (layerList[0][0] is what is displayed in the layer manager)
+        		layerList[0][0]=layerList[0][2];
         	}
         	
             layerLoadingMask = new Ext.LoadMask(map.div, {
@@ -1387,9 +1491,12 @@ var processLayersSuccess = function(response) {
         getMap: function() {
             return map;
         },
+        getToctree: function() {
+            return tree;
+        },
         
         getPrintPanel: function() {
-        	if (printPanel===null) {
+        	if (printPanel===null || printPanel==undefined) {
         		createPrintPanel();
         	}
         	return printPanel;
@@ -1401,6 +1508,10 @@ var processLayersSuccess = function(response) {
     	
     	setMaxBounds: function(bnds) {
     		bounds = bnds;
+    	},
+    	
+    	setPageLayerVisibility: function(visible) {
+    		pageLayer.setVisibility(visible);
     	}
 
     };

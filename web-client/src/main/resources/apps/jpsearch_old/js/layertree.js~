@@ -31,7 +31,6 @@ var treeConfig = [
 			        ,format		: "image/png"
 			        ,type		: 'wms'
 			        , legend	: "http://ilwac.ige.fr/ml-ilwac-geocat/apps/images/viseur.png"
-					,checked:true
 			    }/*,{
 		        nodeType    : 'gx_layer'
 		        ,layers      : 'dummy'
