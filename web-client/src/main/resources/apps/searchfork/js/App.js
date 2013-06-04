@@ -698,6 +698,21 @@ GeoNetwork.app = function () {
     }
     
     
+    function firstLoadMap() {
+        var ms = Ext.getCmp('ms'),
+            e = Ext.getCmp('east'),
+            c = Ext.getCmp('center'),
+            w = Ext.getCmp('west');
+        
+        ms.onSetValue(Ext.getCmp('visualizationMode'), true);
+        initMap();
+        
+        /*if (iMap) {
+            c.add(iMap.getViewport());
+            c.doLayout();
+            Ext.getCmp('vp').syncSize();
+        }*/
+    }
     
     // public space:
     return {
@@ -892,6 +907,8 @@ GeoNetwork.app = function () {
                     searchForm.fireEvent('search');
                 }, 500);
             }
+            
+            firstLoadMap();
         },
         getIMap: function () {
             // init map if not yet initialized
