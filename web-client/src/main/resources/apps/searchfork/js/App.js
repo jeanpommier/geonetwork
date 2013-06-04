@@ -81,12 +81,12 @@ GeoNetwork.app = function () {
     function initMap() {
         iMap = new GeoNetwork.mapApp();
         var layers={}, options={};
-        if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
+        /*if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
             options = GeoNetwork.map.CONTEXT_MAIN_MAP_OPTIONS;
-        } else {
+        } else {*/
             options = GeoNetwork.map.MAIN_MAP_OPTIONS;
             layers  = GeoNetwork.map.BACKGROUND_LAYERS;
-        }
+       // }
         iMap.init(layers, options);
         metadataResultsView.addMap(iMap.getMap());
         visualizationModeInitialized = true;
@@ -222,31 +222,8 @@ GeoNetwork.app = function () {
             fieldLabel: OpenLayers.i18n('org')
         });
         
-
-        /*<jp>*///added
-
-        var fileFormatStore = new GeoNetwork.data.OpenSearchSuggestionStore({
-            url: services.opensearchSuggest,
-            rootId: 1,
-            baseParams: {
-                field: 'format'
-            }
-        });
-        var fileFormatField = new Ext.ux.form.SuperBoxSelect({
-            hideLabel: false,
-            minChars: 0,
-            queryParam: 'q',
-            hideTrigger: false,
-            id: 'E_format',
-            name: 'E_format',
-            store: fileFormatStore,
-            valueField: 'value',
-            displayField: 'value',
-            valueDelimiter: ' or ',
-//            tpl: tpl,
-            fieldLabel: OpenLayers.i18n('Format')
-        });
-        /*</jp>*/
+        
+        
         
         // Multi select keyword
         var themekeyStore = new GeoNetwork.data.OpenSearchSuggestionStore({
@@ -308,7 +285,7 @@ GeoNetwork.app = function () {
         var denominatorField = GeoNetwork.util.SearchFormTools.getScaleDenominatorField(true);
         var statusField = GeoNetwork.util.SearchFormTools.getStatusField(services.getStatus, true);
         
-        advancedCriteria.push(themekeyField, fileFormatField, orgNameField, categoryField, 
+        advancedCriteria.push(themekeyField, orgNameField, categoryField, 
                                 when, spatialTypes, denominatorField, 
                                 catalogueField, groupField, 
                                 metadataTypeField, validField, statusField);
@@ -356,10 +333,8 @@ GeoNetwork.app = function () {
                     url: catalogue.services.opensearchSuggest
                 }),
                 GeoNetwork.util.SearchFormTools.getTypesFieldWithAutocompletion(catalogue.services),
-                /*<jp action="commented" note="replace by jpSearchForm element when available"></jp>*/
                 GeoNetwork.util.SearchFormTools.getSimpleMap(GeoNetwork.map.BACKGROUND_LAYERS, mapOptions, 
                 GeoNetwork.searchDefault.activeMapControlExtent, {width: 290}),
-                
                 adv, 
                 GeoNetwork.util.SearchFormTools.getOptions(catalogue.services, undefined)
         );
@@ -808,79 +783,17 @@ GeoNetwork.app = function () {
                 facetListConfig: GeoNetwork.Settings.facetListConfig || []
             });
             
-          //Tab panel
-            var dataTabPanel = new Ext.TabPanel({
-            	id:'westTabPanel',
-				activeTab: 2,
-				height:'500',
-				layoutOnTabChange:false,
-				deferredRender:false,
-				defaults:{bodyStyle:'background-color:#FEFEFE'},
-				items:[
-				    {
-				    	title: 'Choisir', 
-				    	id:'choisirTab',
-				    	autoScroll:true,
-				    	layout:'fit',
-				    	items:[]
-				    },{
-				    	title: 'Organiser',
-				    	id:'organizeTab',
-				    	autoScroll: true,
-				    	items:[]
-				    },
-				    {
-				    	title:'Chercher',
-				    	id:'searchTab',
-				    	autoWidth:true,
-		                //autoScroll: true,
-		                height:'100%',
-		                layout:'accordion',
-		                layoutConfig: {
-		                    animate: true
-		                },
-		                items: [{
-		                			title:'Formulaire',
-		                			id:'searchFormPanel',
-		                			//autoWidth:true,
-		                			//height:'100%',
-		                			//autoScroll: true,
-		                			items : [ searchForm /*, tagCloudViewPanel,infoPanel*/]
-	                			},{
-		                			title:'Facets',
-		                			id:'searchFacetsPanel',
-		                			autoWidth:true,
-		                			//height:'100%',
-		                			//autoScroll: true,
-		                			items : [breadcrumb, facetsPanel/*,infoPanel*/]
-	                			},{
-		                			title:'Resultats',
-		                			id:'searchResultsPanel',
-		                			autoWidth:true,
-		                			//height:'100%',
-		                			//autoScroll: true,
-		                			items : [resultsPanel]
-	                			}]
-	                },{
-				    	title: 'Imprimer',
-				    	id:'printPanelTab',
-				    	items : []
-				    }
-				]
-			});
-            initMap();
             var viewport = new Ext.Viewport({
                 layout: 'border',
                 id: 'vp',
                 items: [{
                     region: 'west',
                     id: 'west',
-                    title:OpenLayers.i18n('Données'),
                     split: true,
                     border: false,
                     minWidth: 200,
-                    width: 330,
-                    maxWidth: 1100,
+                    width: 300,
+                    maxWidth: 400,
                     autoScroll: true,
                     collapsible: true,
                     hideCollapseTool: true,
@@ -888,41 +801,17 @@ GeoNetwork.app = function () {
                     margins: margins,
                     //layout : 's',
                     forceLayout: true,
-                    layout:'fit',
                     layoutConfig: {
                         animate: true
                     },
-                    //items: [searchForm, breadcrumb, facetsPanel]
-                    items: [dataTabPanel]
+                    items: [searchForm, breadcrumb, facetsPanel]
                 }, {
                     region: 'center',
-                    id: 'center',
-                    split: true,
-                    layout: 'fit',
-                    border: false,
-                    margins: margins,
-                    items: []/*,
-                    listeners: {
-                        beforerender: function () {
-                            app.getIMap();
-                            this.add(iMap.getViewport());
-                            this.doLayout();
-                        }
-                    }*/
-                }, {
-                    region: 'east',
                     id: 'east',
-                    layout: 'fit',
                     split: true,
+                    layout: 'fit',
                     border: false,
-                    collapsible: true,
-                    hideCollapseTool: true,
-                    collapseMode: 'mini',
-                    collapsed: true,
-                    hidden: !GeoNetwork.MapModule,
                     margins: margins,
-                    minWidth: 300,
-                    width: 500,
                     listeners: {
                         beforeexpand: function () {
                             app.getIMap();
@@ -930,13 +819,31 @@ GeoNetwork.app = function () {
                             this.doLayout();
                         }
                     }
+                    //items: [infoPanel, resultsPanel]
+                }, {
+                    region: 'east',
+                    id: 'center',
+                    layout: 'fit',
+                    split: true,
+                    border: false,
+                    collapsible: true,
+                    hideCollapseTool: true,
+                    collapseMode: 'mini',
+                    //collapsed: true,
+                    //hidden: !GeoNetwork.MapModule,
+                    margins: margins,
+                    minWidth: 300,
+                    width: 500,
+                    items: [infoPanel, resultsPanel]
+                    /*listeners: {
+                        beforeexpand: function () {
+                            app.getIMap();
+                            this.add(iMap.getViewport());
+                            this.doLayout();
+                        }
+                    }*/
                 }]
             });
-            //map viewport
-			//initMap();
-            //var imapvp = iMap.getViewport();
-            //Ext.getCmp('searchForm').insert(2, GeoNetwork.util.jpSearchFormTools.getGeographicFormFields(iMap.getMap(), true));
-            //Ext.getCmp('searchForm').doLayout();
             
             /* Trigger visualization mode if mode parameter is 1 
              TODO : Add visualization only mode with legend panel on
@@ -964,7 +871,6 @@ GeoNetwork.app = function () {
             }
             if (urlParameters.bounds) {
                 Ext.getCmp('geometryMap').map.zoomToExtent(urlParameters.bounds);
-                iMap.getMap().zoomToExtent(urlParameters.bounds);
             }
             
             var events = ['afterDelete', 'afterRating', 'afterLogout', 'afterLogin'];
@@ -1054,7 +960,7 @@ GeoNetwork.app = function () {
          * @return
          */
         switchMode: function (mode, force) {
-           /* var ms = Ext.getCmp('ms'),
+            var ms = Ext.getCmp('ms'),
                 e = Ext.getCmp('east'),
                 c = Ext.getCmp('center'),
                 w = Ext.getCmp('west'),
@@ -1102,7 +1008,7 @@ GeoNetwork.app = function () {
                     w.toggleCollapse();
                 }
             }
-        */}
+        }
     };
 };
 

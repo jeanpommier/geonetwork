@@ -1117,7 +1117,7 @@ GeoNetwork.mapApp = function() {
     var createViewport = function() {
         createToolbars();         
         createTree();
-        //createLegendPanel();
+        createLegendPanel();
         createPrintPanel();
         
         var mapOverlay = createMapOverlay();
@@ -1129,7 +1129,7 @@ GeoNetwork.mapApp = function() {
             layout: 'accordion',
             deferredRender:false, 
             items: [
-                tree//, printPanel
+                tree, printPanel
             ]
         });
        
@@ -1150,7 +1150,7 @@ GeoNetwork.mapApp = function() {
                     minSize: 170,
                     maxSize: 300,
                     layout: 'border',
-                    items: [accordion/*, legendPanel*/]
+                    items: [accordion, legendPanel]
                 },{
                     region: 'center',
                     layout: 'fit',
