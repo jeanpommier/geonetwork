@@ -81,12 +81,12 @@ GeoNetwork.app = function () {
     function initMap() {
         iMap = new GeoNetwork.mapApp();
         var layers={}, options={};
-        /*if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
+        if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
             options = GeoNetwork.map.CONTEXT_MAIN_MAP_OPTIONS;
-        } else {*/
+        } else {
             options = GeoNetwork.map.MAIN_MAP_OPTIONS;
             layers  = GeoNetwork.map.BACKGROUND_LAYERS;
-       // }
+        }
         iMap.init(layers, options);
         metadataResultsView.addMap(iMap.getMap());
         visualizationModeInitialized = true;
@@ -697,6 +697,8 @@ GeoNetwork.app = function () {
         document.title = info.name;
     }
     
+    
+    
     // public space:
     return {
         init: function () {
@@ -807,7 +809,7 @@ GeoNetwork.app = function () {
                     items: [searchForm, breadcrumb, facetsPanel]
                 }, {
                     region: 'center',
-                    id: 'east',
+                    id: 'center',
                     split: true,
                     layout: 'fit',
                     border: false,
@@ -822,7 +824,7 @@ GeoNetwork.app = function () {
                     //items: [infoPanel, resultsPanel]
                 }, {
                     region: 'east',
-                    id: 'center',
+                    id: 'east',
                     layout: 'fit',
                     split: true,
                     border: false,
@@ -925,10 +927,11 @@ GeoNetwork.app = function () {
             }
             
             resultsPanel.syncSize();
-            resultsPanel.setHeight(Ext.getCmp('center').getHeight());
+            resultsPanel.setHeight(Ext.getCmp('east').getHeight());
             
             Ext.getCmp('west').syncSize();
             Ext.getCmp('center').syncSize();
+            Ext.getCmp('east').syncSize();
             Ext.ux.Lightbox.register('a[rel^=lightbox]');
             
             // Update page title based on search results and params
@@ -990,10 +993,10 @@ GeoNetwork.app = function () {
             }
             
             if (mode === '1' && iMap) {
-                e.add(iMap.getViewport());
-                e.doLayout();
-                if (e.collapsed) {
-                    e.toggleCollapse();
+                c.add(iMap.getViewport());
+                c.doLayout();
+                if (c.collapsed) {
+                    c.toggleCollapse();
                 }
                 if (!w.collapsed) {
                     w.toggleCollapse();
@@ -1001,8 +1004,8 @@ GeoNetwork.app = function () {
                 
                 Ext.getCmp('vp').syncSize();
             } else {
-                if (!e.collapsed) {
-                    e.toggleCollapse();
+                if (!c.collapsed) {
+                    c.toggleCollapse();
                 }
                 if (w.collapsed) {
                     w.toggleCollapse();
