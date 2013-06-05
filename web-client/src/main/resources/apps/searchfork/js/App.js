@@ -698,20 +698,18 @@ GeoNetwork.app = function () {
     }
     
     
-    function firstLoadMap() {
-        var ms = Ext.getCmp('ms'),
-            e = Ext.getCmp('east'),
-            c = Ext.getCmp('center'),
-            w = Ext.getCmp('west');
+    function firstLoadMainMap() {
+        var c = Ext.getCmp('center'),
+            vp = Ext.getCmp('vp');
         
-        ms.onSetValue(Ext.getCmp('visualizationMode'), true);
-        initMap();
-        
-        /*if (iMap) {
+        if (iMap) {
             c.add(iMap.getViewport());
             c.doLayout();
-            Ext.getCmp('vp').syncSize();
-        }*/
+            vp.syncSize();
+            if (urlParameters.bounds) {
+                iMap.getMap().zoomToExtent(urlParameters.bounds);
+            }
+        }
     }
     
     // public space:
@@ -772,9 +770,12 @@ GeoNetwork.app = function () {
             
             // Search result
             resultsPanel = createResultsPanel(permalinkProvider);
+
+            initMap();
+            var mapvp = iMap.getViewport();
             
             // Top navigation widgets
-            createModeSwitcher();
+            //createModeSwitcher();
             createLanguageSwitcher(lang);
             createLoginForm();
             edit();
@@ -812,7 +813,7 @@ GeoNetwork.app = function () {
                     width: 300,
                     maxWidth: 400,
                     autoScroll: true,
-                    collapsible: true,
+                    collapsible: false,
                     hideCollapseTool: true,
                     collapseMode: 'mini',
                     margins: margins,
@@ -828,14 +829,14 @@ GeoNetwork.app = function () {
                     split: true,
                     layout: 'fit',
                     border: false,
-                    margins: margins,
+                    margins: margins/*,
                     listeners: {
                         beforeexpand: function () {
                             app.getIMap();
                             this.add(iMap.getViewport());
                             this.doLayout();
                         }
-                    }
+                    }*/
                     //items: [infoPanel, resultsPanel]
                 }, {
                     region: 'east',
@@ -843,7 +844,7 @@ GeoNetwork.app = function () {
                     layout: 'fit',
                     split: true,
                     border: false,
-                    collapsible: true,
+                    collapsible: false,
                     hideCollapseTool: true,
                     collapseMode: 'mini',
                     //collapsed: true,
@@ -908,7 +909,11 @@ GeoNetwork.app = function () {
                 }, 500);
             }
             
-            firstLoadMap();
+            
+            
+            setTimeout(function () {
+            	firstLoadMainMap();
+            }, 500);
         },
         getIMap: function () {
             // init map if not yet initialized
@@ -980,7 +985,7 @@ GeoNetwork.app = function () {
          * @return
          */
         switchMode: function (mode, force) {
-            var ms = Ext.getCmp('ms'),
+            /*var ms = Ext.getCmp('ms'),
                 e = Ext.getCmp('east'),
                 c = Ext.getCmp('center'),
                 w = Ext.getCmp('west'),
@@ -1027,7 +1032,7 @@ GeoNetwork.app = function () {
                 if (w.collapsed) {
                     w.toggleCollapse();
                 }
-            }
+            }*/
         }
     };
 };
