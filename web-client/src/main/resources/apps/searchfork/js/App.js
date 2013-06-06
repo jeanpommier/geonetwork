@@ -88,10 +88,24 @@ GeoNetwork.app = function () {
             layers  = GeoNetwork.map.BACKGROUND_LAYERS;
         }
         iMap.init(layers, options);
-        metadataResultsView.addMap(iMap.getMap());
+        //metadataResultsView.addMap(iMap.getMap()); //moved to step2, because if kept here, search extent is duplicated, don't know why
         visualizationModeInitialized = true;
     }
-    
+
+    function initMap_Step2() {
+        var c = Ext.getCmp('center'),
+            vp = Ext.getCmp('vp');
+        
+        if (iMap) {
+            c.add(iMap.getViewport());
+            c.doLayout();
+            vp.syncSize();
+            if (urlParameters.bounds) {
+                iMap.getMap().zoomToExtent(urlParameters.bounds);
+            }
+        }
+    	metadataResultsView.addMap(iMap.getMap()); //has to be there better than in step1, because in that case, search extent is duplicated, don't know why
+    }
     
     /**
      * Create a language switcher mode
@@ -333,8 +347,8 @@ GeoNetwork.app = function () {
                     url: catalogue.services.opensearchSuggest
                 }),
                 GeoNetwork.util.SearchFormTools.getTypesFieldWithAutocompletion(catalogue.services),
-                GeoNetwork.util.SearchFormTools.getSimpleMap(GeoNetwork.map.BACKGROUND_LAYERS, mapOptions, 
-                GeoNetwork.searchDefault.activeMapControlExtent, {width: 290}),
+                //GeoNetwork.util.SearchFormTools.getSimpleMap(GeoNetwork.map.BACKGROUND_LAYERS, mapOptions, 
+                //GeoNetwork.searchDefault.activeMapControlExtent, {width: 290}),
                 adv, 
                 GeoNetwork.util.SearchFormTools.getOptions(catalogue.services, undefined)
         );
@@ -697,21 +711,6 @@ GeoNetwork.app = function () {
         document.title = info.name;
     }
     
-    
-    function firstLoadMainMap() {
-        var c = Ext.getCmp('center'),
-            vp = Ext.getCmp('vp');
-        
-        if (iMap) {
-            c.add(iMap.getViewport());
-            c.doLayout();
-            vp.syncSize();
-            if (urlParameters.bounds) {
-                iMap.getMap().zoomToExtent(urlParameters.bounds);
-            }
-        }
-    }
-    
     // public space:
     return {
         init: function () {
@@ -884,13 +883,13 @@ GeoNetwork.app = function () {
             // FIXME : should be in Search field configuration
             Ext.get('E_any').setWidth(285);
             Ext.get('E_any').setHeight(28);
-            if (GeoNetwork.searchDefault.activeMapControlExtent) {
+            /*if (GeoNetwork.searchDefault.activeMapControlExtent) {
                 Ext.getCmp('geometryMap').setExtent();
             }
             if (urlParameters.bounds) {
                 Ext.getCmp('geometryMap').map.zoomToExtent(urlParameters.bounds);
             }
-            
+            */
             var events = ['afterDelete', 'afterRating', 'afterLogout', 'afterLogin'];
             Ext.each(events, function (e) {
                 catalogue.on(e, function () {
@@ -912,7 +911,7 @@ GeoNetwork.app = function () {
             
             
             setTimeout(function () {
-            	firstLoadMainMap();
+            	initMap_Step2();
             }, 500);
         },
         getIMap: function () {
