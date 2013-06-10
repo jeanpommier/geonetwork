@@ -132,6 +132,9 @@ GeoNetwork.util.jpSearchFormTools = {
                 handler: function(){
                     vectorLayer.destroyFeatures();
                     geomField.setValue('');
+                    if (withRelation) {
+                    	Ext.getCmp('E_relationCb').reset();
+                    }
                 },
                 scope: this
             };
@@ -142,7 +145,7 @@ GeoNetwork.util.jpSearchFormTools = {
     	fields.push(geomField);
    	
         if (withRelation) {
-            fields.push(GeoNetwork.util.SearchFormTools.getRelationField());
+            fields.push(GeoNetwork.util.jpSearchFormTools.getRelationField());
         }
         
         
@@ -204,6 +207,36 @@ GeoNetwork.util.jpSearchFormTools = {
         } else {
             return new Ext.form.ComboBox(config);
         }
+    },
+
+    /** api:method[getRelationField]
+     *  :return: A combo with geom relations
+     *
+     *  Create geometry relation field
+     */
+    getRelationField: function(){
+        return new Ext.form.ComboBox({
+            name: 'E_relation',
+            id: 'E_relationCb',
+            mode: 'local',
+            width: 150,
+            triggerAction: 'all',
+            fieldLabel: OpenLayers.i18n('relationType'),
+            store: new Ext.data.ArrayStore({
+                id: 0,
+                fields: ['relation', 'label'],
+                data: [['', ''],  
+                        ['intersection', OpenLayers.i18n('intersection')], 
+                        ['overlaps', OpenLayers.i18n('overlaps')], 
+                        ['encloses', OpenLayers.i18n('encloses')], 
+                        ['fullyOutsideOf', OpenLayers.i18n('fullyOutsideOf')], 
+                        ['crosses', OpenLayers.i18n('crosses')], 
+                        ['touches', OpenLayers.i18n('touches')], 
+                        ['within', OpenLayers.i18n('within')]]
+            }),
+            valueField: 'relation',
+            displayField: 'label'
+        });
     }
 
 };

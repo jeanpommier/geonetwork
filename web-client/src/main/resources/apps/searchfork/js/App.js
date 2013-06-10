@@ -908,11 +908,14 @@ GeoNetwork.app = function () {
                 }, 500);
             }
             
-            
+
             
             setTimeout(function () {
             	initMap_Step2();
-            }, 500);
+            	Ext.getCmp('searchForm').insert(2, GeoNetwork.util.jpSearchFormTools.getGeographicFormFields(iMap.getMap(), true));
+                Ext.getCmp('searchForm').doLayout();
+
+            }, 1000);
         },
         getIMap: function () {
             // init map if not yet initialized
