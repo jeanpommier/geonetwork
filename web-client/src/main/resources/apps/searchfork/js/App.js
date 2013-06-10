@@ -33,6 +33,7 @@ GeoNetwork.app = function () {
      */
     var iMap, searchForm, facetsPanel, resultsPanel, metadataResultsView, tBar, bBar,
         mainTagCloudViewPanel, infoPanel,
+        dataTabPanel,
         visualizationModeInitialized = false;
     
     // private function:
@@ -103,6 +104,18 @@ GeoNetwork.app = function () {
             if (urlParameters.bounds) {
                 iMap.getMap().zoomToExtent(urlParameters.bounds);
             }
+            /*<jp>*/
+            var lt = iMap.getTree();
+            lt.lines=true;
+            /****** Loads the associated metadata when a layer is asked for metadata **********/
+            lt.on('showMetadataByUuid', function(evt, layer) {
+            	if (layer.uuid) {
+            		catalogue.metadataShow(layer.uuid);
+            	}
+            });
+            
+            Ext.getCmp('organizeTab').add(lt);
+            /*</jp>*/
         }
     	metadataResultsView.addMap(iMap.getMap()); //has to be there better than in step1, because in that case, search extent is duplicated, don't know why
     }
@@ -439,6 +452,41 @@ GeoNetwork.app = function () {
             initMap();
         }
     }
+    /**
+     * Bottom bar
+     *
+     * @return
+     */
+    function createBBar(){
+        var previousAction = new Ext.Action({
+            id: 'previousBt',
+            text: '&lt;&lt;',
+            handler: function(){
+            	var from = catalogue.startRecord - parseInt(Ext.getCmp('E_hitsperpage').getValue(), 10);
+                if (from > 0) {
+                	catalogue.startRecord = from;
+	            	search();
+                }
+            },
+            scope: this
+        });
+        var nextAction = new Ext.Action({
+            id: 'nextBt',
+            text: '&gt;&gt;',
+            handler: function(){
+                catalogue.startRecord += parseInt(Ext.getCmp('E_hitsperpage').getValue(), 10);
+                search();
+            },
+            scope: this
+        });
+        return new Ext.Toolbar({
+            items: [previousAction, '|', nextAction, '|', {
+                xtype: 'tbtext',
+                text: '',
+                id: 'info'
+            }]
+        });
+    }
     
     /**
      * Results panel layout with top, bottom bar and DataView
@@ -458,7 +506,7 @@ GeoNetwork.app = function () {
         
         catalogue.resultsView = metadataResultsView;
         
-        tBar = new GeoNetwork.MetadataResultsToolbar({
+        /*tBar = new GeoNetwork.MetadataResultsToolbar({
             catalogue: catalogue,
             searchFormCmp: Ext.getCmp('searchForm'),
             sortByCmp: Ext.getCmp('E_sortBy'),
@@ -466,8 +514,22 @@ GeoNetwork.app = function () {
             permalinkProvider: permalinkProvider,
             withPaging: true,
             searchCb: search
+        });*/
+        tBar = new GeoNetwork.MetadataResultsToolbar({
+            catalogue: catalogue,
+            searchBtCmp: Ext.getCmp('searchBt'),
+            sortByCmp: Ext.getCmp('E_sortBy'),
+            metadataResultsView: metadataResultsView,
+            enableOverflow:true,
+            permalinkProvider: permalinkProvider,
+            withPaging: true,
+            searchCb: search
+        });
+        tBar2 = new Ext.Toolbar({
+        	items : [ OpenLayers.i18n('sortBy'), tBar.getSortByCombo(),'->',tBar.createTemplateMenu()]
         });
         
+        bBar = createBBar();
         
         var resultPanel = new Ext.Panel({
             id: 'resultsPanel',
@@ -476,9 +538,21 @@ GeoNetwork.app = function () {
             bodyCssClass: 'md-view',
             autoWidth: true,
             layout: 'fit',
-            tbar: tBar,
-            items: metadataResultsView
+            tbar: {
+            	xtype: 'container',
+            	layout: 'anchor',
+            	defaults: {anchor: '0'},
+            	defaultType: 'toolbar',
+            	items: [
+        	        tBar2,
+            		tBar
+            	]
+        	},
+            items: metadataResultsView,
+            // paging bar on the bottom
+            bbar: bBar
         });
+        window.resultPanel = resultPanel;
         return resultPanel;
     }
     /**
@@ -707,8 +781,11 @@ GeoNetwork.app = function () {
     
     function createHeader() {
         var info = catalogue.getInfo();
-        Ext.getDom('title').innerHTML = '<img class="catLogo" alt="Logo" src="../../images/logos/' + info.siteId + '.gif"/><div><h1>' + info.name + '</h1></div>';
-        document.title = info.name;
+        /*<jp>*//*jp : commented first line, replaced by the next*/
+        //Ext.getDom('title').innerHTML = '<img class="catLogo" src="../../images/logos/' + info.siteId + '.gif"/>&nbsp;' + info.name;
+        Ext.getDom('title').innerHTML = '<img class="catLogo" src="../images/logos/logoAEDD.jpg"/>&nbsp;'+
+        								'<img class="catLogo" src="../images/logos/logoDGPC.jpg"/>&nbsp;'+ info.name;
+        /*</jp>*/document.title = info.name;
     }
     
     // public space:
@@ -800,6 +877,60 @@ GeoNetwork.app = function () {
                 facetListConfig: GeoNetwork.Settings.facetListConfig || []
             });
             
+            //Tab panel
+            dataTabPanel = new Ext.TabPanel({
+            	id:'westTabPanel',
+				activeTab: 2,
+				height:'100%',
+				layoutOnTabChange:true,
+				deferredRender:false,
+				defaults:{},
+				items:[
+				    {
+				    	title: 'Choisir', 
+				    	id:'choisirTab',
+				    	autoScroll:true,
+				    	layout:'fit',
+				    	items:[]
+				    },{
+				    	title: 'Organiser',
+				    	id:'organizeTab',
+				    	autoScroll: true,
+				    	items:[]
+				    },
+				    {
+				    	title:'Chercher',
+				    	id:'searchTab',
+				    	autoWidth:true,
+		                //autoScroll: true,
+		                height:'100%',
+		                layout:'accordion',
+		                layoutConfig: {
+		                    animate: true
+		                },
+		                items: [{
+		                			title:'Formulaire',
+		                			id:'searchFormPanel',
+		                			autoWidth:true,
+		                			//height:'100%',
+		                			autoScroll: true,
+		                			items : [ searchForm /*, tagCloudViewPanel,infoPanel*/]
+	                			},{
+		                			title:'Resultats',
+		                			id:'searchResultsPanel',
+		                			autoWidth:true,
+		                			//height:'100%',
+		                			//autoScroll: true,
+		                			items : [/*breadcrumb, facetsPanel,*/resultsPanel]
+	                			}]
+	                },{
+				    	title: 'Imprimer',
+				    	id:'printPanelTab',
+				    	items : [breadcrumb, facetsPanel]
+				    }
+				]
+			});
+            
             var viewport = new Ext.Viewport({
                 layout: 'border',
                 id: 'vp',
@@ -810,18 +941,19 @@ GeoNetwork.app = function () {
                     border: false,
                     minWidth: 200,
                     width: 300,
-                    maxWidth: 400,
+                    maxWidth: 600,
                     autoScroll: true,
                     collapsible: false,
                     hideCollapseTool: true,
                     collapseMode: 'mini',
+                    layout:'fit',
                     margins: margins,
                     //layout : 's',
                     forceLayout: true,
                     layoutConfig: {
                         animate: true
                     },
-                    items: [searchForm, breadcrumb, facetsPanel]
+                    items: [dataTabPanel]
                 }, {
                     region: 'center',
                     id: 'center',
@@ -837,7 +969,7 @@ GeoNetwork.app = function () {
                         }
                     }*/
                     //items: [infoPanel, resultsPanel]
-                }, {
+                }/*, {
                     region: 'east',
                     id: 'east',
                     layout: 'fit',
@@ -852,14 +984,7 @@ GeoNetwork.app = function () {
                     minWidth: 300,
                     width: 500,
                     items: [infoPanel, resultsPanel]
-                    /*listeners: {
-                        beforeexpand: function () {
-                            app.getIMap();
-                            this.add(iMap.getViewport());
-                            this.doLayout();
-                        }
-                    }*/
-                }]
+                }*/]
             });
             
             /* Trigger visualization mode if mode parameter is 1 
@@ -951,11 +1076,10 @@ GeoNetwork.app = function () {
             }
             
             resultsPanel.syncSize();
-            resultsPanel.setHeight(Ext.getCmp('east').getHeight());
+            resultsPanel.setHeight(Ext.getCmp('center').getHeight());
             
             Ext.getCmp('west').syncSize();
             Ext.getCmp('center').syncSize();
-            Ext.getCmp('east').syncSize();
             Ext.ux.Lightbox.register('a[rel^=lightbox]');
             
             // Update page title based on search results and params
@@ -978,7 +1102,27 @@ GeoNetwork.app = function () {
             GeoNetwork.Util.updateHeadInfo({
                 title: catalogue.getInfo().name + ' | ' + title
             });
+            
+
+            Ext.getCmp('searchResultsPanel').expand(true);
+            
+            app.updateLayout();
         },
+        /*<jp>*/
+        /**
+         * Do layout only
+         *
+         * @return
+         */
+        updateLayout: function() {
+            Ext.getCmp('west').syncSize();
+            Ext.getCmp('center').syncSize();
+            resultsPanel= Ext.getCmp('resultsPanel');
+            resultsPanel.syncSize();
+            resultsPanel.setHeight(Ext.getCmp('searchTab').getHeight()-45);
+            //console.log("layout updated");
+        },
+        /*</jp>*/
         /**
          * Switch from one mode to another
          *

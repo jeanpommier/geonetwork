@@ -637,78 +637,78 @@ GeoNetwork.mapApp = function() {
         toolbar.push(action);
         
         // create split button for measure controls
-//
-//        var measureSplit = new Ext.SplitButton({
-//            iconCls: "icon-measure-length",
-//            tooltip: "Measure",
-//            enableToggle: true,
-//            toggleGroup: "move"	, // Ext doesn't respect this, registered with ButtonToggleMgr below
-//            allowDepress: false, // Ext doesn't respect this, handler deals with it
-//            handler: function(button, event) {
-//                // allowDepress should deal with this first condition
-//                if(!button.pressed) {
-//                    button.toggle();
-//                } else {
-//                    button.menu.items.itemAt(activeIndex).setChecked(true);
-//                }
-//            },
-//            listeners: {
-//                toggle: function(button, pressed) {
-//                    // toggleGroup should handle this
-//                    if(!pressed) {
-//                        button.menu.items.each(function(i) {
-//                            i.setChecked(false);
-//                        });
-//                    }
-//                },
-//                render: function(button) {
-//                    // toggleGroup should handle this
-//                    Ext.ButtonToggleMgr.register(button);
-//                }
-//            },
-//            menu: new Ext.menu.Menu({
-//                items: [
-//                    new Ext.menu.CheckItem(
-//                        new GeoExt.Action({
-//                            text: "Length",
-//                            iconCls: "icon-measure-length",
-//                            toggleGroup: "measure",
-//                            group: "move",
-//                            allowDepress: false,
-//                            map: map,
-//                            control: createMeasureControl(
-//                                OpenLayers.Handler.Path, "Length"
-//                            )
-//                        })
-//                    ),
-//                    new Ext.menu.CheckItem(
-//                        new GeoExt.Action({
-//                            text: "Area",
-//                            iconCls: "icon-measure-area",
-//                            toggleGroup: "measure",
-//                            group: "move",
-//                            allowDepress: false,
-//                            map: map,
-//                            control: createMeasureControl(
-//                                OpenLayers.Handler.Polygon, "Area"
-//                            )
-//                        })
-//                    )
-//                ]
-//            })
-//        });
-//        
-//        measureSplit.menu.items.each(function(item, index) {
-//            item.on({checkchange: function(item, checked) {
-//                measureSplit.toggle(checked);
-//                if(checked) {
-//                    activeIndex = index;
-//                    measureSplit.setIconClass(item.iconCls);
-//                }
-//            }});
-//        });
-//        
-//        toolbar.push(measureSplit);
+
+        var measureSplit = new Ext.SplitButton({
+            iconCls: "icon-measure-length",
+            tooltip: "Measure",
+            enableToggle: true,
+            toggleGroup: "move"	, // Ext doesn't respect this, registered with ButtonToggleMgr below
+            allowDepress: false, // Ext doesn't respect this, handler deals with it
+            handler: function(button, event) {
+                // allowDepress should deal with this first condition
+                if(!button.pressed) {
+                    button.toggle();
+                } else {
+                    button.menu.items.itemAt(activeIndex).setChecked(true);
+                }
+            },
+            listeners: {
+                toggle: function(button, pressed) {
+                    // toggleGroup should handle this
+                    if(!pressed) {
+                        button.menu.items.each(function(i) {
+                            i.setChecked(false);
+                        });
+                    }
+                },
+                render: function(button) {
+                    // toggleGroup should handle this
+                    Ext.ButtonToggleMgr.register(button);
+                }
+            },
+            menu: new Ext.menu.Menu({
+                items: [
+                    new Ext.menu.CheckItem(
+                        new GeoExt.Action({
+                            text: "Length",
+                            iconCls: "icon-measure-length",
+                            toggleGroup: "measure",
+                            group: "move",
+                            allowDepress: false,
+                            map: map,
+                            control: createMeasureControl(
+                                OpenLayers.Handler.Path, "Length"
+                            )
+                        })
+                    ),
+                    new Ext.menu.CheckItem(
+                        new GeoExt.Action({
+                            text: "Area",
+                            iconCls: "icon-measure-area",
+                            toggleGroup: "measure",
+                            group: "move",
+                            allowDepress: false,
+                            map: map,
+                            control: createMeasureControl(
+                                OpenLayers.Handler.Polygon, "Area"
+                            )
+                        })
+                    )
+                ]
+            })
+        });
+        
+        measureSplit.menu.items.each(function(item, index) {
+            item.on({checkchange: function(item, checked) {
+                measureSplit.toggle(checked);
+                if(checked) {
+                    activeIndex = index;
+                    measureSplit.setIconClass(item.iconCls);
+                }
+            }});
+        });
+        
+        toolbar.push(measureSplit);
 
         toolbar.push('->');
         toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
@@ -1123,7 +1123,7 @@ GeoNetwork.mapApp = function() {
         var mapOverlay = createMapOverlay();
        
         // Accordion panel with layer tree and advanced print config
-        var accordion = new Ext.Panel({
+        /*var accordion = new Ext.Panel({
             region: 'center',
             border: false,
             layout: 'accordion',
@@ -1131,13 +1131,13 @@ GeoNetwork.mapApp = function() {
             items: [
                 tree, printPanel
             ]
-        });
+        });*/
        
         viewport = new Ext.Panel({
             layout: 'border',
             border: false,
             //renderTo:'map_container',
-            items: [{
+            items: [/*{
                     id: 'layerManager',
                     region: 'east',
                     xtype: 'panel',
@@ -1151,7 +1151,7 @@ GeoNetwork.mapApp = function() {
                     maxSize: 300,
                     layout: 'border',
                     items: [accordion, legendPanel]
-                },{
+                },*/{
                     region: 'center',
                     layout: 'fit',
                     frame: false,
@@ -1410,6 +1410,16 @@ var processLayersSuccess = function(response) {
             Ext.get("west_panel").setWidth(westPanelWidth);
 
             viewport.doLayout();
+        },
+        
+        getTree: function() {
+        	return tree;
+        },
+        getPrintPanel: function() {
+        	return  printPanel;
+        },
+        getLegendPanel: function() {
+        	return legendPanel;
         },
         
         getMap: function() {

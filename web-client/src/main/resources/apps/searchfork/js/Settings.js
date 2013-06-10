@@ -79,10 +79,10 @@ GeoNetwork.Settings.results = {
         //colormap: GeoNetwork.Util.defaultColorMap,
         // Use a custom color map
         //colormap: ['red', 'green', 'blue'],
-        colormap: undefined,
+        colormap: GeoNetwork.Util.generateColorMap(20),
         // Use a custom CSS rules
         //featurecolorCSS: "border-width: 5px;border-style: solid; border-color: ${featurecolor}"
-        featurecolorCSS: undefined,
+        featurecolorCSS: "border-right: 5px solid ${featurecolor}",
         // Look for relation for all records (true) or only series (default).
         // Only for series is recommended to not trigger to much queries when
         // displaying search results. It may be relevant to search for all
