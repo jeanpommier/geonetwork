@@ -84,13 +84,14 @@ GeoNetwork.app = function () {
     function initMap() {
         iMap = new GeoNetwork.mapApp();
         var layers={}, options={};
+        var scales = [500000000, 250000000, 125000000, 70000000, 35000000, 17500000, 10000000, 5000000, 2500000, 1000000, 500000, 250000, 100000, 50000, 25000, 15000, 10000, 5000, 2000]; 
         if(GeoNetwork.map.CONTEXT || GeoNetwork.map.OWS) {
             options = GeoNetwork.map.CONTEXT_MAIN_MAP_OPTIONS;
         } else {
             options = GeoNetwork.map.MAIN_MAP_OPTIONS;
             layers  = GeoNetwork.map.BACKGROUND_LAYERS;
         }
-        iMap.init(layers, options);
+        iMap.init(layers, options, scales);
         //metadataResultsView.addMap(iMap.getMap()); //moved to step2, because if kept here, search extent is duplicated, don't know why
         visualizationModeInitialized = true;
     }
@@ -779,8 +780,7 @@ GeoNetwork.app = function () {
         var info = catalogue.getInfo();
         /*<jp>*//*jp : commented first line, replaced by the next*/
         //Ext.getDom('title').innerHTML = '<img class="catLogo" src="../../images/logos/' + info.siteId + '.gif"/>&nbsp;' + info.name;
-        Ext.getDom('title').innerHTML = '<img class="catLogo" src="../images/logos/logoAEDD.jpg"/>&nbsp;'+
-        								'<img class="catLogo" src="../images/logos/logoDGPC.jpg"/>&nbsp;'+ info.name;
+        Ext.getDom('title').innerHTML = '<img class="catLogo" src="../images/logos/Coat_of_Arms_of_The_Gambia.svg.png"/>&nbsp;'+ info.name;
         /*</jp>*/document.title = info.name;
     }
     
@@ -883,19 +883,19 @@ GeoNetwork.app = function () {
 				defaults:{},
 				items:[
 				    {
-				    	title: 'Choisir', 
+				    	title: OpenLayers.i18n('choose'),
 				    	id:'choisirTab',
 				    	autoScroll:true,
 				    	layout:'fit',
 				    	items:[]
 				    },{
-				    	title: 'Organiser',
+				    	title: OpenLayers.i18n('organize'),
 				    	id:'organizeTab',
 				    	autoScroll: true,
 				    	items:[]
 				    },
 				    {
-				    	title:'Chercher',
+				    	title:OpenLayers.i18n('search'),
 				    	id:'searchTab',
 				    	autoWidth:true,
 		                //autoScroll: true,
@@ -905,22 +905,22 @@ GeoNetwork.app = function () {
 		                    animate: true
 		                },
 		                items: [{
-		                			title:'Formulaire',
+		                			title:OpenLayers.i18n('form'),
 		                			id:'searchFormPanel',
-		                			autoWidth:true,
+		                			layout:'fit',
 		                			//height:'100%',
 		                			autoScroll: true,
-		                			items : [ searchForm /*, tagCloudViewPanel,infoPanel*/]
+		                			items :  searchForm /*, tagCloudViewPanel,infoPanel*/
 	                			},{
-		                			title:'Resultats',
+		                			title:OpenLayers.i18n('results'),
 		                			id:'searchResultsPanel',
-		                			autoWidth:true,
+		                			layout:'fit',
 		                			//height:'100%',
 		                			//autoScroll: true,
-		                			items : [/*breadcrumb, facetsPanel,*/resultsPanel]
+		                			items : /*breadcrumb, facetsPanel,*/resultsPanel
 	                			}]
 	                },{
-				    	title: 'Imprimer',
+				    	title: OpenLayers.i18n('print'),
 				    	id:'printPanelTab',
 				    	items : [breadcrumb, facetsPanel]
 				    }

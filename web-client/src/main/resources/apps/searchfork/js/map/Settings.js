@@ -35,7 +35,11 @@ GeoNetwork.map.printCapabilities = "../../pdf";
 GeoNetwork.map.PROJECTION = "EPSG:4326";
 GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-180, -90, 180, 90);
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-5.1,41,9.7,51);
+var ovmapWmsURL = window.overviewWmsUrl?window.overviewWmsUrl:'http://ilwac.ige.fr/geoserver-prod/wms';
+var ovmapWmsLayers = window.overviewWmsLayers?window.overviewWmsLayers:'ml_fond_carto';
+var ovmapWmsFormat = window.overviewWmsFormat?window.overviewWmsFormat:'image/jpeg';
 
+GeoNetwork.map.ovmapLayers = [new OpenLayers.Layer.WMS("Fond générique", ovmapWmsURL, {layers: ovmapWmsLayers, format: ovmapWmsFormat}, {isBaseLayer: true})];
 GeoNetwork.map.BACKGROUND_LAYERS = [
 	/*<jp>*//*jp : commented*/
     //new OpenLayers.Layer.WMS("Background layer", "/geoserver/wms", {layers: 'gn:world,gn:ne_50m_boundary_da,gn:ne_50m_boundary_lines_land,gn:ne_50m_coastline', format: 'image/jpeg'}, {isBaseLayer: true})
@@ -87,6 +91,10 @@ GeoNetwork.map.MAIN_MAP_OPTIONS = {
  maxExtent: GeoNetwork.map.EXTENT,
  restrictedExtent: GeoNetwork.map.EXTENT,
  resolutions: GeoNetwork.map.RESOLUTIONS,
- controls: [],
+ //controls: [],
+ controls: [
+	           new OpenLayers.Control.MousePosition( {'prefix': 'Lon ', 'separator':'°, Lat ', 'suffix':'°','numDigits':3, displayProjection:new OpenLayers.Projection("WGS84")}),
+	           new OpenLayers.Control.OverviewMap({layers: GeoNetwork.map.ovmapLayers, maximized:true,size : new OpenLayers.Size(130,100)})
+	           ],
  theme:null
 };

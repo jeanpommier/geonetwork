@@ -182,7 +182,7 @@ li.md .subject{
 	text-transform:none !important; 
 	color : #666666;
 	font-style:italic;
-	font-size : small;
+	font-size : 90%;
 	margin-bottom : 0px;
 }
 
@@ -211,6 +211,7 @@ li.md-thumbnail div.thumbnail img {
 }
 p.abstract {
 	margin-bottom : 0px;
+	font-size : 90%;
 }
 .md-contact {
 	font-size : 80%;
