@@ -190,11 +190,11 @@ li.md .subject{
 	display:none;
 }
 
-li.md .icon {
+/*li.md .icon {
 	border-width : 0px !important;
 	border-right-style : solid !important;
 	border-right-width : 3px !important;
-}
+}*/
 li.md-thumbnail{
 	max-width :45%;
 	width : 160px !important;

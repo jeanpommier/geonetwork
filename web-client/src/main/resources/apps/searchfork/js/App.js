@@ -34,7 +34,9 @@ GeoNetwork.app = function () {
     var iMap, searchForm, facetsPanel, resultsPanel, metadataResultsView, tBar, bBar,
         mainTagCloudViewPanel, infoPanel,
         dataTabPanel,
-        visualizationModeInitialized = false;
+        visualizationModeInitialized = false,
+        showSortBy=true,
+        showTemplatesMenu=false;
     
     // private function:
     /**
@@ -498,7 +500,7 @@ GeoNetwork.app = function () {
             catalogue: catalogue,
             displaySerieMembers: true,
             autoScroll: true,
-            tpl: GeoNetwork.Templates.FULL,
+            tpl: GeoNetwork.Templates.COMPACT,
             featurecolor: GeoNetwork.Settings.results.featurecolor,
             colormap: GeoNetwork.Settings.results.colormap,
             featurecolorCSS: GeoNetwork.Settings.results.featurecolorCSS
@@ -522,12 +524,14 @@ GeoNetwork.app = function () {
             metadataResultsView: metadataResultsView,
             enableOverflow:true,
             permalinkProvider: permalinkProvider,
-            withPaging: true,
+            showSortBy:showSortBy,
+            showTemplatesMenu:showTemplatesMenu,
+            //withPaging: true, /*<jp>*///we use the paging in bBar, thus we need to remove it from tBar
             searchCb: search
         });
-        tBar2 = new Ext.Toolbar({
+        /*tBar2 = new Ext.Toolbar({
         	items : [ OpenLayers.i18n('sortBy'), tBar.getSortByCombo(),'->',tBar.createTemplateMenu()]
-        });
+        });*/
         
         bBar = createBBar();
         
@@ -538,16 +542,7 @@ GeoNetwork.app = function () {
             bodyCssClass: 'md-view',
             autoWidth: true,
             layout: 'fit',
-            tbar: {
-            	xtype: 'container',
-            	layout: 'anchor',
-            	defaults: {anchor: '0'},
-            	defaultType: 'toolbar',
-            	items: [
-        	        tBar2,
-            		tBar
-            	]
-        	},
+            tbar: tBar,
             items: metadataResultsView,
             // paging bar on the bottom
             bbar: bBar
@@ -940,7 +935,7 @@ GeoNetwork.app = function () {
                     split: true,
                     border: false,
                     minWidth: 200,
-                    width: 300,
+                    width: 500,
                     maxWidth: 600,
                     autoScroll: true,
                     collapsible: false,
@@ -1069,9 +1064,9 @@ GeoNetwork.app = function () {
             Ext.getCmp('previousBt').setDisabled(catalogue.startRecord === 1);
             Ext.getCmp('nextBt').setDisabled(catalogue.startRecord + 
                     parseInt(Ext.getCmp('E_hitsperpage').getValue(), 10) > catalogue.metadataStore.totalLength);
-            if (Ext.getCmp('E_sortBy').getValue()) {
+            if ((showSortBy==true) && (Ext.getCmp('E_sortBy').getValue())) {
                 Ext.getCmp('sortByToolBar').setValue(Ext.getCmp('E_sortBy').getValue()  + "#" + Ext.getCmp('sortOrder').getValue());
-            } else {
+            } else if (showSortBy==true)  {
                 Ext.getCmp('sortByToolBar').setValue(Ext.getCmp('E_sortBy').getValue());
             }
             

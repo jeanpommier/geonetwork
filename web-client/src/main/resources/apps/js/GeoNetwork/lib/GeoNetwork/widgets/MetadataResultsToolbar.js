@@ -45,7 +45,19 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
         /** api: config[searchCb] 
          * ``Function`` The search callback to call while paging
          */
-        searchCb: null
+        searchCb: null,
+        
+        /** api: config[showSortBy]
+         * Display the SortBy combobox or not.
+         * Default : true
+         */
+        showSortBy: true,
+        
+        /** api: config[showTemplatesMenu]
+         * Display the SortBy combobox or not.
+         * Default : true
+         */
+        showTemplatesMenu: true,
     },
     /** api: config[catalogue] 
      * ``GeoNetwork.Catalogue`` Catalogue to use
@@ -140,12 +152,18 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
         var cmp = [];
         if (this.withPaging) {
             cmp.push(this.createPaging());
+            cmp.push(['->']); 
         }
-        cmp.push(['->']);
-        var sortOption = this.getSortByCombo();
-        cmp.push(OpenLayers.i18n('sortBy'), sortOption);
-        cmp.push(['|']);
-        cmp.push(this.createTemplateMenu());
+        if (this.showSortBy) {
+            var sortOption = this.getSortByCombo();
+            cmp.push(OpenLayers.i18n('sortBy'), sortOption);
+            cmp.push(['|']);
+        }
+
+        cmp.push(['->']); 
+        if (this.showTemplatesMenu) {
+            cmp.push(this.createTemplateMenu());
+        }
         cmp.push(this.createSelectionToolBar());
         cmp.push(this.createOtherActionMenu());
         
