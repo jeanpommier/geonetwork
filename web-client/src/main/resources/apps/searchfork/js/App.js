@@ -519,6 +519,7 @@ GeoNetwork.app = function () {
         });*/
         tBar = new GeoNetwork.MetadataResultsToolbar({
             catalogue: catalogue,
+            searchFormCmp: Ext.getCmp('searchForm'),
             searchBtCmp: Ext.getCmp('searchBt'),
             sortByCmp: Ext.getCmp('E_sortBy'),
             metadataResultsView: metadataResultsView,
@@ -935,7 +936,7 @@ GeoNetwork.app = function () {
                     split: true,
                     border: false,
                     minWidth: 200,
-                    width: 500,
+                    width: '30%',
                     maxWidth: 600,
                     autoScroll: true,
                     collapsible: false,
