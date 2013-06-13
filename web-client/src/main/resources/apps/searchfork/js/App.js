@@ -105,7 +105,9 @@ GeoNetwork.app = function () {
             c.doLayout();
             vp.syncSize();
             if (urlParameters.bounds) {
-                iMap.getMap().zoomToExtent(urlParameters.bounds);
+                //iMap.getMap().zoomToExtent(urlParameters.bounds);
+            	iMap.setMaxBounds(urlParameters.bounds);
+            	iMap.zoomToFullExtent();
             }
             /*<jp>*/
             var lt = iMap.getTree();
@@ -846,6 +848,12 @@ GeoNetwork.app = function () {
             initMap();
             var mapvp = iMap.getViewport();
             
+//            var treeconf = new OpenLayers.Format.JSON().write(window.treeConfig);
+//            console.log("app treeconf");
+//            console.log(treeconf);
+            var geoportalLayerTree = new GeoNetwork.Geoportal.LayerTree();
+            geoportalLayerTree.init(window.treeConfig, iMap.getMap());
+            var lt = geoportalLayerTree.getTree();
             // Top navigation widgets
             //createModeSwitcher();
             createLanguageSwitcher(lang);
@@ -876,7 +884,7 @@ GeoNetwork.app = function () {
             //Tab panel
             dataTabPanel = new Ext.TabPanel({
             	id:'westTabPanel',
-				activeTab: 2,
+				activeTab: 0,
 				height:'100%',
 				layoutOnTabChange:true,
 				deferredRender:false,
@@ -887,7 +895,7 @@ GeoNetwork.app = function () {
 				    	id:'choisirTab',
 				    	autoScroll:true,
 				    	layout:'fit',
-				    	items:[]
+				    	items:lt
 				    },{
 				    	title: OpenLayers.i18n('organize'),
 				    	id:'organizeTab',
