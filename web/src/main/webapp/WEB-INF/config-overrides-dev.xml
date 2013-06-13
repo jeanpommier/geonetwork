@@ -9,6 +9,7 @@
 	</properties>
 
 	<file name=".*/WEB-INF/config.xml">
+		<replaceText xpath="general/maxUploadSize">200</replaceText>
 		<replaceXML xpath="resources">
 			<resource enabled="true">
 				<name>main-db</name>

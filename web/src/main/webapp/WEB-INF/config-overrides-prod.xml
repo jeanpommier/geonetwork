@@ -1,13 +1,16 @@
 <overrides>
 	<import file="/WEB-INF/server-props-overrides.xml"/>
 	<properties>
-		<db.user>jean</db.user>
-		<db.pass>4sbog88m</db.pass>
-		<db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11
+		<db.user>geonetwork</db.user>
+		<db.pass>geonetwork</db.pass>
+		<db.dbname>jdbc:postgresql://localhost:5432/gm_risk_gn2_11
 		</db.dbname>
 	</properties>
 
 	<file name=".*/WEB-INF/config.xml">
+		<replaceText xpath="general/uploadDir">/home/large/gm-risk-gn2_11-datadir/tmp</replaceText>
+		<replaceText xpath="general/maxUploadSize">200</replaceText>
+<!-- 	<replaceText xpath="appHandler/dataDir">/home/large/gm-risk-gn2_11-datadir</replaceText>-->
 		<replaceXML xpath="resources">
 			<resource enabled="true">
 				<name>main-db</name>
@@ -30,7 +33,7 @@
 			value="../../apps/geoportal/index.html" />
 		<replaceAtt xpath="client" attName="createParameter" value="#create" />
 		<replaceAtt xpath="client" attName="parameters"
-			value="extent=-1900000,1460000,-1530000,1560000&amp;hl=fre" />
+			value="extent=-1900000,1460000,-1530000,1560000&amp;hl=eng" />
 <!-- 	<replaceAtt xpath="client" attName="parameters"
 			value="extent=-17,13,-13.7,14&amp;hl=fre" />
 			-->

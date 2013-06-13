@@ -14642,6 +14642,55 @@ for(var type in GeoExt.LayerLegend.types){if(GeoExt.LayerLegend.types[type].supp
 };
 GeoExt.LayerLegend.supports=function(layerRecord){};
 GeoExt.LayerLegend.types={};Ext.namespace("GeoExt");
+GeoExt.LayerOpacitySlider=Ext.extend(Ext.Slider,{layer:null,complementaryLayer:null,delay:5,changeVisibilityDelay:5,aggressive:false,changeVisibility:false,value:null,inverse:false,constructor:function(config){if(config.layer){this.layer=this.getLayer(config.layer);
+this.bind();
+this.complementaryLayer=this.getLayer(config.complementaryLayer);
+if(config.inverse!==undefined){this.inverse=config.inverse
+}config.value=(config.value!==undefined)?config.value:this.getOpacityValue(this.layer);
+delete config.layer;
+delete config.complementaryLayer
+}GeoExt.LayerOpacitySlider.superclass.constructor.call(this,config)
+},bind:function(){if(this.layer&&this.layer.map){this.layer.map.events.on({changelayer:this.update,scope:this})
+}},unbind:function(){if(this.layer&&this.layer.map){this.layer.map.events.un({changelayer:this.update,scope:this})
+}},update:function(evt){if(evt.property==="opacity"&&evt.layer==this.layer){this.setValue(this.getOpacityValue(this.layer))
+}},setLayer:function(layer){this.unbind();
+this.layer=this.getLayer(layer);
+this.setValue(this.getOpacityValue(layer));
+this.bind()
+},getOpacityValue:function(layer){var value;
+if(layer&&layer.opacity!==null){value=parseInt(layer.opacity*(this.maxValue-this.minValue))
+}else{value=this.maxValue
+}if(this.inverse===true){value=(this.maxValue-this.minValue)-value
+}return value
+},getLayer:function(layer){if(layer instanceof OpenLayers.Layer){return layer
+}else{if(layer instanceof GeoExt.data.LayerRecord){return layer.getLayer()
+}}},initComponent:function(){GeoExt.LayerOpacitySlider.superclass.initComponent.call(this);
+if(this.changeVisibility&&this.layer&&(this.layer.opacity==0||(this.inverse===false&&this.value==this.minValue)||(this.inverse===true&&this.value==this.maxValue))){this.layer.setVisibility(false)
+}if(this.complementaryLayer&&((this.layer&&this.layer.opacity==1)||(this.inverse===false&&this.value==this.maxValue)||(this.inverse===true&&this.value==this.minValue))){this.complementaryLayer.setVisibility(false)
+}if(this.aggressive===true){this.on("change",this.changeLayerOpacity,this,{buffer:this.delay})
+}else{this.on("changecomplete",this.changeLayerOpacity,this)
+}if(this.changeVisibility===true){this.on("change",this.changeLayerVisibility,this,{buffer:this.changeVisibilityDelay})
+}if(this.complementaryLayer){this.on("change",this.changeComplementaryLayerVisibility,this,{buffer:this.changeVisibilityDelay})
+}this.on("beforedestroy",this.unbind,this)
+},changeLayerOpacity:function(slider,value){if(this.layer){value=value/(this.maxValue-this.minValue);
+if(this.inverse===true){value=1-value
+}this.layer.setOpacity(value)
+}},changeLayerVisibility:function(slider,value){var currentVisibility=this.layer.getVisibility();
+if((this.inverse===false&&value==this.minValue)||(this.inverse===true&&value==this.maxValue)&&currentVisibility===true){this.layer.setVisibility(false)
+}else{if((this.inverse===false&&value>this.minValue)||(this.inverse===true&&value<this.maxValue)&&currentVisibility==false){this.layer.setVisibility(true)
+}}},changeComplementaryLayerVisibility:function(slider,value){var currentVisibility=this.complementaryLayer.getVisibility();
+if((this.inverse===false&&value==this.maxValue)||(this.inverse===true&&value==this.minValue)&&currentVisibility===true){this.complementaryLayer.setVisibility(false)
+}else{if((this.inverse===false&&value<this.maxValue)||(this.inverse===true&&value>this.minValue)&&currentVisibility==false){this.complementaryLayer.setVisibility(true)
+}}},addToMapPanel:function(panel){this.on({render:function(){var el=this.getEl();
+el.setStyle({position:"absolute",zIndex:panel.map.Z_INDEX_BASE.Control});
+el.on({mousedown:this.stopMouseEvents,click:this.stopMouseEvents})
+},scope:this})
+},removeFromMapPanel:function(panel){var el=this.getEl();
+el.un({mousedown:this.stopMouseEvents,click:this.stopMouseEvents,scope:this});
+this.unbind()
+},stopMouseEvents:function(e){e.stopEvent()
+}});
+Ext.reg("gx_opacityslider",GeoExt.LayerOpacitySlider);Ext.namespace("GeoExt");
 GeoExt.WMSLegend=Ext.extend(GeoExt.LayerLegend,{defaultStyleIsFirst:true,useScaleParameter:true,baseParams:null,initComponent:function(){GeoExt.WMSLegend.superclass.initComponent.call(this);
 var layer=this.layerRecord.getLayer();
 this._noMap=!layer.map;
@@ -20731,6 +20780,7 @@ GeoNetwork.map.ovmapLayers=[new OpenLayers.Layer.OSM()];
 GeoNetwork.map.BACKGROUND_LAYERS=[new OpenLayers.Layer.Google("Google Hybrid",{type:google.maps.MapTypeId.HYBRID,sphericalMercator:true,numZoomLevels:22})];
 GeoNetwork.map.PROJECTION="EPSG:900913";
 GeoNetwork.map.EXTENT=new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508.34);
+GeoNetwork.map.MAXEXTENT=window.Geoportal_MAXEXTENT?new OpenLayers.Bounds(window.Geoportal_MAXEXTENT):GeoNetwork.map.EXTENT;
 GeoNetwork.map.RESOLUTIONS=[156543.033928041,78271.51696402048,39135.75848201023,19567.87924100512,9783.93962050256,4891.96981025128,2445.98490512564,1222.99245256282,611.49622628141,305.7481131407048,152.8740565703525,76.43702828517624,38.21851414258813,19.10925707129406,9.554628535647032,4.777314267823516,2.388657133911758,1.194328566955879,0.5971642834779395];
 GeoNetwork.map.CONTEXT_MAP_OPTIONS={controls:[],theme:null};
 GeoNetwork.map.CONTEXT_MAIN_MAP_OPTIONS={controls:[],theme:null};
@@ -21005,7 +21055,6 @@ var createLegendPanel=function(){legendPanel=new GeoExt.LegendPanel({defaults:{l
 };
 var createViewport=function(){createToolbars();
 createTree();
-createPrintPanel();
 var mapOverlay=createMapOverlay();
 viewport=new Ext.Panel({layout:"border",border:false,items:[{region:"center",layout:"fit",frame:false,border:false,margins:"0 0 0 0",items:[{id:"mappanel",xtype:"gx_mappanel",map:map,tbar:toolbar,border:false,items:[mapOverlay]}]}]});
 Ext.getCmp("toctree").on({click:function(node){if(node.ui.radio){node.ui.radio.checked=true;

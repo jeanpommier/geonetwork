@@ -1057,7 +1057,7 @@ GeoNetwork.mapApp = function() {
         createToolbars();         
         createTree();
         //createLegendPanel();
-        createPrintPanel();
+        //createPrintPanel();
         
         var mapOverlay = createMapOverlay();
        

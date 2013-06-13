@@ -312,6 +312,7 @@
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LegendImage.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LegendPanel.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LayerLegend.js</include>
+                <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/LayerOpacitySlider.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/WMSLegend.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/tree/LayerContainer.js</include>
                 <include>${project.build.directory}/classes/apps/js/GeoExt/lib/GeoExt/widgets/tree/BaseLayerContainer.js</include>

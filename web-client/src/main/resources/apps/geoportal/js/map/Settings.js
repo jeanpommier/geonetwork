@@ -68,6 +68,7 @@ GeoNetwork.map.BACKGROUND_LAYERS = [
 GeoNetwork.map.PROJECTION = "EPSG:900913";
 ////GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-550000, 5000000, 1200000, 7000000);
 GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);
+GeoNetwork.map.MAXEXTENT = window.Geoportal_MAXEXTENT?new OpenLayers.Bounds(window.Geoportal_MAXEXTENT):GeoNetwork.map.EXTENT;
 //GeoNetwork.map.BACKGROUND_LAYERS = [
 //    new OpenLayers.Layer.OSM()
 //    //new OpenLayers.Layer.Google("Google Streets");
