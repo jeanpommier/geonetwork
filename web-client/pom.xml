@@ -243,10 +243,18 @@
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/WMS.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/WMTS.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/XYZ.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/OSM.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/SphericalMercator.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/EventPane.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/FixedZoomLevels.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/Google.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/Google/v3.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Renderer/SVG.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Layer/TileCache.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Control/Button.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Control/ScaleLine.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Control/OverviewMap.js</include>
+                <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Control/Measure.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Format/GML/v2.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Format/JSON.js</include>
                 <include>${project.build.directory}/classes/apps/js/OpenLayers/lib/OpenLayers/Format/Filter/v1.js</include>
@@ -460,6 +468,27 @@
                 <include>${project.build.directory}/classes/apps/search/js/map/MapApp.js</include>
                 <include>${project.build.directory}/classes/apps/search/js/Shortcuts.js</include>
                 <include>${project.build.directory}/classes/apps/search/js/App.js</include>
+              </includes>
+            </aggregation>
+            <aggregation>
+              <output>src/main/resources/apps/geoportal/js/App-mini.js</output>
+              <includes>
+                <include>../../js/GeoNetwork-mini.js</include>
+                <include>${project.build.directory}/classes/apps/jean/Ext/Fixes.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoExt/FoldableLegendPlugin.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoExt/ShowOnlyVisibleLayersPlugin.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoExt/SliceControl.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoExt/GeoNamesSearchCombo.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/jpSearchFormTools.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/LayerTree.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/Settings.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/Templates.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/lang/en.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/lang/fr.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/map/Settings.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/map/MapApp.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/Shortcuts.js</include>
+                <include>${project.build.directory}/classes/apps/geoportal/js/App.js</include>
               </includes>
             </aggregation>
 

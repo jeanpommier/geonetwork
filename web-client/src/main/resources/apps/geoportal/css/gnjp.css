@@ -301,8 +301,10 @@ p.abstract {
 }
 .olControlMousePosition {
 	position:absolute;
-	left:5px;
-	bottom : 5px;
+	right:10px!important;
+	bottom : 40px!important;
+	color:white;
+	font-size:100%!important;
 }
 .addMenu {
 	background-image: url("../../images/default/map/map_go.png") !important;

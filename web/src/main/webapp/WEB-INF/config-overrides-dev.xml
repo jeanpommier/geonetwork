@@ -28,9 +28,12 @@
 	<file name=".*/WEB-INF/config-gui.xml">
 		<replaceAtt xpath="client" attName="widget" value="true" />
 		<replaceAtt xpath="client" attName="url"
-			value="../../apps/searchfork/index_debug.html" />
+			value="../../apps/geoportal/index_debug.html" />
 		<replaceAtt xpath="client" attName="createParameter" value="#create" />
 		<replaceAtt xpath="client" attName="parameters"
+			value="extent=-1900000,1460000,-1530000,1560000&amp;hl=fre" />
+<!-- 	<replaceAtt xpath="client" attName="parameters"
 			value="extent=-17,13,-13.7,14&amp;hl=fre" />
+			-->
 	</file>
 </overrides>

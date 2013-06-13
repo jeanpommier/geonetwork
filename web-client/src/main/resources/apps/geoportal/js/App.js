@@ -789,7 +789,7 @@ GeoNetwork.app = function () {
     // public space:
     return {
         init: function () {
-            geonetworkUrl = GeoNetwork.URL || window.location.href.match(/(http.*\/.*)\/apps\/search.*/, '')[1];
+            geonetworkUrl = GeoNetwork.URL || window.location.href.match(/(http.*\/.*)\/apps\/geoportal.*/, '')[1];
 
             urlParameters = GeoNetwork.Util.getParameters(location.href);
             var lang = urlParameters.hl || GeoNetwork.Util.defaultLocale;
@@ -1200,6 +1200,7 @@ Ext.onReady(function () {
     app = new GeoNetwork.app();
     app.init();
     catalogue = app.getCatalogue();
+
     
     /* Focus on full text search field */
     Ext.getDom('E_any').focus(true);

@@ -638,7 +638,7 @@ GeoNetwork.mapApp = function() {
 
 
         toolbar.push('->');
-        toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
+        //toolbar.push({xtype: 'gn_projectionselector', projections: GeoNetwork.ProjectionList, fieldLabel: OpenLayers.i18n("projectionTitle"), map: map});	
     };
 
     /**

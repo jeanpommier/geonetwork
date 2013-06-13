@@ -1,3 +1,38 @@
 <overrides>
 	<import file="/WEB-INF/server-props-overrides.xml"/>
+	<properties>
+		<db.user>jean</db.user>
+		<db.pass>4sbog88m</db.pass>
+		<db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11
+		</db.dbname>
+	</properties>
+
+	<file name=".*/WEB-INF/config.xml">
+		<replaceXML xpath="resources">
+			<resource enabled="true">
+				<name>main-db</name>
+				<provider>jeeves.resources.dbms.ApacheDBCPool</provider>
+				<config>
+					<user>${db.user}</user>
+					<password>${db.pass}</password>
+					<driver>org.postgis.DriverWrapper</driver>
+					<url>${db.dbname}</url>
+					<poolSize>10</poolSize>
+					<validationQuery>SELECT 1</validationQuery>
+				</config>
+			</resource>
+		</replaceXML>
+	</file>
+
+	<file name=".*/WEB-INF/config-gui.xml">
+		<replaceAtt xpath="client" attName="widget" value="true" />
+		<replaceAtt xpath="client" attName="url"
+			value="../../apps/geoportal/index.html" />
+		<replaceAtt xpath="client" attName="createParameter" value="#create" />
+		<replaceAtt xpath="client" attName="parameters"
+			value="extent=-1900000,1460000,-1530000,1560000&amp;hl=fre" />
+<!-- 	<replaceAtt xpath="client" attName="parameters"
+			value="extent=-17,13,-13.7,14&amp;hl=fre" />
+			-->
+	</file>
 </overrides>
