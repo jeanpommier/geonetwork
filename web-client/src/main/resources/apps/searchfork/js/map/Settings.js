@@ -39,12 +39,17 @@ var ovmapWmsURL = window.overviewWmsUrl?window.overviewWmsUrl:'http://ilwac.ige.
 var ovmapWmsLayers = window.overviewWmsLayers?window.overviewWmsLayers:'ml_fond_carto';
 var ovmapWmsFormat = window.overviewWmsFormat?window.overviewWmsFormat:'image/jpeg';
 
+var plainMapTitle = window.plainMapTitle?window.plainMapTitle:'Fond générique';
+var plainMapWmsUrl = window.plainMapWmsUrl?window.plainMapWmsUrl:'http://ilwac.ige.fr/geoserver-prod/wms';
+var plainMapWmsLayers = window.plainMapWmsLayers?window.plainMapWmsLayers:'ml_fond_carto';
+var plainMapWmsFormat = window.plainMapWmsFormat?window.plainMapWmsFormat:'image/jpeg';
+
 GeoNetwork.map.ovmapLayers = [new OpenLayers.Layer.WMS("Fond générique", ovmapWmsURL, {layers: ovmapWmsLayers, format: ovmapWmsFormat}, {isBaseLayer: true})];
 GeoNetwork.map.BACKGROUND_LAYERS = [
 	/*<jp>*//*jp : commented*/
     //new OpenLayers.Layer.WMS("Background layer", "/geoserver/wms", {layers: 'gn:world,gn:ne_50m_boundary_da,gn:ne_50m_boundary_lines_land,gn:ne_50m_coastline', format: 'image/jpeg'}, {isBaseLayer: true})
 	/*jp: added*/
-	new OpenLayers.Layer.WMS("Fond générique", "http://ilwac.ige.fr/geoserver-prod/wms", {layers: 'ml_fond_carto', format: 'image/jpeg', TILED:'true'}, {isBaseLayer: true})
+	new OpenLayers.Layer.WMS(plainMapTitle, plainMapWmsUrl, {layers: plainMapWmsLayers, format: plainMapWmsFormat, TILED:'true'}, {isBaseLayer: true})
     //new OpenLayers.Layer.WMS("Background layer", "http://www2.demis.nl/mapserver/wms.asp?", {layers: 'Countries', format: 'image/jpeg'}, {isBaseLayer: true})
 ];
 

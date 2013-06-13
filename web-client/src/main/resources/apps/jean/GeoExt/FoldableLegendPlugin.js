@@ -62,7 +62,7 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
 			    scope: this
 			});*/
 			/**************Et on insère la fenêtre (fold/unfold) de la légende déroulable ***************************************************/
-			Ext.DomHelper.insertAfter(emplacement, '<img src="'+Ext.BLANK_IMAGE_URL+'" class="gx_legend_trigger" alt="'+translate("showLegend")+'" title="'+translate("showLegend")+'">');
+			Ext.DomHelper.insertAfter(emplacement, '<img src="'+Ext.BLANK_IMAGE_URL+'" class="gx_legend_trigger" alt="'+OpenLayers.i18n("showLegend")+'" title="'+OpenLayers.i18n("showLegend")+'">');
 			node.addListener('click', function(target, event) {
 				if (event.getTarget('.gx_legend_trigger', 1)) {
 					this.toggleLegend(target);
@@ -100,12 +100,12 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
 
             				//console.log(url);
             			} catch (err) {
-    						OpenLayers.Console.log("impossible de récupérer la légende pour cette donnée");
+    						OpenLayers.Console.log("no legend available for this data");
     					}
             		}
             		if (url!=='') {
             			var emplacement = node.ui.textNode;
-    			    	Ext.DomHelper.insertAfter(emplacement, ['<div class="ext-ux-treenode-legend"><p>Légende : </p><img src="'+url+'" /></div>'].join(""));
+    			    	Ext.DomHelper.insertAfter(emplacement, ['<div class="ext-ux-treenode-legend"><p>'+OpenLayers.i18n("legend:")+' </p><img src="'+url+'" /></div>'].join(""));
     					node.legendVisible=true;
     					window.currentNode=node;
     					var elt = Ext.DomQuery.selectNode("div.ext-ux-treenode-legend", node.ui.elNode);
@@ -128,11 +128,11 @@ GeoExt.plugins.FoldableLegendPlugin = Ext.extend(Ext.util.Observable, {
             	
             } else {
                 Ext.MessageBox.alert(OpenLayers.i18n("Pb"),
-                    OpenLayers.i18n("Problème dans la fonction toggleLegend... (2)"));
+                    OpenLayers.i18n("Problem with function toggleLegend... (2)"));
             }
         } else {
              Ext.MessageBox.alert(OpenLayers.i18n("Pb"),
-                    OpenLayers.i18n("Problème dans la fonction toggleLegend..."));
+                    OpenLayers.i18n("Problem with function toggleLegend..."));
         }
     	
     },

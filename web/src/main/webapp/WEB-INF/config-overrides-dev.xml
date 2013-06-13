@@ -28,9 +28,9 @@
 	<file name=".*/WEB-INF/config-gui.xml">
 		<replaceAtt xpath="client" attName="widget" value="true" />
 		<replaceAtt xpath="client" attName="url"
-			value="../../apps/jpsearch/index_debug.html" />
+			value="../../apps/searchfork/index_debug.html" />
 		<replaceAtt xpath="client" attName="createParameter" value="#create" />
 		<replaceAtt xpath="client" attName="parameters"
-			value="extent=-12,9,5,26&amp;hl=fre" />
+			value="extent=-17,13,-13.7,14&amp;hl=fre" />
 	</file>
 </overrides>
