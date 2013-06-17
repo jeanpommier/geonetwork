@@ -946,7 +946,7 @@ GeoNetwork.app = function () {
                     minWidth: 200,
                     width: '30%',
                     maxWidth: 600,
-                    autoScroll: true,
+                    autoScroll: false,
                     collapsible: false,
                     hideCollapseTool: true,
                     collapseMode: 'mini',
