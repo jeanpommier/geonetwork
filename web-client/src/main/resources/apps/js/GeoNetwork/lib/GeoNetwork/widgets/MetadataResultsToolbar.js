@@ -57,7 +57,7 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
          * Display the SortBy combobox or not.
          * Default : true
          */
-        showTemplatesMenu: true,
+        showTemplatesMenu: true
     },
     /** api: config[catalogue] 
      * ``GeoNetwork.Catalogue`` Catalogue to use

@@ -415,6 +415,7 @@ GeoNetwork.app = function () {
             defaults: {
                 anchor: '100%'
             },
+            autoHeight:true,
             listeners: {
                 onreset: function (args) {
                     facetsPanel.reset();

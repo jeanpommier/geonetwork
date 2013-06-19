@@ -8,7 +8,6 @@
 	</properties>
 
 	<file name=".*/WEB-INF/config.xml">
-		<replaceText xpath="general/uploadDir">/home/large/gm-risk-gn2_11-datadir/tmp</replaceText>
 		<replaceText xpath="general/maxUploadSize">200</replaceText>
 <!-- 	<replaceText xpath="appHandler/dataDir">/home/large/gm-risk-gn2_11-datadir</replaceText>-->
 		<replaceXML xpath="resources">
@@ -26,7 +25,6 @@
 			</resource>
 		</replaceXML>
 	</file>
-
 	<file name=".*/WEB-INF/config-gui.xml">
 		<replaceAtt xpath="client" attName="widget" value="true" />
 		<replaceAtt xpath="client" attName="url"

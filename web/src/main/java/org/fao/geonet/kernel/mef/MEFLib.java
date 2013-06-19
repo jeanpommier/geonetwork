@@ -380,7 +380,9 @@ public class MEFLib {
 		String changeDate = md.getChildText("changedate");
 		String siteId = md.getChildText("source");
 		String rating = md.getChildText("rating");
-		String popularity = md.getChildText("popularity");
+        String popularity = md.getChildText("popularity");
+        //jp : add owner info
+        String owner = md.getChildText("owner");
 
 		Element general = new Element("general").addContent(
 				new Element("createDate").setText(createDate)).addContent(
@@ -391,6 +393,9 @@ public class MEFLib {
 				new Element("format").setText(format.toString())).addContent(
 				new Element("rating").setText(rating)).addContent(
 				new Element("popularity").setText(popularity));
+
+        //jp : add owner info
+        general.addContent(new Element("owner").setText(owner));
 
 		if (!skipUUID) {
 			GeonetContext gc = (GeonetContext) context
