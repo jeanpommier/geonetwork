@@ -92,7 +92,7 @@ GeoNetwork.Settings.results = {
 };
 GeoNetwork.MapModule = true;
 GeoNetwork.ProjectionList = [['EPSG:4326', 'WGS84 (lat/lon)']];
-GeoNetwork.WMSList = [['Geoserver', 'http://localhost/geoserver/wms?']];
+GeoNetwork.WMSList = [['Geoserver', 'http://ige.fr/geoserver-prod/wms?']];
 
 GeoNetwork.defaultViewMode = 'view-simple';
 

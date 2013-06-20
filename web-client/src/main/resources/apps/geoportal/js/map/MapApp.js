@@ -29,6 +29,7 @@ GeoNetwork.mapApp = function() {
     var toolbar, toctoolbar, tocbbar, viewport;
 
     var tree, legendPanel, mapLateralPanel, printPanel, printProvider, printPage, pageLayer;
+    var curtainControl;
     
     var featureinfo;
 
@@ -513,6 +514,37 @@ GeoNetwork.mapApp = function() {
             //tooltip: {title: OpenLayers.i18n('featureInfoTooltipTitle'), text: OpenLayers.i18n('featureInfoTooltipText') }
         });
         
+        toolbar.push(action);
+        
+     // "slice" or "curtain" tool. Ref. website vissir
+        action = new Ext.Button({
+        	tooltip: {title: OpenLayers.i18n("curtainControlTooltipTitle"), 
+        		text: OpenLayers.i18n("curtainControlTooltipText")},
+        	iconCls: 'curtainControl',
+        	map: map,
+        	disabled:true,
+            allowDepress: true,
+        	handler: function(button){
+        		if (button.pressed) { //then we want to disable the tool
+        			curtainControl.hideIt();
+        			button.toggle(false);
+        		} else  {
+        			var node = tree.getSelectionModel().getSelectedNode();
+        			button.toggle(false);
+        			if (node) {
+        				var layer = node.attributes.layer;
+        				if (layer && !layer.isBaseLayer) {
+        					if (!curtainControl) {
+        	        			curtainControl = new GeoExt.CurtainControl({map:map, toctree: tree, viewport:viewport});
+        	        		} 
+        	        		curtainControl.popIt();
+        	        		curtainControl.show();
+        	        		button.toggle(true);
+        				}
+        			}
+        		}
+        	}
+        });
         toolbar.push(action);
         
         // create split button for measure controls

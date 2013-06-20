@@ -12,7 +12,7 @@
 
 Ext.namespace("GeoExt");
 
-GeoExt.SliceControl = Ext.extend(Ext.Window, {
+GeoExt.CurtainControl = Ext.extend(Ext.Window, {
 	//should be defined on instanciation
 	map: null,
 	toctree: null,
@@ -32,7 +32,8 @@ GeoExt.SliceControl = Ext.extend(Ext.Window, {
 	// private vars
 	sliderpanel:null,
 	sliderlayernamepanel: null,
-	horizslider: null,
+	horizSlider: null,
+	vertSlider: null,
 	activeLayer:null,
 	isactive : false,
 	
@@ -41,7 +42,7 @@ GeoExt.SliceControl = Ext.extend(Ext.Window, {
 		if(this.map instanceof GeoExt.MapPanel) {
 			this.map = this.map.map;
 		}
-		GeoExt.SliceControl.superclass.initComponent.call(this);
+		GeoExt.CurtainControl.superclass.initComponent.call(this);
 		this.add(this.getSliderPanel());
 	},
 	
@@ -90,10 +91,10 @@ GeoExt.SliceControl = Ext.extend(Ext.Window, {
 		// else, we create it
 		var slidercontrol = this;
 		this.sliderlayernamepanel = new Ext.Panel({
-			html : 'nom de la couche',
+			html : OpenLayers.i18n('overlay')+' : ',
 			border:false
 		});
-		this.horizslider = new Ext.Slider({
+		this.horizSlider = new Ext.Slider({
 			minValue: 0, 
 			maxValue: 100,
 			value:50,
@@ -106,13 +107,13 @@ GeoExt.SliceControl = Ext.extend(Ext.Window, {
 			}
 		});
 		this.sliderpanel = new Ext.Panel({
-			items : [this.sliderlayernamepanel,this.horizslider]
+			items : [this.sliderlayernamepanel,this.horizSlider]
 		});
 		return this.sliderpanel;
 	},
 	reset: function() {
 		//initialize the new layer's clipping
-		this.horizslider.setValue(50,true);
+		this.horizSlider.setValue(50,true);
 		if (this.activeLayer) {
 			this.clipLayer(50);
 		}
@@ -121,7 +122,7 @@ GeoExt.SliceControl = Ext.extend(Ext.Window, {
 		if (this.sliderlayernamepanel) {
 			var me=this;
 			setTimeout(function(){   
-				 me.sliderlayernamepanel.update( me.activeLayer.name);
+				 me.sliderlayernamepanel.update( OpenLayers.i18n('overlay:') +me.activeLayer.name);
 			}, 100);
 		}
 		

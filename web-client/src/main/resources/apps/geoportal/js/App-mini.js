@@ -15487,7 +15487,10 @@ var values=currentRecords.records;
 var isCatalogueMdStore=cat.metadataStore===metadataStore,isCatalogueSStore=cat.summaryStore===summaryStore;
 if(values&&values.length>0){metadataStore.loadData(currentRecords)
 }if(isCatalogueSStore){var summary=currentRecords.summary;
-if(summary&&summary.count>0&&summary.keywords&&summary.keywords.keyword&&summaryStore){summaryStore.loadData(summary)
+var type=summaryStore.root.split(".");
+var root=(type!==undefined?type[0]:"keywords");
+var subroot=(type!==undefined?type[1]:"keyword");
+if(summary&&summary.count>0&&summary[root]&&summary[root][subroot]&&summaryStore){summaryStore.loadData(summary)
 }}if(cat&&isCatalogueMdStore){cat.updateStatus(currentRecords.from+"-"+currentRecords.to+OpenLayers.i18n("resultBy")+summary.count)
 }}if(onSuccess){onSuccess(result,query)
 }},failure:function(response){if(onFailure){onFailure(response)
@@ -16254,7 +16257,7 @@ try{return userinfo[2]+" "+userinfo[1]
 }else{return 0
 }}return new Ext.data.JsonStore({totalProperty:"summary.count",root:"records",fast:"index",service:"q",fields:[{name:"title",convert:getTitle},{name:"abstract",convert:getAbstract},{name:"type",convert:getType},{name:"subject",mapping:"keyword",defaultValue:""},{name:"spatialRepresentationType",convert:getSpatialRepresentationType},{name:"uuid",mapping:"geonet_info.uuid[0].value",defaultValue:""},{name:"id",mapping:"geonet_info.id[0].value",defaultValue:""},{name:"schema",mapping:"geonet_info.schema[0].value",defaultValue:""},{name:"contact",convert:getContact},{name:"email",convert:getEmail},{name:"organization",convert:getOrganization},{name:"credit",convert:getCredit},{name:"thumbnail",convert:getThumbnails},{name:"overview",convert:getOverview},{name:"links",convert:getLinks},{name:"uri",mapping:"uri",defaultValue:""},{name:"isharvested",convert:getIsHarvested},{name:"harvestertype",convert:getHarvesterType},{name:"createdate",convert:getCreateDate},{name:"changedate",convert:getChangeDate},{name:"selected",convert:getSelected},{name:"source",convert:getSource},{name:"category",convert:getCategory},{name:"rating",convert:getRating},{name:"popularity",convert:getPopularity},{name:"download",convert:getDownload},{name:"dynamic",convert:getDynamic},{name:"ownername",convert:getOwnerName},{name:"edit",convert:getEdit},{name:"bbox",mapping:"BoundingBox",defaultValue:""},{name:"displayOrder",convert:getDisplayOrder,sortType:"asInt"},{name:"valid",convert:getValidationInfo},{name:"valid_details",convert:getValidationDetails},{name:"idxMsg",convert:getIdxMsg}]})
 };Ext.namespace("GeoNetwork.data");
-GeoNetwork.data.MetadataSummaryStore=function(){return new Ext.data.JsonStore({totalProperty:"count",root:"keywords.keyword",listeners:{load:function(store,records,opt){var valueField="count";
+GeoNetwork.data.MetadataSummaryStore=function(root){return new Ext.data.JsonStore({totalProperty:"count",root:root||"keywords.keyword",listeners:{load:function(store,records,opt){var valueField="count";
 var normalizedField="class";
 var typeField="type";
 var params={};
@@ -16868,7 +16871,7 @@ clones[j]=clone
 }},onDestroy:function(){GeoNetwork.MetadataResultsView.superclass.onDestroy.apply(this,arguments)
 }});
 Ext.reg("gn_metadataresultsview",GeoNetwork.MetadataResultsView);Ext.namespace("GeoNetwork");
-GeoNetwork.MetadataResultsToolbar=Ext.extend(Ext.Toolbar,{defaultConfig:{withPaging:false,searchCb:null,showSortBy:true},catalogue:undefined,metadataResultsView:undefined,mdSelectionInfoCmp:undefined,mdSelectionAsMenu:true,searchBtCmp:undefined,searchFormCmp:undefined,sortByCmp:undefined,sortByCombo:undefined,customOtherActions:undefined,mdSelectionInfo:"md-selection-info",selectionActions:[],deleteAction:undefined,otherItem:undefined,ownerAction:undefined,updateCategoriesAction:undefined,updatePrivilegesAction:undefined,updateStatusAction:undefined,updateVersionAction:undefined,createMetadataAction:undefined,newMetadataWindow:undefined,mdImportAction:undefined,adminAction:undefined,addLayerAction:undefined,permalinkProvider:undefined,actionMenu:undefined,item:null,actionOnSelectionMenu:undefined,admin:false,initComponent:function(){Ext.applyIf(this,this.defaultConfig);
+GeoNetwork.MetadataResultsToolbar=Ext.extend(Ext.Toolbar,{defaultConfig:{withPaging:false,searchCb:null,showSortBy:true,showTemplatesMenu:true},catalogue:undefined,metadataResultsView:undefined,mdSelectionInfoCmp:undefined,mdSelectionAsMenu:true,searchBtCmp:undefined,searchFormCmp:undefined,sortByCmp:undefined,sortByCombo:undefined,customOtherActions:undefined,mdSelectionInfo:"md-selection-info",selectionActions:[],deleteAction:undefined,otherItem:undefined,ownerAction:undefined,updateCategoriesAction:undefined,updatePrivilegesAction:undefined,updateStatusAction:undefined,updateVersionAction:undefined,createMetadataAction:undefined,newMetadataWindow:undefined,mdImportAction:undefined,adminAction:undefined,addLayerAction:undefined,permalinkProvider:undefined,actionMenu:undefined,item:null,actionOnSelectionMenu:undefined,admin:false,initComponent:function(){Ext.applyIf(this,this.defaultConfig);
 var cmp=[];
 if(this.withPaging){cmp.push(this.createPaging());
 cmp.push(["->"])
@@ -17007,8 +17010,10 @@ Ext.each(adminActions,function(){this.setVisible(user&&(user.role==="Administrat
 },onDestroy:function(){GeoNetwork.MetadataResultsToolbar.superclass.onDestroy.apply(this,arguments)
 }});
 Ext.reg("gn_metadataresultstoolbar",GeoNetwork.MetadataResultsToolbar);Ext.namespace("GeoNetwork");
-GeoNetwork.TagCloudView=Ext.extend(Ext.DataView,{catalogue:undefined,multiSelect:true,root:"keywords.keyword",qurey:undefined,searchField:"themekey",onSuccess:null,onFailure:null,overClass:"tag-cloud-hover",itemSelector:"li.tag-cloud",emptyText:"",autoWidth:true,initComponent:function(){GeoNetwork.TagCloudView.superclass.initComponent.call(this);
+GeoNetwork.TagCloudView=Ext.extend(Ext.DataView,{catalogue:undefined,multiSelect:true,defaultConfig:{searchField:"keyword",root:"keywords.keyword",query:undefined},onSuccess:null,onFailure:null,overClass:"tag-cloud-hover",itemSelector:"li.tag-cloud",emptyText:"",autoWidth:true,initComponent:function(){Ext.applyIf(this,this.defaultConfig);
+GeoNetwork.TagCloudView.superclass.initComponent.call(this);
 this.tpl=this.tpl||new Ext.XTemplate("<ul>",'<tpl for=".">','<li class="tag-cloud tag-cloud-{class}">','<a href="#" onclick="javascript:catalogue.kvpSearch(\'fast='+this.catalogue.metadataStore.fast+"&summaryOnly=0&from=1&to=20&hitsPerPage=20&"+this.searchField+"={value}', "+this.onSuccess+","+this.onFailure+', null);" alt="{value}" title="{count} records">{value}</a>',"</li>","</tpl>","</ul>");
+this.catalogue.summaryStore=new GeoNetwork.data.MetadataSummaryStore(this.root);
 this.store=this.catalogue.summaryStore;
 if(this.query){this.catalogue.kvpSearch(this.query,null,null,null,true)
 }}});
@@ -17464,7 +17469,7 @@ if(this.crsSelected!==""){this.fireEvent("crsSelected",this.crsSelected);
 this.ownerCt.hide()
 }}});
 Ext.reg("gn_editor_crsselectionpanel",GeoNetwork.editor.CRSSelectionPanel);Ext.namespace("GeoNetwork.editor");
-GeoNetwork.editor.EditorPanel=Ext.extend(Ext.Panel,{border:false,editUrl:undefined,updateUrl:undefined,frame:false,tbarConfig:undefined,id:"editorPanel",selectionPanelImgPath:undefined,defaultConfig:{defaultEditMode:"simple",editMode:null,selectionPanelImgPath:"../js/ext-ux/images",thesaurusButton:true,layout:"border",height:800,xlinkOptions:{},utilityPanelCollapsed:false,utilityPanelConfig:{relationPanel:{collapsed:false},validationPanel:{collapsed:true},suggestionPanel:{collapsed:true},helpPanel:{collapsed:false}}},catalogue:undefined,toolbar:undefined,validationPanel:undefined,relationPanel:undefined,helpPanel:undefined,suggestionPanel:undefined,editorMainPanel:undefined,metadataId:undefined,versionId:undefined,metadataMode:undefined,metadataSchema:undefined,metadataType:undefined,position:undefined,relatedMetadataStore:undefined,keywordSelectionWindow:undefined,contactSelectionWindow:undefined,subTemplateSelectionWindow:undefined,crsSelectionWindow:undefined,logoSelectionWindow:undefined,linkedMetadataSelectionWindow:undefined,geoPublisherWindow:undefined,lang:undefined,fileUploadWindow:undefined,mask:undefined,managerInitialized:false,container:undefined,setContainer:function(el){if(!this.container){this.container=el
+GeoNetwork.editor.EditorPanel=Ext.extend(Ext.Panel,{border:false,editUrl:undefined,updateUrl:undefined,frame:false,tbarConfig:undefined,id:"editorPanel",defaultConfig:{selectionPanelImgPath:"../../apps/js/ext-ux/images",defaultEditMode:"simple",editMode:null,thesaurusButton:true,layout:"border",height:800,xlinkOptions:{},utilityPanelCollapsed:false,utilityPanelConfig:{relationPanel:{collapsed:false},validationPanel:{collapsed:true},suggestionPanel:{collapsed:true},helpPanel:{collapsed:false}}},catalogue:undefined,toolbar:undefined,validationPanel:undefined,relationPanel:undefined,helpPanel:undefined,suggestionPanel:undefined,editorMainPanel:undefined,metadataId:undefined,versionId:undefined,metadataMode:undefined,metadataSchema:undefined,metadataType:undefined,position:undefined,relatedMetadataStore:undefined,keywordSelectionWindow:undefined,contactSelectionWindow:undefined,subTemplateSelectionWindow:undefined,crsSelectionWindow:undefined,logoSelectionWindow:undefined,linkedMetadataSelectionWindow:undefined,geoPublisherWindow:undefined,lang:undefined,fileUploadWindow:undefined,mask:undefined,managerInitialized:false,container:undefined,setContainer:function(el){if(!this.container){this.container=el
 }},showLogoSelectionPanel:function(ref){if(!this.logoSelectionWindow){var logoSelectionPanel=new GeoNetwork.editor.LogoSelectionPanel({ref:ref,serviceUrl:this.catalogue.services.getIcons,logoAddUrl:this.catalogue.services.logoAdd,logoUrl:this.catalogue.services.harvesterLogoUrl,listeners:{logoselected:function(panel,idx){var record=panel.store.getAt(idx);
 Ext.getDom(panel.ref).value=panel.logoUrl+record.get("name")
 }}});
@@ -18636,7 +18641,7 @@ var addMenu=new Ext.Button({menu:new Ext.menu.Menu({cls:"links-mn",items:actions
 this.title=OpenLayers.i18n("relatedResources");
 this.tools=[{id:"refresh",handler:function(e,toolEl,panel,tc){panel.reload(panel,panel.metadataId)
 }}];
-this.tpl=new Ext.XTemplate('<ul class="gn-relation-{type}">','<tpl for=".">','<tpl for="data">',"<tpl if=\"type === 'thumbnail'\">",'<li alt="{title}"><a rel="lightbox-set" href="{id}"><img class="thumb-small" src="{id}"/></a>','<span class="button" id="remove'+this.sep+"{type}"+this.sep+"{title}"+this.sep+'{id}"></span>',"</li>","</tpl>","<tpl if=\"type !== 'thumbnail'\">",'<li alt="{abstract}"><tpl if="type === \'onlinesrc\'">','<a href="{id}" target="_blank">{title}</a> ',"</tpl>","<tpl if=\"type !== 'onlinesrc'\">","{title} ","</tpl>",'<tpl if="subType"><span class="relation-type">({subType})</span></tpl><tpl if="type === \'onlinesrc\'">','<span class="button" id="remove'+this.sep+"{type}"+this.sep+"{title}"+this.sep+'{id}"></span>',"</tpl>","<tpl if=\"type !== 'onlinesrc'\">",'<span class="button" id="remove'+this.sep+"{type}"+this.sep+'{uuid}"></span></li>',"</tpl>","</tpl>","</tpl>","</tpl>","</ul>");
+this.tpl=new Ext.XTemplate('<ul class="gn-relation-{type}">','<tpl for=".">','<tpl for="data">',"<tpl if=\"type === 'thumbnail'\">",'<li alt="{title}">',"<tpl if=\"(typeof id != 'undefined') && id != ''\">",'<a rel="lightbox-set" href="{id}"><img class="thumb-small" src="{id}"/></a>',"</tpl>",'<span class="button" id="remove'+this.sep+"{type}"+this.sep+"{title}"+this.sep+'{id}"></span>',"</li>","</tpl>","<tpl if=\"type !== 'thumbnail'\">",'<li alt="{abstract}"><tpl if="type === \'onlinesrc\'">','<a href="{id}" target="_blank">{title}</a> ',"</tpl>","<tpl if=\"type !== 'onlinesrc'\">","{title} ","</tpl>",'<tpl if="subType"><span class="relation-type">({subType})</span></tpl><tpl if="type === \'onlinesrc\'">','<span class="button" id="remove'+this.sep+"{type}"+this.sep+"{title}"+this.sep+'{id}"></span>',"</tpl>","<tpl if=\"type !== 'onlinesrc'\">",'<span class="button" id="remove'+this.sep+"{type}"+this.sep+'{uuid}"></span></li>',"</tpl>","</tpl>","</tpl>","</tpl>","</ul>");
 GeoNetwork.editor.LinkedMetadataPanel.superclass.initComponent.call(this);
 var panel=this;
 this.store=new GeoNetwork.data.MetadataRelationStore(this.catalogue.services.mdRelation,{fast:false,id:this.metadataId},true);
@@ -18752,7 +18757,7 @@ this.addEvents("logoselected");
 this.store.load()
 }});
 Ext.reg("gn_editor_logoselectionpanel",GeoNetwork.editor.LogoSelectionPanel);Ext.namespace("GeoNetwork.editor");
-GeoNetwork.editor.NewMetadataPanel=Ext.extend(Ext.Panel,{defaultConfig:{border:false,frame:false,isTemplate:"n",singleSelect:true,layout:"anchor"},editor:undefined,getGroupUrl:undefined,groupStore:undefined,catalogue:undefined,tplStore:undefined,selectedGroup:undefined,selectedTpl:undefined,isChild:undefined,filter:undefined,createBt:undefined,validate:function(){if(this.selectedGroup!==undefined&&this.selectedTpl!==undefined){this.createBt.setDisabled(false)
+GeoNetwork.editor.NewMetadataPanel=Ext.extend(Ext.Panel,{defaultConfig:{border:false,frame:false,isTemplate:"n",singleSelect:true,layout:"anchor"},editor:undefined,combo:undefined,getGroupUrl:undefined,groupStore:undefined,catalogue:undefined,tplStore:undefined,selectedGroup:undefined,selectedTpl:undefined,isChild:undefined,filter:undefined,createBt:undefined,validate:function(){if(this.selectedGroup!==undefined&&this.selectedTpl!==undefined){this.createBt.setDisabled(false)
 }else{this.createBt.setDisabled(true)
 }},initComponent:function(){Ext.applyIf(this,this.defaultConfig);
 var checkboxSM,colModel;
@@ -18763,7 +18768,6 @@ this.buttons=[this.createBt,{text:OpenLayers.i18n("cancel"),iconCls:"cancel",han
 },scope:this}];
 GeoNetwork.editor.NewMetadataPanel.superclass.initComponent.call(this);
 this.groupStore=GeoNetwork.data.GroupStore(this.getGroupUrl+"&profile=Editor");
-this.groupStore.load();
 var cmp=[];
 if(!this.selectedTpl){this.tplStore=GeoNetwork.Settings.mdStore?GeoNetwork.Settings.mdStore():GeoNetwork.data.MetadataResultsFastStore();
 this.tplStore.setDefaultSort("displayOrder");
@@ -18785,11 +18789,19 @@ grid.getView().focusEl.focus()
 },grid);
 cmp.push(grid);
 this.catalogue.search({E_template:"y",E_hitsperpage:150},null,null,1,true,this.tplStore,null)
-}cmp.push(new Ext.form.ComboBox({name:"E_group",mode:"local",anchor:"100%",emptyText:OpenLayers.i18n("chooseGroup"),triggerAction:"all",fieldLabel:OpenLayers.i18n("group"),store:this.groupStore,allowBlank:false,valueField:"id",displayField:"name",tpl:'<tpl for="."><div class="x-combo-list-item">{[values.label.'+GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode())+"]}</div></tpl>",listeners:{select:function(field,record,idx){this.selectedGroup=record.get("id");
+}this.combo=new Ext.form.ComboBox({name:"E_group",mode:"local",anchor:"100%",emptyText:OpenLayers.i18n("chooseGroup"),triggerAction:"all",fieldLabel:OpenLayers.i18n("group"),store:this.groupStore,allowBlank:false,valueField:"id",displayField:"name",tpl:'<tpl for="."><div class="x-combo-list-item">{[values.label.'+GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode())+"]}</div></tpl>",listeners:{select:function(field,record,idx){this.selectedGroup=record.get("id");
 this.validate()
-},scope:this}}));
+},scope:this}});
+cmp.push(this.combo);
 cmp.push({xtype:"textfield",name:"isTemplate",hidden:true,value:this.isTemplate});
-this.add(cmp)
+this.add(cmp);
+this.groupStore.load({callback:function(){this.groupStore.each(function(record){if((record.get("id")=="-1")||(record.get("id")=="0")||(record.get("id")=="1")){this.remove(record)
+}},this.groupStore);
+if(this.groupStore.getCount()>0){var recordSelected=this.groupStore.getAt(0);
+if(recordSelected){this.selectedGroup=recordSelected.get("id");
+this.combo.setValue(recordSelected.data.label[GeoNetwork.Util.getCatalogueLang(OpenLayers.Lang.getCode())]);
+this.validate()
+}}},scope:this})
 }});
 Ext.reg("gn_editor_newmetadatapanel",GeoNetwork.editor.NewMetadataPanel);Ext.namespace("GeoNetwork.editor");
 GeoNetwork.editor.GeoPublisherPanel=Ext.extend(Ext.form.FormPanel,{border:false,serviceUrl:undefined,itemSelector:null,geoserverStore:undefined,loadingMask:null,metadataId:null,metadataUuid:null,metadataTitle:null,metadataAbstract:null,fileName:null,layerName:null,accessStatus:null,nodeId:null,geoPublicationMap:null,geoPublicationMapPanel:null,geoPublicationTb:null,layers:null,extent:null,stylerBt:null,publishBt:null,unpublishBt:null,checkBt:null,protocols:{wms:{checked:true,label:"OGC:WMS"},wfs:{checked:false,label:"OGC:WFS"},wcs:{checked:false,label:"OGC:WCS"}},addOnLineSourceBt:null,addOnLineSourceMenu:null,enableStyler:false,statusBar:null,layerPreviewName:"DatasetPreview",initComponent:function(){var panel=this;
@@ -20752,7 +20764,7 @@ GeoNetwork.Settings.latestTpl=GeoNetwork.Templates.THUMBNAIL;
 GeoNetwork.Settings.results={featurecolor:"orange",colormap:GeoNetwork.Util.generateColorMap(20),featurecolorCSS:"border-right: 5px solid ${featurecolor}",loadRelationForAll:undefined};
 GeoNetwork.MapModule=true;
 GeoNetwork.ProjectionList=[["EPSG:4326","WGS84 (lat/lon)"]];
-GeoNetwork.WMSList=[["Geoserver","http://localhost/geoserver/wms?"]];
+GeoNetwork.WMSList=[["Geoserver","http://ige.fr/geoserver-prod/wms?"]];
 GeoNetwork.defaultViewMode="view-simple";
 Ext.BLANK_IMAGE_URL="../js/ext/resources/images/default/s.gif";Ext.namespace("GeoNetwork");
 GeoNetwork.Templates.COMPACT=new Ext.XTemplate("<ul>",'<tpl for=".">','<li class="md md-compact" style="{featurecolorCSS}"  title="{abstract}">',"<table><tr>",'<td id="{uuid}">','<div class="thumb">',GeoNetwork.Templates.RATING_TPL,'<div class="thumbnail">','<tpl if="thumbnail">','<tpl if="overview">','<a rel="lightbox" href="{overview}"><img src="{thumbnail}" alt="Thumbnail"/></a>',"</tpl>","<tpl if=\"overview==''\">",'<a rel="lightbox" href="{thumbnail}"><img src="{thumbnail}" alt="Thumbnail"/></a>',"</tpl>","</tpl>","<tpl if=\"thumbnail==''\"></tpl>","</div>","</div>",GeoNetwork.Templates.TITLE,'<p class="abstract">{[Ext.util.Format.ellipsis(Ext.util.Format.stripTags(values.abstract), 150, true)]}</p>','<tpl if="subject">','<p class="subject">'+OpenLayers.i18n("keywords")+' : <tpl for="subject">','{value}{[xindex==xcount?"":", "]}',"</tpl></p>","</tpl>",'<div class="md-links" id="md-links-{id}">',"</div>","</td>",'<td class="icon">','<tpl if="this.hasHttpLinks(values.links)">','<div class="md-mn links-http" title="'+OpenLayers.i18n("link-http")+" : "+OpenLayers.i18n("link-general")+'">&nbsp;</div>',"</tpl>",'<tpl if="this.hasDownloadLinks(values.links)">','<div class="md-mn links-download" title="'+OpenLayers.i18n("link-download")+" : "+OpenLayers.i18n("link-general")+'">&nbsp;</div>',"</tpl>",'<tpl if="this.hasWmsLinks(values.links)">','<div class="md-mn links-wms" title="'+OpenLayers.i18n("link-wms")+" : "+OpenLayers.i18n("link-general")+'">&nbsp;</div>',"</tpl>",'<tpl if="this.hasGELinks(values.links)">','<div class="md-mn links-ge" title="'+OpenLayers.i18n("link-ge")+" : "+OpenLayers.i18n("link-general")+'">&nbsp;</div>',"</tpl>","</td>","</td></tr></table>",'<div class="relation" title="'+OpenLayers.i18n("relateddatasets")+'"><span></span><ul id="md-relation-{id}"></ul></div>','<div class="md-contact">','<tpl for="contact">',"<tpl if=\"applies=='resource'\">",'<span title="{role} - {applies}"><tpl if="values.logo !== undefined && values.logo !== \'\'">','<img src="{logo}" class="orgLogo"/>',"</tpl>","{name}&nbsp;&nbsp;</span>","</tpl>","</tpl>","<tpl if=\"edit=='true' && isharvested!='y'\">",'<br/><span class="md-mn md-mn-user" title="'+OpenLayers.i18n("ownerName")+'">{ownername} - '+OpenLayers.i18n("lastUpdate")+"{[values.changedate.split('T')[0]]}</span>","</tpl>","</div>","</li>","</tpl>","</ul>",{hasDownloadLinks:function(values){var i;
@@ -20791,11 +20803,11 @@ this.style.display="none"
 }};
 Proj4js.defs["EPSG:2154"]="+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
 GeoNetwork.map.printCapabilities="../../pdf";
-var ovmapWmsURL=window.overviewWmsUrl?window.overviewWmsUrl:"http://ilwac.ige.fr/geoserver-prod/wms";
+var ovmapWmsURL=window.overviewWmsUrl?window.overviewWmsUrl:"http://gm-risk.ige.fr/geoserver-prod/wms";
 var ovmapWmsLayers=window.overviewWmsLayers?window.overviewWmsLayers:"ml_fond_carto";
 var ovmapWmsFormat=window.overviewWmsFormat?window.overviewWmsFormat:"image/jpeg";
 var plainMapTitle=window.plainMapTitle?window.plainMapTitle:"Fond générique";
-var plainMapWmsUrl=window.plainMapWmsUrl?window.plainMapWmsUrl:"http://ilwac.ige.fr/geoserver-prod/wms";
+var plainMapWmsUrl=window.plainMapWmsUrl?window.plainMapWmsUrl:"http://gm-risk.ige.fr/geoserver-prod/wms";
 var plainMapWmsLayers=window.plainMapWmsLayers?window.plainMapWmsLayers:"ml_fond_carto";
 var plainMapWmsFormat=window.plainMapWmsFormat?window.plainMapWmsFormat:"image/jpeg";
 GeoNetwork.map.ovmapLayers=[new OpenLayers.Layer.OSM()];
