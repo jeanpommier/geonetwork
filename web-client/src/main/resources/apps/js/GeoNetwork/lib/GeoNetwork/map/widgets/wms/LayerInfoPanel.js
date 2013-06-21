@@ -123,7 +123,7 @@ Ext.extend(GeoNetwork.wms.LayerInfoPanel, Ext.Panel, {
         this.previewPanel = new GeoNetwork.wms.PreviewPanel(
             {map: this.map, previewCenterPoint: this.previewCenterPoint});
         
-        this.infoPanel = new Ext.Panel();
+        this.infoPanel = new Ext.Panel({autoScroll:true});
         this.layerInfo = new GeoNetwork.wms.WMSLayerInfo(
             {callback: this._showLayerInfo, scope: this});
         

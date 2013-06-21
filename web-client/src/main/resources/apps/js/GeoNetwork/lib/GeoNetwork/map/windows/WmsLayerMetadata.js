@@ -24,19 +24,19 @@
 Ext.namespace('GeoNetwork');
 
 /**
- * Class: GeoNetwork.AddWmsWindow
- *      Window to load WMS layers in map application
+ * Class: GeoNetwork.WmsLayerMetadataWindow
+ *      Window to display WMS layers' metadata in map application
  *
  * Inherits from:
  *  - {GeoNetwork.BaseWindow}
  */
 
 /**
- * Constructor: GeoNetwork.AddWmsWindow
- * Create an instance of GeoNetwork.AddWmsWindow
+ * Constructor: GeoNetwork.WmsLayerMetadataWindow
+ * Create an instance of GeoNetwork.WmsLayerMetadataWindow
  *
  * Parameters:
- * config - {Object} A config object used to set the addwmslayer
+ * config - {Object} A config object used to set the WmsLayerMetadataWindow
  *     window's properties.
  */
 GeoNetwork.WmsLayerMetadataWindow = function(config) {
