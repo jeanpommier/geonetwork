@@ -37,7 +37,7 @@ GeoNetwork.Geoportal.LayerTree = function() {
     			var layer;
     			//console.log(child.text);
 
-    			if (child.type==null)
+    			if (child.type==null !! child.disabled)
     				continue;
 
     			var checked = false;
@@ -68,7 +68,7 @@ GeoNetwork.Geoportal.LayerTree = function() {
 	    				);
 	    				layers.push(layer);
 	    				break;
-	    			case "chart":/*
+	    			case "chart":
 	    				var context =  {
 					    		                getSize: function(feature) {
 					    		                	var size = 20;
@@ -132,10 +132,10 @@ GeoNetwork.Geoportal.LayerTree = function() {
 									, legend : child.legend //if set, links the layer with its metadata
 	    						}
 	    		    	);
-	    				layers.push(layer);*/
+	    				layers.push(layer);
 	    				break;
 	    			default: 
-	    				OpenLayers.Console.log("omitting invalid (non-wms) layer : "+child.layer + ", "+child.type);
+	    				OpenLayers.Console.log("omitting invalid (non-wms, non-chart) layer : "+child.layer + ", "+child.type);
 	    			break;
     			}
     		}

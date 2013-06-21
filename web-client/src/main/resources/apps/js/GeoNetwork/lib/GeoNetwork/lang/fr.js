@@ -119,7 +119,7 @@ GeoNetwork.Lang.fr = {
     'removeButtonText': "Supprimer",
     'addWMSButtonText': "Ajouter WMS",
     'addWMSWindowTitle': "Ajouter WMS",
-    'layerInfoPanel.windowTitle': "Couche metadata",
+    'layerInfoPanel.windowTitle': "Métadonnées du calque",
     'layerInfoPanel.titleField': "Titre",
     'layerInfoPanel.descriptionField': "Description",
     'layerInfoPanel.queryableField': "Requête",

@@ -478,7 +478,7 @@
                 <include>${project.build.directory}/classes/apps/jean/Ext/Fixes.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/FoldableLegendPlugin.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/ShowOnlyVisibleLayersPlugin.js</include>
-                <include>${project.build.directory}/classes/apps/jean/GeoExt/SliceControl.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoExt/LayerCurtainSlider.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/GeoNamesSearchCombo.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoNetwork/jpSearchFormTools.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoNetwork/LayerTree.js</include>
