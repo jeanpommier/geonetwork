@@ -322,8 +322,11 @@ p.abstract {
 	background-image: url("../../images/default/map/opacity.png") !important;
 }
 
-.curtainControl {
+.horizCurtainMenu {
 	background-image: url("../../images/slice.png") !important;
+}
+.vertCurtainMenu {
+	background-image: url("../../images/vslice.png") !important;
 }
 
 .geonamesComboList h1 {

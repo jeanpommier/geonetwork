@@ -114,8 +114,9 @@ GeoExt.CurtainControl = Ext.extend(Ext.Window, {
 	reset: function() {
 		//initialize the new layer's clipping
 		this.horizSlider.setValue(50,true);
+		this.vertSlider.setValue(50,true);
 		if (this.activeLayer) {
-			this.clipLayer(50);
+			this.clipLayer(50, 50);
 		}
 		//console.log(this.sliderlayernamepanel);
 		window.sliderlayernamepanel=this.sliderlayernamepanel;

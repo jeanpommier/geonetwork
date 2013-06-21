@@ -92,7 +92,9 @@ GeoNetwork.Settings.results = {
 };
 GeoNetwork.MapModule = true;
 GeoNetwork.ProjectionList = [['EPSG:4326', 'WGS84 (lat/lon)']];
-GeoNetwork.WMSList = [['Geoserver', 'http://ige.fr/geoserver-prod/wms?']];
+GeoNetwork.WMSList = [[OpenLayers.i18n('IgeGeoserver'), 'http://ige.fr/geoserver-prod/wms?'],
+                      ['UNEP Global Risk Data Platform', 'http://preview.grid.unep.ch:8080/geoserver/wms?']
+                      ];
 
 GeoNetwork.defaultViewMode = 'view-simple';
 
