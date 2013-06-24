@@ -131,6 +131,7 @@ GeoNetwork.Lang.fr = {
     'metadataResults.tooltipText': "Aller a la page des résultats Metadata",
     'metadataResults.alertTitle': "Résultats Metadata",
     'metadataResults.alertText': "Pas de résultats Metadata",
+    'featureInfoWindow.windowTitle': "Données attributaires",
     'mf.information': 'Imprimer',
     'mf.print.pdfReady': 'PDF prêt',
     'loadLayer.loadingMessage': "Chargement de la couche",

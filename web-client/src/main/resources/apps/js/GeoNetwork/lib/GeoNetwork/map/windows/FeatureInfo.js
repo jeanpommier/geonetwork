@@ -24,8 +24,8 @@
 Ext.namespace('GeoNetwork');
 
 /**
- * Class: GeoNetwork.LoadWmcWindow
- *      Window to load WMS layers in map application
+ * Class: GeoNetwork.FeatureInfoWindow
+ *      Window to load feature info from overlays
  *
  * Inherits from:
  *  - {GeoNetwork.BaseWindow}

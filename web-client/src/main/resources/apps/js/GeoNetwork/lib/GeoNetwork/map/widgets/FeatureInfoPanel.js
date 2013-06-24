@@ -80,7 +80,7 @@ Ext.extend(GeoNetwork.FeatureInfoPanel, Ext.Panel, {
             draggable:false, expanded: true, cls: 'folder'});
         this.treePanel.setRootNode(root);
 
-        var center = {region: 'center', items: [this.treePanel], split: true,
+        var center = {region: 'center', items: [this.treePanel], split: true,layout:'fit'
             minWidth: 100};
 
         this.infoPanel = new Ext.Panel();
