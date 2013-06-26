@@ -40,7 +40,7 @@ GeoExt.tree.BaseLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
      */
     constructor: function(config) {
         config = Ext.applyIf(config || {}, {
-            text: "Base Layer",
+            text: OpenLayers.i18n("gxBaseLayerContainer"),
             loader: {}
         });
         config.loader = Ext.applyIf(config.loader, {

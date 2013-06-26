@@ -31,7 +31,7 @@ GeoNetwork.LayerInfoPanel = Ext.extend(Ext.Panel, {
 	forceLayout:true,
 	
     initComponent: function(){
-    	window.layerinfo_app = this;
+    	window.Geoportal.DashBoard.layerinfo_app = this;
         GeoNetwork.LayerInfoPanel.superclass.initComponent.call(this);
         this.layout = 'border';
     	this.border = false;

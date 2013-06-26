@@ -110,6 +110,7 @@ GeoNetwork.app = function () {
             	iMap.zoomToFullExtent();
             }
             /*<jp>*/
+            //iMap.addWMSLayer([['mask', 'http://ige.fr/geoserver-prod/wms?','gm_countryMask',null]])
             var lt = iMap.getTree();
             lt.lines=true;
             /****** Loads the associated metadata when a layer is asked for metadata **********/
@@ -123,6 +124,13 @@ GeoNetwork.app = function () {
             /*</jp>*/
         }
     	metadataResultsView.addMap(iMap.getMap()); //has to be there better than in step1, because in that case, search extent is duplicated, don't know why
+	    //we get sure the results extent boxes will always be drawn on the foreground (not hidden behind other layers)
+    	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('mdResultsLayer'))[0];
+    	iMap.setAlwaysOnTop(res);
+    	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('printLayer'))[0];
+    	iMap.setAlwaysOnTop(res);
+    	
+    	Ext.getCmp('printPanelTab').add(iMap.getPrintPanel());
     }
     
     /**
@@ -872,7 +880,7 @@ GeoNetwork.app = function () {
                 border: false,
                 split: false,
                 layoutConfig: {
-                    columns:3
+                    columns:2
                 }
             });
             facetsPanel = new GeoNetwork.FacetsPanel({
@@ -931,7 +939,26 @@ GeoNetwork.app = function () {
 	                },{
 				    	title: OpenLayers.i18n('print'),
 				    	id:'printPanelTab',
-				    	items : [breadcrumb, facetsPanel]
+            			layout:'fit',
+				    	items : [],
+				    	listeners: {
+	                        'show': function () {
+	                        	try {
+		                        	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('printLayer'))[0];
+		                        	res.setVisibility(true);
+	                        	} catch (err) {
+	                        		OpenLayers.Console.error('could not get print layer');
+	                        	}
+	                        },
+	                        'hide': function () {
+	                        	try {
+		                        	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('printLayer'))[0];
+		                        	res.setVisibility(false);
+	                        	} catch (err) {
+	                        		OpenLayers.Console.error('could not get print layer');
+	                        	}
+	                        }
+	                    }
 				    }
 				]
 			});
@@ -974,22 +1001,21 @@ GeoNetwork.app = function () {
                         }
                     }*/
                     //items: [infoPanel, resultsPanel]
-                }/*, {
+                }, {
                     region: 'east',
                     id: 'east',
-                    layout: 'fit',
+                    title: OpenLayers.i18n('facetsTitle'),
                     split: true,
                     border: false,
-                    collapsible: false,
-                    hideCollapseTool: true,
+                    collapsible: true,
+                    collapsed: true,
+                    floating: true,
                     collapseMode: 'mini',
                     //collapsed: true,
                     //hidden: !GeoNetwork.MapModule,
-                    margins: margins,
-                    minWidth: 300,
-                    width: 500,
-                    items: [infoPanel, resultsPanel]
-                }*/]
+                    width: 200,
+                    items: [breadcrumb, facetsPanel]
+                }]
             });
             
             /* Trigger visualization mode if mode parameter is 1 
@@ -1110,6 +1136,7 @@ GeoNetwork.app = function () {
             
 
             Ext.getCmp('searchResultsPanel').expand(true);
+            Ext.getCmp('east').expand(true);
             
             app.updateLayout();
         },

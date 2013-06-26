@@ -85,6 +85,7 @@
           <excludes>
             <exclude>src/main/resources/apps/js/GeoNetwork-mini*.js</exclude>
             <exclude>src/main/resources/apps/search/js/App-mini.js</exclude>
+            <exclude>src/main/resources/apps/geoportal/js/App-mini.js</exclude>
             <exclude>src/main/resources/apps/tabsearch/js/App-mini.js</exclude>
             <exclude>**/GeoExt/examples/*.js</exclude>
             <exclude>**/ext/**/*.js</exclude>
@@ -475,11 +476,16 @@
               <output>src/main/resources/apps/geoportal/js/App-mini.js</output>
               <includes>
                 <include>../../js/GeoNetwork-mini.js</include>
+                <include>${project.build.directory}/classes/apps/jean/OpenLayers/GetCoordsAtClickPoint.js</include>
                 <include>${project.build.directory}/classes/apps/jean/Ext/Fixes.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/FoldableLegendPlugin.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/ShowOnlyVisibleLayersPlugin.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/LayerCurtainSlider.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoExt/GeoNamesSearchCombo.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/NDVIPanel.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/PratiquesGDTPanel.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/LayerInfoPanel.js</include>
+                <include>${project.build.directory}/classes/apps/jean/GeoNetwork/DashBoard.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoNetwork/jpSearchFormTools.js</include>
                 <include>${project.build.directory}/classes/apps/jean/GeoNetwork/LayerTree.js</include>
                 <include>${project.build.directory}/classes/apps/geoportal/js/Settings.js</include>

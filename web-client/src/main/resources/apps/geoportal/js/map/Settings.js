@@ -36,14 +36,14 @@ GeoNetwork.map.printCapabilities = "../../pdf";
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-180, -90, 180, 90);
 //GeoNetwork.map.MAXEXTENT = GeoNetwork.Geoportal.MAXEXTENT?GeoNetwork.Geoportal.MAXEXTENT:new OpenLayers.Bounds(-180, -90, 180, 90);
 //GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-5.1,41,9.7,51);
-var ovmapWmsURL = window.overviewWmsUrl?window.overviewWmsUrl:'http://gm-risk.ige.fr/geoserver-prod/wms';
-var ovmapWmsLayers = window.overviewWmsLayers?window.overviewWmsLayers:'ml_fond_carto';
-var ovmapWmsFormat = window.overviewWmsFormat?window.overviewWmsFormat:'image/jpeg';
+var ovmapWmsURL = window.Geoportal.overviewWmsUrl?window.Geoportal.overviewWmsUrl:'http://gm-risk.ige.fr/geoserver-prod/wms';
+var ovmapWmsLayers = window.Geoportal.overviewWmsLayers?window.Geoportal.overviewWmsLayers:'ml_fond_carto';
+var ovmapWmsFormat = window.Geoportal.overviewWmsFormat?window.Geoportal.overviewWmsFormat:'image/jpeg';
 
-var plainMapTitle = window.plainMapTitle?window.plainMapTitle:'Fond générique';
-var plainMapWmsUrl = window.plainMapWmsUrl?window.plainMapWmsUrl:'http://gm-risk.ige.fr/geoserver-prod/wms';
-var plainMapWmsLayers = window.plainMapWmsLayers?window.plainMapWmsLayers:'ml_fond_carto';
-var plainMapWmsFormat = window.plainMapWmsFormat?window.plainMapWmsFormat:'image/jpeg';
+var plainMapTitle = window.Geoportal.plainMapTitle?window.Geoportal.plainMapTitle:'Fond générique';
+var plainMapWmsUrl = window.Geoportal.plainMapWmsUrl?window.Geoportal.plainMapWmsUrl:'http://gm-risk.ige.fr/geoserver-prod/wms';
+var plainMapWmsLayers = window.Geoportal.plainMapWmsLayers?window.Geoportal.plainMapWmsLayers:'ml_fond_carto';
+var plainMapWmsFormat = window.Geoportal.plainMapWmsFormat?window.Geoportal.plainMapWmsFormat:'image/jpeg';
 
 GeoNetwork.map.ovmapLayers = [new OpenLayers.Layer.OSM()];
 GeoNetwork.map.BACKGROUND_LAYERS = [
@@ -54,7 +54,7 @@ GeoNetwork.map.BACKGROUND_LAYERS = [
 	 ,*/
    
    new OpenLayers.Layer.Google(
-	  	      "Google Hybrid",
+	  	      OpenLayers.i18n("ovGoogleHybrid"),
 	  	      {type: google.maps.MapTypeId.HYBRID, 'sphericalMercator': true, numZoomLevels: 22}
 		)/*,
    new OpenLayers.Layer.Google(
@@ -68,7 +68,7 @@ GeoNetwork.map.BACKGROUND_LAYERS = [
 GeoNetwork.map.PROJECTION = "EPSG:900913";
 ////GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-550000, 5000000, 1200000, 7000000);
 GeoNetwork.map.EXTENT = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);
-GeoNetwork.map.MAXEXTENT = window.Geoportal_MAXEXTENT?new OpenLayers.Bounds(window.Geoportal_MAXEXTENT):GeoNetwork.map.EXTENT;
+GeoNetwork.map.MAXEXTENT = window.Geoportal.MAXEXTENT?new OpenLayers.Bounds(window.Geoportal.MAXEXTENT):GeoNetwork.map.EXTENT;
 //GeoNetwork.map.BACKGROUND_LAYERS = [
 //    new OpenLayers.Layer.OSM()
 //    //new OpenLayers.Layer.Google("Google Streets");

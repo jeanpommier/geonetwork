@@ -90,6 +90,6 @@ layouts:
           width: 300
           items:
             - !text
-              text: '${now yyyy} GeoNetwork opensource'  
+              text: '${now yyyy} Risk Management Geoportal for Gambia'  
               fontEncoding: Cp1252
               fontSize: 10

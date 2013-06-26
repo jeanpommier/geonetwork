@@ -23,7 +23,7 @@ GeoNetwork.PratiquesGDTPanel = Ext.extend(Ext.Panel, {
 	},
 	
     initComponent: function(){
-    	window.pratiquesapp = this;
+    	window.Geoportal.DashBoard.pratiquesapp = this;
         GeoNetwork.PratiquesGDTPanel.superclass.initComponent.call(this);
         this.layout = 'border';
     	this.border = false;
@@ -280,9 +280,9 @@ GeoNetwork.PratiquesGDTPanel.openFichePratique = function(idpratique) {
 	pratiqueww.add(panel_north);
 	pratiqueww.show();
 
-	window.fichepanel = panel;
+	window.Geoportal.WhiteBoard.fichepanel = panel;
 	panel.load({
-		url: window.fichesPratiquesURL,
+		url: window.Geoportal.WhiteBoard.fichesPratiquesURL,
 	    method: 'GET',
 	    params: {
 	        id: idpratique

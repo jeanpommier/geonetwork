@@ -65,7 +65,16 @@
 	<listener>
 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
 	</listener>
-	
+	<!--  Cross Origin Filter -->
+<!-- 	<filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	 -->
     <!-- Spring security -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>

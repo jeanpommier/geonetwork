@@ -387,6 +387,11 @@ h1.soberH1 {
     cursor : crosshair;
 }
 
+.dashboard {
+	background-image: url("../../images/dashboard.png") !important;
+    height: 20px !important;
+    width: 20px !important;
+}
 /************************************************************
 		Bricolages par-dessus les themes
 ************************************************************/
@@ -413,4 +418,27 @@ h1.soberH1 {
 .md-view UL LI * .md-logo IMG {
 	width:30px;	
 }
+
+/*
+ * d3 dedicated styles (d3 graphs)
+ */
+.d3_axis path,
+.d3_axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.d3_bar {
+  fill: #00FF66;
+}
+.d3_bar2 {
+  fill: #00F058;
+}
+.d3_bar3 {
+  fill: #00EE55;
+}
+
+.x.d3_axis path {
+  display: none;
 }

@@ -51,6 +51,9 @@ GeoNetwork.mapApp = function() {
     };
     /*<jp>*/
     var bounds;
+    var alwaysOnTopLayers = [];
+    // dash board is the info panel that will give information about NDVI & al on a clicked point
+    var dashBoard, dashBoardLayer;
     /*</jp>*/
     
     // private functions
@@ -232,7 +235,7 @@ GeoNetwork.mapApp = function() {
         
         pageLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n('printLayer'), {visibility: false});
         pageLayer.addFeatures(printPage.feature);
-        
+        OpenLayers.Console.log(pageLayer);
         map.addLayer(pageLayer);
         
         // The form with fields controlling the print output
@@ -240,8 +243,12 @@ GeoNetwork.mapApp = function() {
             title: OpenLayers.i18n("mf.print.print"),
             bodyStyle: "padding:5px",
             labelAlign: "top",
+            autoScroll:true,
             defaults: {anchor: "100%"},
             items: [{
+                xtype: "displayfield",
+                value: OpenLayers.i18n('printHeader')
+            },{
                 xtype: "textarea",
                 name: "comment",
                 value: "",
@@ -470,7 +477,7 @@ GeoNetwork.mapApp = function() {
         
         toolbar.push("-");
 
-        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, infoFormat: 'application/vnd.ogc.gml'});
+        featureinfo = new OpenLayers.Control.WMSGetFeatureInfo({drillDown: true, queryVisible:true,infoFormat: 'application/vnd.ogc.gml'});
 
         var moveLayerToTop = function(layertomove) {
             var idx = -1;
@@ -519,6 +526,54 @@ GeoNetwork.mapApp = function() {
             map: map,
             iconCls: 'query'
             //tooltip: {title: OpenLayers.i18n('featureInfoTooltipTitle'), text: OpenLayers.i18n('featureInfoTooltipText') }
+        });
+        
+        toolbar.push(action);
+        
+        /*
+         * DashBoard is the panel giving access to advanced information, such as NDVI graphs
+         * on the clicked point
+         */
+        dashBoard = new OpenLayers.Control.GetCoordsAtClickPoint();
+        dashBoardLayer = new OpenLayers.Layer.Vector("DashBoard local info", {displayInLayerSwitcher: false,
+            styleMap: new OpenLayers.StyleMap({
+                externalGraphic: OpenLayers.Util.getImagesLocation() + "marker.png",
+                pointRadius: 12
+            })
+        });
+        dashBoard.events.on({
+            'gotcoordinates': function(evt) {
+                var lonlat = map.getLonLatFromViewPortPx(evt.xy);
+                var lonlat_geog = lonlat.clone();
+                lonlat_geog.transform(map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
+                var point = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+                dashBoardLayer.destroyFeatures();
+                dashBoardLayer.addFeatures(new OpenLayers.Feature.Vector(point));
+                _setAlwaysOnTop(dashBoardLayer);
+                GeoNetwork.WindowManager.showWindow("dashBoard");
+                //GeoNetwork.WindowManager.getWindow("ilwacinfo").setMap(map);
+                GeoNetwork.WindowManager.getWindow("dashBoard").setxy(evt.xy);
+                
+                GeoNetwork.WindowManager.getWindow("dashBoard").setLonLat(lonlat_geog.lon, lonlat_geog.lat);
+                return false;
+            },
+            'deactivate': function() {
+            	dashBoardLayer.destroyFeatures();
+            }
+        });
+
+
+        action = new GeoExt.Action({
+            control: dashBoard,
+            toggleGroup: "move",
+            allowDepress: false,
+            pressed: false,
+            map: map,
+            iconCls: 'dashboard',
+            tooltip: {
+            	title: OpenLayers.i18n('dashBoardTooltipTitle'), 
+            	text: OpenLayers.i18n('dashBoardTooltipText') 
+            	}
         });
         
         toolbar.push(action);
@@ -1161,7 +1216,7 @@ GeoNetwork.mapApp = function() {
         createToolbars();         
         createTree();
         //createLegendPanel();
-        //createPrintPanel();
+        createPrintPanel();
         
         var mapOverlay = createMapOverlay();
        
@@ -1360,7 +1415,15 @@ var processLayersSuccess = function(response) {
 
         return findedLayer;
     };
+    
+    var _setAlwaysOnTop = function (layer) {
+    	map.setLayerIndex(layer,  map.layers.length-1);
+        map.events.register('addlayer', map, function () {
+        	map.setLayerIndex(layer,  map.layers.length-1);
+        });
+    };
 
+    
     // public space:
     return {
         init: function(layers, mapOptions, fixedScales) {
@@ -1386,9 +1449,38 @@ var processLayersSuccess = function(response) {
             GeoNetwork.WindowManager.registerWindow("wmsinfo", GeoNetwork.WmsLayerMetadataWindow, {map: map, id:"wmsinfo"});
             GeoNetwork.WindowManager.registerWindow("loadwmc", GeoNetwork.LoadWmcWindow, {map: map, id:"loadwmc"});
             GeoNetwork.WindowManager.registerWindow("featureinfo", GeoNetwork.FeatureInfoWindow, {map: map, id:"featureinfo", control: featureinfo});
+            GeoNetwork.WindowManager.registerWindow("dashBoard", GeoNetwork.DashBoardWindow, {id:"dashBoard", control: dashBoard});
             
             map.addLayer(featureinfolayer);
+            map.addLayer(dashBoardLayer);
+            
+           this.setMask(window.Geoportal.Mask.name, 
+        		   window.Geoportal.Mask.url,
+        		   window.Geoportal.Mask.layers);
         },
+        setMask: function (name,url,layers) {
+        	var mask = new OpenLayers.Layer.WMS(name, 
+            		url,
+            		{
+            			layers:layers,
+            			format: 'image/png',
+            			TRANSPARENT:true,
+            			TILED:true
+        			},{
+        				isBaseLayer: false
+        				, displayInLayerSwitcher:false
+						, transitionEffect: 'resize'
+						, buffer: 1
+						, visibility:true
+        			});
+            map.addLayer(mask);
+            this.setAlwaysOnTop(mask);
+        },
+        setAlwaysOnTop : function (layer) {
+        	_setAlwaysOnTop(layer);
+        },
+
+        
         addWMC: function (url) {
             var map = this.getMap();
             
@@ -1457,6 +1549,9 @@ var processLayersSuccess = function(response) {
         	return tree;
         },
         getPrintPanel: function() {
+        	if (!printPanel) {
+        		createPrintPanel();
+        	}
         	return  printPanel;
         },
         getLegendPanel: function() {

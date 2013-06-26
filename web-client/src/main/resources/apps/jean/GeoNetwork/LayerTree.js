@@ -37,7 +37,7 @@ GeoNetwork.Geoportal.LayerTree = function() {
     			var layer;
     			//console.log(child.text);
 
-    			if (child.type==null !! child.disabled)
+    			if (child.type==null || child.disabled)
     				continue;
 
     			var checked = false;
