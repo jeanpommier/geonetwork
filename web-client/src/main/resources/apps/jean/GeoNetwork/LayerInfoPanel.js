@@ -225,7 +225,7 @@ GeoNetwork.LayerInfoPanel = Ext.extend(Ext.Panel, {
 				        }
 				    },
 				    autoLoad:true,
-					fields: [{name:'date', type: 'string', dateFormat: 'Y-m-d', }, {name:'value', type:'int'}, {name:'label'}]
+					fields: [{name:'date', type: 'string', dateFormat: 'Y-m-d' }, {name:'value', type:'int'}, {name:'label'}]
 				});
 				var axes = [
 						        {
