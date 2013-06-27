@@ -235,7 +235,7 @@ GeoNetwork.mapApp = function() {
         
         pageLayer = new OpenLayers.Layer.Vector(OpenLayers.i18n('printLayer'), {visibility: false});
         pageLayer.addFeatures(printPage.feature);
-        OpenLayers.Console.log(pageLayer);
+        //OpenLayers.Console.log(pageLayer);
         map.addLayer(pageLayer);
         
         // The form with fields controlling the print output
@@ -308,7 +308,7 @@ GeoNetwork.mapApp = function() {
                 handler: function() {
                     printProvider.print(Ext.getCmp('mappanel'), printPage);
                 }
-            }],
+            }]/*,
             listeners: {
                 beforeexpand: function() {
                     this.setVisibility(true);
@@ -317,14 +317,15 @@ GeoNetwork.mapApp = function() {
                     this.setVisibility(false);
                 },
                 scope: pageLayer
-            }
+            }*/
         });
-        
-        map.events.register('moveend', map, function () {
-            printPage.fit(this, {
-                mode: "screen"
+        setTimeout(function () { 
+            map.events.register('moveend', map, function () {
+                printPage.fit(this, {
+                    mode: "screen"
+                });
             });
-        });
+        }, 1000);
     };
     /**
      * Creates the map viewer toolbars
@@ -1216,7 +1217,6 @@ GeoNetwork.mapApp = function() {
         createToolbars();         
         createTree();
         //createLegendPanel();
-        createPrintPanel();
         
         var mapOverlay = createMapOverlay();
        
@@ -1291,6 +1291,9 @@ GeoNetwork.mapApp = function() {
                  evt.cancel=true;
             }
         }); 
+        
+
+        createPrintPanel();
         
         refreshTocToolbar(activeNode);
     };

@@ -127,10 +127,10 @@ GeoNetwork.app = function () {
 	    //we get sure the results extent boxes will always be drawn on the foreground (not hidden behind other layers)
     	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('mdResultsLayer'))[0];
     	iMap.setAlwaysOnTop(res);
-    	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('printLayer'))[0];
-    	iMap.setAlwaysOnTop(res);
     	
     	Ext.getCmp('printPanelTab').add(iMap.getPrintPanel());
+    	var res = iMap.getMap().getLayersByName(OpenLayers.i18n('printLayer'))[0];
+    	iMap.setAlwaysOnTop(res);
     }
     
     /**
@@ -992,27 +992,18 @@ GeoNetwork.app = function () {
                     split: true,
                     layout: 'fit',
                     border: false,
-                    margins: margins/*,
-                    listeners: {
-                        beforeexpand: function () {
-                            app.getIMap();
-                            this.add(iMap.getViewport());
-                            this.doLayout();
-                        }
-                    }*/
-                    //items: [infoPanel, resultsPanel]
+                    margins: margins
                 }, {
                     region: 'east',
                     id: 'east',
                     title: OpenLayers.i18n('facetsTitle'),
                     split: true,
                     border: false,
+                    margins: margins,
                     collapsible: true,
                     collapsed: true,
-                    floating: true,
                     collapseMode: 'mini',
-                    //collapsed: true,
-                    //hidden: !GeoNetwork.MapModule,
+                    floating: (Ext.isIE7 || Ext.isIE8) ? false : true,//IE<9 don't seem to support floating panel
                     width: 200,
                     items: [breadcrumb, facetsPanel]
                 }]
