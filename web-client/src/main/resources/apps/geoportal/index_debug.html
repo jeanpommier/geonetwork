@@ -76,7 +76,10 @@
     <script type="text/javascript" src="../js/GeoNetwork/lib/GeoNetwork.js"></script>
     
     <!--             CHARGEES EN LOCAL                      -->
-    <script src="../js/d3.v3.min.js"></script>
+    <!--[if lte IE 8]><script src="https://github.com/mhemesath/r2d3/blob/master/r2d3.js"></script><![endif]-->
+    <!--[if gte IE 9]><!-->
+    	<script src="../js/d3.v3.min.js"></script>
+    <!--<![endif]-->
     <script type="text/javascript" src="../jean/GeoNetwork/jpSearchFormTools.js"></script>
     <script type="text/javascript" src="../jean/Ext/Fixes.js"></script>
     <script type="text/javascript" src="../jean/GeoExt/FoldableLegendPlugin.js"></script>

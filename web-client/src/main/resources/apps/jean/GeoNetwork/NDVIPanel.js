@@ -7,6 +7,13 @@
 Ext.namespace("GeoNetwork");
 
 GeoNetwork.NDVIPanel = Ext.extend(Ext.Panel, {
+    /** private: method[constructor]
+     *  Construct the component.
+     */
+    constructor: function(config) {
+    	GeoNetwork.NDVIPanel.superclass.constructor.call(this, config);
+    },
+    
     initComponent: function(){
         GeoNetwork.NDVIPanel.superclass.initComponent.call(this);
     	years=null;
