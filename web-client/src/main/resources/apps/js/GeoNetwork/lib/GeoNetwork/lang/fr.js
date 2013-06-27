@@ -260,7 +260,7 @@ GeoNetwork.Lang.fr = {
     'saveXml': 'Export (XML)',
     'saveRdf': 'Export (RDF)',
     'exportCsv': 'Export (CSV)',
-    'exportZip': 'Export (ZIP)',
+    'exportZip': 'Export (MEF)',
     'printSel': 'Export (PDF)',
     'printTT': 'Imprimer. Ouvre une nouvelle page adaptée à l\'impression.',
     'newOwner': 'Associer un autre auteur',

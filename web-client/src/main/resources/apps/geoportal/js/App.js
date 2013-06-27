@@ -1000,6 +1000,7 @@ GeoNetwork.app = function () {
                     split: true,
                     border: false,
                     margins: margins,
+                    cmargins: margins,
                     collapsible: true,
                     collapsed: true,
                     collapseMode: 'mini',
@@ -1207,6 +1208,10 @@ GeoNetwork.app = function () {
 };
 
 Ext.onReady(function () {
+    GeoNetwork.Util.locales=[
+                             ['en', 'English', 'eng'], 
+                             ['fr', 'Français', 'fre']                  
+                           ];
     var lang = /hl=([a-z]{3})/.exec(location.href);
     GeoNetwork.Util.setLang(lang && lang[1], '..');
 

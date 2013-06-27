@@ -256,7 +256,7 @@ GeoNetwork.Lang.en = {
     'saveXml': 'Save as XML',
     'saveRdf': 'Save as RDF',
     'exportCsv': 'Export (CSV)',
-    'exportZip': 'Export (ZIP)',
+    'exportZip': 'Export (MEF)',
     'printSel': 'Export (PDF)',
     'printTT': 'Print. Open a new page for printing.',
     'newOwner': 'New owner',
