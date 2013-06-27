@@ -2,8 +2,8 @@
 <overrides>
 	<import file="/WEB-INF/server-props-overrides.xml" />
 	<properties>
-		<db.user>jean</db.user>
-		<db.pass>class8</db.pass>
+		<db.user>geonetwork</db.user>
+		<db.pass>geonetwork</db.pass>
 		<db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11
 		</db.dbname>
 	</properties>
