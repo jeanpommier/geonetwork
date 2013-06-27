@@ -1217,6 +1217,7 @@ GeoNetwork.mapApp = function() {
         createToolbars();         
         createTree();
         //createLegendPanel();
+        createPrintPanel();
         
         var mapOverlay = createMapOverlay();
        
@@ -1291,9 +1292,6 @@ GeoNetwork.mapApp = function() {
                  evt.cancel=true;
             }
         }); 
-        
-
-        createPrintPanel();
         
         refreshTocToolbar(activeNode);
     };

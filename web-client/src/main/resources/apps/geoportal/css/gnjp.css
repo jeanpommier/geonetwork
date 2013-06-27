@@ -9,6 +9,10 @@
 #header #title{
 	color:white;
 }
+#shortcut {
+	overflow-y:auto;
+}
+
 #mn-top #help-link a{
 	color:white;
 	font-size: 200%;
