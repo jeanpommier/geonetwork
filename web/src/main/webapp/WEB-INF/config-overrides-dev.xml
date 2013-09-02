@@ -2,8 +2,8 @@
 <overrides>
 	<import file="/WEB-INF/server-props-overrides.xml" />
 	<properties>
-		<db.user>geonetwork</db.user>
-		<db.pass>geonetwork</db.pass>
+		<db.user>jean</db.user>
+		<db.pass>class8</db.pass>
 		<db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11
 		</db.dbname>
 	</properties>
@@ -37,4 +37,34 @@
 			value="extent=-17,13,-13.7,14&amp;hl=fre" />
 			-->
 	</file>
+	
+	<textFile name="data-db-default.sql">
+		<!-- generate server configuration updates -->
+		<update linePattern="(INSERT INTO Settings VALUES \(11,10,'name',').+?('.*)">$1My GeoNetwork catalogue$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(13,10,'organization',').+?('.*)">$1My organization$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(21,20,'host',').+?('.*)">$1localhost$2</update>
+		<update linePattern="INSERT INTO Settings VALUES \(22,20,'port','.+?('.*)">INSERT INTO Settings VALUES (22,20,'port','8080$3</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(23,20,'protocol',').+?('.*)">$1http$2</update>
+		<!-- z3950 -->
+		<update linePattern="(INSERT INTO Settings VALUES \(41,40,'enable',').+?('.*)">$1false$2</update>
+		<!-- xlink resolver -->
+		<update linePattern="(INSERT INTO Settings VALUES \(231,230,'enable',').+?('.*)">$1false$2</update>
+		<!-- search stats -->
+		<update linePattern="(INSERT INTO Settings VALUES \(251,250,'enable',').+?('.*)">$1true$2</update>
+		<!-- inspire-->
+		<update linePattern="(INSERT INTO Settings VALUES \(721,720,'enable',').+?('.*)">$1false$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(722,720,'enableSearchPanel',').+?('.*)">$1false$2</update>
+		<!-- Index languages EN -->
+		<update linePattern="(INSERT INTO Settings VALUES \(809,807,'selected',').+?('.*)">$1true$2</update>
+		<!-- Index languages FR -->
+		<update linePattern="(INSERT INTO Settings VALUES \(815,813,'selected',').+?('.*)">$1false$2</update>
+		<!-- Enable editing harvested MD  -->
+		<update linePattern="(INSERT INTO Settings VALUES \(901,900,'selected',').+?('.*)">$1false$2</update>
+		<!-- Metadata view settings -->
+		<update linePattern="(INSERT INTO Settings VALUES \(911,910,'enableSimpleView',').+?('.*)">$1true$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(912,910,'enableIsoView',').+?('.*)">$1true$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(913,910,'enableInspireView',').+?('.*)">$1false$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(914,910,'enableXmlView',').+?('.*)">$1true$2</update>
+		<update linePattern="(INSERT INTO Settings VALUES \(915,910,'defaultView',').+?('.*)">$1simple$2</update>
+	</textFile>
 </overrides>
