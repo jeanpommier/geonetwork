@@ -231,6 +231,7 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
     clickTemplateMenu: function(item, pressed){
         if (pressed) {
             this.applyTemplate(item.getId());
+            this.refreshLinks();
         }
         this.initRatingWidget();
     },
