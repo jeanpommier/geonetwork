@@ -178,9 +178,21 @@ GeoNetwork.editor.LinkedMetadataPanel = Ext.extend(Ext.Panel, {
             config.height = 450;
             config.width = 700;
         }
-        
-        window = new GeoNetwork.editor.LinkResourcesWindow(config);
-        window.show();
+
+        Ext.Msg.show({
+        	title:OpenLayers.i18n('linkedMtdWarnTitle'),
+        	buttons: Ext.Msg.YESNO,
+        	msg: OpenLayers.i18n('linkedMtdWarnText'),
+        	fn: function(btn) {
+        		if (btn == 'yes') {
+        			window = new GeoNetwork.editor.LinkResourcesWindow(config);
+        	        window.show();
+        		}
+        	},
+        	scope:this
+        });
+        /*window = new GeoNetwork.editor.LinkResourcesWindow(config);
+        window.show();*/
     },
     /** public: method[removeThumbnail] 
      *  Remove a thumbnail. It requires to call a custom service (not an XSL process)

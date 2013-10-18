@@ -104,15 +104,14 @@
     <script type="text/javascript" src="js/layertree.js"></script> 
     <script type="text/javascript" src="js/infotree.js"></script>-->
     <script type="text/javascript">
-    	//we can use this namespace because GeoNetwork.Geoportal object was created in LayerTree.js)
     	//GeoNetwork.Geoportal.MAXEXTENT = new OpenLayers.Bounds(-17,13,-13.7,14);
     	window.Geoportal = {
     			MAXEXTENT 			:[-1900000,1460000,-1530000,1560000],
-    			Mask 				: {
+    			/*Mask 				: {
 						    			name 	: 'Translucent mask around Gambia', 
 						        		url 	: 'http://ige.fr/geoserver-prod/wms?',
 						        		layers 	: 'gm:gm_countryMask'	
-					    			},
+					    			},*/
     			portalHeader 		:'<img class="TGcatLogo" src="../images/logos/gambie.png"/><span class="bigger">Gestion des risques </span><br /><span class="smaller">Géoportail "Risques" de la Gambie</span>',
     			overviewWmsUrl		: 'http://gm-gdt.ige.fr/geoserver-prod/wms',
     			overviewWmsLayers	: 'gm_fond_carto',
@@ -128,7 +127,7 @@
     <script type="text/javascript" src="http://gm-risk.ige.fr/sigdt-config/config-gambie-gn2_11/layertree.js"></script>
     <script type="text/javascript" src="js/infotree.js"></script>
     
-   <script src="http://maps.google.com/maps/api/js?sensor=false&v=3.6"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&v=3.6"></script>
    
     <script type="text/javascript" src="js/lang/fr.js"></script>
     <script type="text/javascript" src="js/lang/en.js"></script>

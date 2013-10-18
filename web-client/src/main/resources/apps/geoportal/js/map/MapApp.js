@@ -325,7 +325,7 @@ GeoNetwork.mapApp = function() {
                     mode: "screen"
                 });
             });
-        }, 1000);
+        }, 60000);
     };
     /**
      * Creates the map viewer toolbars
@@ -1455,9 +1455,11 @@ var processLayersSuccess = function(response) {
             map.addLayer(featureinfolayer);
             map.addLayer(dashBoardLayer);
             
-           this.setMask(window.Geoportal.Mask.name, 
-        		   window.Geoportal.Mask.url,
-        		   window.Geoportal.Mask.layers);
+            if (window.Geoportal.Mask) {
+                this.setMask(window.Geoportal.Mask.name, 
+             		   window.Geoportal.Mask.url,
+             		   window.Geoportal.Mask.layers);	
+            }
         },
         setMask: function (name,url,layers) {
         	var mask = new OpenLayers.Layer.WMS(name, 

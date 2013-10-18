@@ -1004,7 +1004,7 @@ GeoNetwork.app = function () {
                     collapsible: true,
                     collapsed: true,
                     collapseMode: 'mini',
-                    floating: (Ext.isIE7 || Ext.isIE8) ? false : true,//IE<9 don't seem to support floating panel
+                    //floating: (Ext.isIE7 || Ext.isIE8) ? false : true,//IE<9 don't seem to support floating panel
                     width: 200,
                     items: [breadcrumb, facetsPanel]
                 }]

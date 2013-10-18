@@ -542,45 +542,98 @@
                   </xsl:apply-templates>
                 </xsl:variable>
                 <li>
-                  <a href="{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}">
-                    <xsl:choose>
-                      <xsl:when test="contains(current-grouping-key(), 'OGC') or contains(current-grouping-key(), 'DOWNLOAD')">
-                        <!-- Name contains layer, feature type, coverage ... -->
-                        <xsl:choose>
-                          <xsl:when test="normalize-space($desc)!=''">
-                            <xsl:value-of select="$desc"/>
-                            <xsl:if test="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type">
-                              (<xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type"/>)
-                            </xsl:if>
-                          </xsl:when>
-                          <xsl:when
-                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
-                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
-                          </xsl:when>
-                          <xsl:otherwise>
-                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
-                          </xsl:otherwise>
-                        </xsl:choose>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:if test="normalize-space($desc)!=''">
-                          <xsl:attribute name="title"><xsl:value-of select="$desc"/></xsl:attribute>
-                        </xsl:if>
-                        <xsl:choose>
-                          <xsl:when
-                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
-                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
-                          </xsl:when>
-                          <xsl:otherwise>
-                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
-                          </xsl:otherwise>
-                        </xsl:choose>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </a>
+                  <xsl:choose>
+                    <xsl:when test="contains(current-grouping-key(), 'WMS')">
+                    <!-- We use the addWMSLayer link instead of uncomplete/unusable gmd:URL ... -->
+	                  <a href="#"
+                   		 onclick="app.switchMode('1', true);app.getIMap().addWMSLayer([[
+                              '{gmd:CI_OnlineResource/gmd:description/gco:CharacterString}', 
+                              '{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}', 
+                              '{gmd:CI_OnlineResource/gmd:name/gco:CharacterString}', '{generate-id()}']]);">
+	                    <xsl:choose>
+	                      <xsl:when test="contains(current-grouping-key(), 'OGC') or contains(current-grouping-key(), 'DOWNLOAD')">
+	                        <!-- Name contains layer, feature type, coverage ... -->
+	                        <xsl:choose>
+	                          <xsl:when test="normalize-space($desc)!=''">
+	                            <xsl:value-of select="$desc"/>
+	                            <xsl:if test="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type">
+	                              (<xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type"/>)
+	                            </xsl:if>
+	                          </xsl:when>
+	                          <xsl:when
+	                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+	                          </xsl:when>
+	                          <xsl:otherwise>
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+	                          </xsl:otherwise>
+	                        </xsl:choose>
+	                      </xsl:when>
+	                      <xsl:otherwise>
+	                        <xsl:if test="normalize-space($desc)!=''">
+	                          <xsl:attribute name="title"><xsl:value-of select="$desc"/></xsl:attribute>
+	                        </xsl:if>
+	                        <xsl:choose>
+	                          <xsl:when
+	                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+	                          </xsl:when>
+	                          <xsl:otherwise>
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+	                          </xsl:otherwise>
+	                        </xsl:choose>
+	                      </xsl:otherwise>
+	                    </xsl:choose>
+	                  </a>
+	                  &#160;
+	                  <a href="#" class="md-mn addLayer"
+	                    onclick="app.switchMode('1', true);app.getIMap().addWMSLayer([[
+	                              '{gmd:CI_OnlineResource/gmd:description/gco:CharacterString}', 
+	                              '{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}', 
+	                              '{gmd:CI_OnlineResource/gmd:name/gco:CharacterString}', '{generate-id()}']]);">&#160;</a>
+                     </xsl:when>
+                     <xsl:otherwise>
+                       <a href="{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}">
+	                    <xsl:choose>
+	                      <xsl:when test="contains(current-grouping-key(), 'OGC') or contains(current-grouping-key(), 'DOWNLOAD')">
+	                        <!-- Name contains layer, feature type, coverage ... -->
+	                        <xsl:choose>
+	                          <xsl:when test="normalize-space($desc)!=''">
+	                            <xsl:value-of select="$desc"/>
+	                            <xsl:if test="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type">
+	                              (<xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type"/>)
+	                            </xsl:if>
+	                          </xsl:when>
+	                          <xsl:when
+	                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+	                          </xsl:when>
+	                          <xsl:otherwise>
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+	                          </xsl:otherwise>
+	                        </xsl:choose>
+	                      </xsl:when>
+	                      <xsl:otherwise>
+	                        <xsl:if test="normalize-space($desc)!=''">
+	                          <xsl:attribute name="title"><xsl:value-of select="$desc"/></xsl:attribute>
+	                        </xsl:if>
+	                        <xsl:choose>
+	                          <xsl:when
+	                            test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+	                          </xsl:when>
+	                          <xsl:otherwise>
+	                            <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+	                          </xsl:otherwise>
+	                        </xsl:choose>
+	                      </xsl:otherwise>
+	                    </xsl:choose>
+	                  </a>
+                     </xsl:otherwise>
+                  </xsl:choose>
                   
                   <!-- Display add to map action for WMS -->
-                  <xsl:if test="contains(current-grouping-key(), 'WMS')">
+                 <!-- <xsl:if test="contains(current-grouping-key(), 'WMS')">
                   &#160;
                   <a href="#" class="md-mn addLayer"
                     onclick="app.switchMode('1', true);app.getIMap().addWMSLayer([[
@@ -588,6 +641,7 @@
                               '{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}', 
                               '{gmd:CI_OnlineResource/gmd:name/gco:CharacterString}', '{generate-id()}']]);">&#160;</a>
                   </xsl:if>
+                  -->
                 </li>
               </xsl:for-each>
             </ul>

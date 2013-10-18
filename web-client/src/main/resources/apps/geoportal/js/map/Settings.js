@@ -48,7 +48,7 @@ var plainMapWmsFormat = window.Geoportal.plainMapWmsFormat?window.Geoportal.plai
 GeoNetwork.map.ovmapLayers = [new OpenLayers.Layer.OSM()];
 GeoNetwork.map.BACKGROUND_LAYERS = [
 	/*<jp>*//*jp : commented*/
-    //new OpenLayers.Layer.WMS("Background layer", "/geoserver/wms", {layers: 'gn:world,gn:ne_50m_boundary_da,gn:ne_50m_boundary_lines_land,gn:ne_50m_coastline', format: 'image/jpeg'}, {isBaseLayer: true})
+    //new OpenLayers.Layer.WMS("Background layer", "localhost:8081/geoserver/wms", {layers: 'ige:Cntry00', format: 'image/jpeg'}, {isBaseLayer: true})
 	/*jp: added*/
 	/*new OpenLayers.Layer.WMS(plainMapTitle, plainMapWmsUrl, {layers: plainMapWmsLayers, format: plainMapWmsFormat, TILED:'true'}, {isBaseLayer: true})
 	 ,*/
@@ -111,7 +111,7 @@ GeoNetwork.map.MAIN_MAP_OPTIONS = {
  //controls: [],
  controls: [
 	           new OpenLayers.Control.MousePosition( {'prefix': 'Lon ', 'separator':'°, Lat ', 'suffix':'°','numDigits':3, displayProjection:new OpenLayers.Projection("WGS84")}),
-	           new OpenLayers.Control.OverviewMap({layers: GeoNetwork.map.ovmapLayers,maximized:true, minRatio:16,maxRatio:128,size : new OpenLayers.Size(130,100)})
+	           //new OpenLayers.Control.OverviewMap({layers: GeoNetwork.map.ovmapLayers,maximized:true, minRatio:16,maxRatio:128,size : new OpenLayers.Size(130,100)})
 	           ],
  theme:null
 };
