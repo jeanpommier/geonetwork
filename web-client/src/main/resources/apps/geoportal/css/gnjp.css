@@ -285,7 +285,9 @@ p.abstract {
 
 .geometryWKT {
 	color:#bbbbbb;
+	display:none;
 }
+
 
 /****************************************************************
 		CSS des widgets / plugins

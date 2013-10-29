@@ -426,7 +426,7 @@ GeoNetwork.app = function () {
             autoHeight:true,
             listeners: {
                 onreset: function (args) {
-                    facetsPanel.reset();
+                    //facetsPanel.reset();
                     
                     // Remove field added by URL or quick search
                     this.cascade(function(cur){
@@ -883,12 +883,12 @@ GeoNetwork.app = function () {
                     columns:2
                 }
             });
-            facetsPanel = new GeoNetwork.FacetsPanel({
+            /*facetsPanel = new GeoNetwork.FacetsPanel({
                 searchForm: searchForm,
                 breadcrumb: breadcrumb,
                 maxDisplayedItems: GeoNetwork.Settings.facetMaxItems || 7,
                 facetListConfig: GeoNetwork.Settings.facetListConfig || []
-            });
+            });*/
             
             //Tab panel
             dataTabPanel = new Ext.TabPanel({
@@ -993,7 +993,7 @@ GeoNetwork.app = function () {
                     layout: 'fit',
                     border: false,
                     margins: margins
-                }, {
+                }/*, {
                     region: 'east',
                     id: 'east',
                     title: OpenLayers.i18n('facetsTitle'),
@@ -1007,7 +1007,7 @@ GeoNetwork.app = function () {
                     //floating: (Ext.isIE7 || Ext.isIE8) ? false : true,//IE<9 don't seem to support floating panel
                     width: 200,
                     items: [breadcrumb, facetsPanel]
-                }]
+                }*/]
             });
             
             /* Trigger visualization mode if mode parameter is 1 
@@ -1086,7 +1086,7 @@ GeoNetwork.app = function () {
         loadResults: function (response) {
             
             initPanels();
-            facetsPanel.refresh(response);
+            //facetsPanel.refresh(response);
             // FIXME : result panel need to update layout in case of slider
             // Ext.getCmp('resultsPanel').syncSize();
             Ext.getCmp('previousBt').setDisabled(catalogue.startRecord === 1);
@@ -1128,7 +1128,7 @@ GeoNetwork.app = function () {
             
 
             Ext.getCmp('searchResultsPanel').expand(true);
-            Ext.getCmp('east').expand(true);
+            //Ext.getCmp('east').expand(true);
             
             app.updateLayout();
         },

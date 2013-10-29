@@ -4,7 +4,7 @@
 	<properties>
 		<db.user>jean</db.user>
 		<db.pass>class8</db.pass>
-		<db.dbname>jdbc:postgresql://localhost:5432/gm_risques_gn2_11
+		<db.dbname>jdbc:postgresql://localhost:5432/gambie-dev
 		</db.dbname>
 	</properties>
 
