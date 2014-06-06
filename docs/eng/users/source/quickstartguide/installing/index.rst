@@ -1,4 +1,5 @@
 .. _installing:
+.. include:: ../../substitutions.txt
 
 Installing the software
 =======================
@@ -23,7 +24,7 @@ Some general system requirements for the software to run without problems are li
 
 **Disk Space** : Minimum of 512MB of free disk space. Additional space is required depending on the amount of spatial data that you expect to upload.
 
-**Other Software requirements** : A Java Runtime Environment (JRE 1.6.0). For server installations, Apache Tomcat and a dedicated JDBC compliant DBMS (MySQL, Postgresql, Oracle) can be used instead of Jetty and H2.
+**Other Software requirements** : A Java Runtime Environment (JRE 1.6.0 or later). For server installations, Apache Tomcat and a dedicated JDBC compliant DBMS (MySQL, Postgresql, Oracle) can be used instead of Jetty and H2. 
 
 Additional Software
 ```````````````````
@@ -34,6 +35,7 @@ The software listed here is not required to run GeoNetwork, but can be used for 
 #. Postgresql DBMS v7+ (All) [#all_os]_
 #. Apache Tomcat v5.5+ (All) [#all_os]_
 
+
 Supported browsers
 ``````````````````
 
@@ -43,10 +45,10 @@ GeoNetwork should work normally with the following browsers:
 #. Internet Explorer v8+ (Windows)
 #. Safari v3+ (Mac OS X Leopard)
 
-How do I install GeoNetwork opensource?
+How do I install |project_name| opensource?
 ---------------------------------------
 
-Before running the GeoNetwork installer, make sure that all system requirements are satisfied, and in particular that the Java Runtime Environment version 1.6.0 is set up on your machine.
+Before running the |project_name| installer, make sure that all system requirements are satisfied, and in particular that the Java Runtime Environment version 1.6.0 (or later) is set up on your machine.
 
 On Windows
 ``````````
@@ -137,7 +139,7 @@ User interface configuration
 As mentioned above, GeoNetwork now provides two user interfaces: 
 
 - **Default** user interface is the old user interface from 2.6.x and earlier
-- **Javascript Widgets** user interface is the new user interface for searching, editing and viewing metadata records in 2.8.x
+- **Javascript Widgets** user interface is the new user interface for searching, editing and viewing metadata records in 2.8.x and later
 
 The catalog administrator can configure which interface to use in `WEB-INF/config-gui.xml` as follows. 
 

@@ -15,10 +15,11 @@ Ce document est le manuel d'utilisation de |project_name|.
     search/index.rst
     editor/index.rst
     admin/index.rst
-    appendix/index.rst
+    annexes/index.rst
     faq/faq.rst
 
 Autres documents :
 
-`Manuel de développement en anglais <../developer/index.html>`_
+`Manuel d'utilisation de |project_name|(PDF) <GeoNetworkUserManual.pdf>`
+`Manuel de dveloppement en anglais <../developer/index.html>`_
     

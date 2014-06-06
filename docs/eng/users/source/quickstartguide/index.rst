@@ -1,16 +1,14 @@
 .. _qsg:
+.. include:: ../substitutions.txt
 
-Quick Start Guide
-#################
+How to install |project_name| in your computer
+##############################################
 
 .. toctree::
     :maxdepth: 2
 
-    geographic_management/index.rst
-    getting_started/index.rst
-    viewing/index.rst
-    new_metadata/index.rst
-    new_metadata/linking.rst
-    metadata_concepts/index.rst
-    newfeatures/index.rst
     installing/index.rst
+    stopandstart/index.rst
+    login/index.rst
+    samplemetadata/index.rst
+    overview/index.rst

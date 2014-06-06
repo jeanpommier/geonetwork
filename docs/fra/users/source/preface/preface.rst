@@ -91,7 +91,7 @@ Principales caractéristiques :
 
 
 Histoire et évolution
----------------------
+`````````````````````
 
 Le premier prototype du catalogue GeoNetwork a été développé par la FAO en 2001 
 pour archiver et publier les données géographiques produites dans l'organisation. 
@@ -165,10 +165,11 @@ faciliter ce processus.
 
 
 Conseil consultatif (Advisory Board) et Comité de pilotage (PSC)
-----------------------------------------------------------------
+````````````````````````````````````````````````````````````````
 
 La création d'un Conseil consultatif de |project_name| a été mis en place lors de
-l'atelier de 2006 à Rome. Un plan de travail est présenté et discuté annuellement;
+l'atelier de 2006 à Rome. Un plan de travail est présenté et 
+discuté annuellement.
 
 
 En 2006, le Conseil consultatif du projet a décidé de proposer le
@@ -189,7 +190,7 @@ votes sur des questions diverses :
 - la définition de la gouvernance.
 - lors de la sortie de nouvelle version.
 - tout ce qui pourrait être sujet à controverse.
-- ajouter un nouveau membre à la CFP
+- ajouter un nouveau membre à la PSC
 - ajouter un nouveau participant au dépôt de code
 
 
@@ -205,12 +206,11 @@ Le comité de pilotage est actuellement composé des personnes suivantes :
 
 
 Contributeurs anciens et actuels
---------------------------------
+````````````````````````````````
 
 Les développeurs actifs sur le trunk sont les suivants :
 
 - Mathieu Coudert
-- Heikki Doeleman
 - Jose Garcia
 - Jesse Eichar
 - Roberto Giaccio
