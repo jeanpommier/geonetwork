@@ -2,7 +2,7 @@
 
 .. _samplemetadata:
 
-Charger des exemples de métadonnées
+TT    Charger des exemples de métadonnées
 ===================================
 
 À partir de la page d'accueil, s'authentifier avec le nom d'utilisateur et mot de passe par défaut : admin/admin.

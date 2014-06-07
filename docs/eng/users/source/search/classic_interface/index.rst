@@ -1,6 +1,6 @@
 .. _classic_interface:
 
-Getting Started
+Classic interface
 ===============
 
 Please make sure you have opened the home page of the GeoNetwork based

@@ -1,8 +1,8 @@
 .. _search:
 .. include:: ../substitutions.txt
 
-Search Functions
-################
+[User] Using the catalog : search for metadata
+#####################################
 
 
 .. toctree::

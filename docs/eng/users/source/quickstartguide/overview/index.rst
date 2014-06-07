@@ -2,7 +2,7 @@
 
 .. include:: ../../substitutions.txt
 
-Présentation générale de l'interface
+TT  Présentation générale de l'interface
 ====================================
 
 .. figure:: overview.png

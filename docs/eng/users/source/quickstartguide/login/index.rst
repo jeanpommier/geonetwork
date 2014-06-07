@@ -2,7 +2,7 @@
 
 .. include:: ../../substitutions.txt
 
-Accéder au catalogue et s'identifier
+TT    Accéder au catalogue et s'identifier
 ====================================
 
 Accès au catalogue

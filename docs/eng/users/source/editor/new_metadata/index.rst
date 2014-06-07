@@ -2,173 +2,148 @@
 
 .. _metadata_create:
 
-Création et édition de métadonnées
-==================================
+Metadata creation/edition
+=====================
 
-Cette partie présente la manière de créer et saisir des métadonnées dans le catalogue
-en utilisant l'éditeur en ligne. Pour cela le système de modèles (templates en anglais) est utilisé.
-Les sujets abordés sont les suivants :
+This chapter presents the way to create and fill a new metadata in the catalog, using the online integrated editor. 
+
+Table of contents:
 
 .. contents:: :local:
 
-Pour ajouter et éditer une métadonnée, un utilisateur doit être **enregistré** comme **Editeur** dans au moins un groupe. 
-Si ce n'est pas le cas, contactez l'administrateur.
+In order to be authorized to create or edit a metadata, the user needs to **sign in** at least as an **Editor** profile, in at least one group.
+Elsewise, please contact your geocatalog administrator.
 
-Pour la création d'une métadonnée utilisant l'éditeur en ligne, 2 options sont possibles :
+Using the online editor, there are two ways of creating a new metadata:
 
-- partir d'un modèle de saisie à partir du menu **Créer une métadonnée**
-- dupliquer un fiche à partir des résultats de recherche
+- in the administration backoffice, create a **New metadata** using a predefined template
+- duplicate an existing metadata sheet, from the search results list
 
+Templates
+---------
 
-Les modèles de saisie
----------------------
+The catalog provides several metadata templates, based upon the standards it supports (cf. :ref:`supported_format`). Templates are used to define in advance a set of fields, that will be available as the default view when creating a new metadata. Different templates are usually created for each kind of resources (e.g. raster or vector datasets, WMS/WFS services, downloading services).
 
+A template can be edited and completed, using the elements from the advanced view, just like any metadata.
 
-Le catalogue fournit un
-certain nombre de modèle de métadonnées basés sur les différents standards supportés (cf. :ref:`supported_format`). Ces modèles
-permettent de décrire divers types de ressources (eg. données vecteur ou raster, services
-WMS/MFS, service de téléchargement) avec un nombre minimal d'éléments pré-remplis. 
-Ces modèles peuvent être édités et complétés avec des éléments de la vue
-avancée tout comme une métadonnée.
-
-Si aucun modèle n'est disponible, il est possible de les ajouter à partir de l'interface d'administration (cf. :ref:`samplemetadata`).
+If no template is available, it is possible to add default templates in the administation backoffice (cf. :ref:`samplemetadata`).
 
 
-Créer une nouvelle métadonnée
+Create a new metadata
 -----------------------------
 
-Une fois l'utilisateur authentifié (cf. :ref:`how_to_login`), **dans la barre d'outil de présentation des résultats** 
-ou bien dans la page d'accueil, cliquer sur **Administration** puis :
+After logging in (cf. :ref:`how_to_login`), it is possible to create a new metadata either from **the toolbar of the results panel** (``Other actions`` menu), or from the **administration page**.
 
-#. Selectionner **"nouvelle métadonnée"**.
-#. Selectionner le modèle de métadonnée sachant que d'autres modèles peuvent être créés.
-#. Selectionner le **Groupe** auquel sera rattaché la métadonnée. Les groupes proposés sont ceux autorisés par l'administrateur pour l'utilisateur en cours d'édition.
-#. Cliquez sur **"créer"**.
+#. Select **"New metadata"**.
+
+#. Select the metadata template (if no template suits your needs, you can create a new one). 
+It is possible to filter the templates in the form, either by schema, resource type or title, by clicking on the column's header. 
+
+#. Select the **Group** to whom the metadata will belong. The groups list is restricted to the groups assigned to this user by the administrator.
+
+#. Click on **"Create"**.
 
 
 .. figure: create.png
 
-   Formulaire de création d'une métadonnée
+  Metadata creation form
 
-Le formulaire permet de trier les métadonnées par schéma, par titre en cliquant sur les en-têtes des colonnes.
-
-Une nouvelle métadonnée basée sur le modèle sélectionné est ensuite créée. Un identifiant unique lui est attribué. Par défaut, 
-elle n'est visible que pour les utilisateurs du groupe.
+A new metadata is created, based on the selected template. By default, only the users belonging to the group assigned to the metadata can see it. To make it more widely available, it is necessary to set the privileges (cf. :ref:`metadata_privileges`)
 
 
+Change the view
+```````````````
 
-Basculer entre les vues
-```````````````````````
+For detailed explanation about the views, see :ref:`metadata_edit_mode`.
 
-Les vues ont été présentées précédemment (cf. :ref:`metadata_edit_mode`).
+When creating a new record, one can choose between the available views for the chosen standard. To change the view, simply selet it in the **View mode** menu (top toolbar). The current view is disabled in the menu. 
 
-Lorsque vous créez un nouvel enregistrement, vous pouvez choisir entre
-les différentes vues du standard. Pour charger la vue, cliquez simplement sur la vue correspondante dans le menu **Affichage**.
-La vue désactivée dans le menu correspond à la vue courante.
+Mandatory and optional fields
+``````````````````````````````
+Some fields are defined as mandatory by the standards, and some aren't. Meaning if one of the mandatory fields is empty, the metadata will not validate.
 
-
-Les champs obligatoires et conditionnels
-``````````````````````````````````````````
-Les champs obligatoires sont en gras avec un cadre gris ou rouge si ils ont une valeur invalide.
+Mandatory fields are displayed with a bold font, and a grey frame, or red one if the value is invalid.
 
 .. figure: invalidField.png
 
-   Champ titre obligatoire valide mais un résumé invalide (car vide)
+   Mandatory title field is valid, but the abstract is not (empty)
 
+Fields are framed in a red box when invalid. I can either mean:
 
-Les champs dont la saisie est invalide sont entourés en rouge.
-Il peut s'agir :
+- a mandatory field is empty
+- a numeric field contains some text
+- an invalid email address
 
-- d'un champ obligatoire non rempli
-- d'un champ numérique contenant du texte (avec ou sans décimale)
-- d'une adresse email invalide.
+You can also meet ome conditional fields. For example, for a contact,
 
-
-Il existe par ailleurs des champs conditionnels.
-Par exemple, pour les contacts, 
-
-- un des champs nom, organisation ou position pour un contact
-  doit être renseigné pour le standard ISO 19139.
-- un des champs organisation ou email doit être renseigné pour les règles d'implémentation d'INSPIRE 
+- one of the ``name``, ``organization`` or ``position`` fields must be set, when using the ISO 19139 standard.
+- one of the *organization* or *email* fields must be set, when following the INSPIRE implentation rules.
 
   .. figure:: PoC_Maint.png
 
-  *Point de contact*
+  *Point of contact*
 
-Pour identifier les erreurs sur les champs conditionnels, utiliser le rapport
-de validation (cf. :ref:`metadata_validation`).
+The validation report can be very useful to identify errors in conditional fields (cf. :ref:`metadata_validation`).
 
 
-L'aide
-``````
+Help
+````
 
-La définition de chacun des champs est visible dans la section **Aide** du panneau de droite.
-Cette aide indique :
+In the **Help** section on the right panel, a contextual help gives useful information about the current field. It gives:
 
-- le nom de l'élément
-- la définition de l'élément
-- l'identifiant du standard (eg. iso19139.fra)
-- le nom de la balise de l'élément (eg. gmd:title)
-
-La description de l'élément parent est également présentée.
+- the element name
+- the definition of the element
+- the element's XML tag name (eg. gmd:title)
 
 .. figure:: helpPanel.png
 
-   Aide contextuel sur l'élément titre court contenu dans la section identification
+   *Contextual help on the short title element (identification section)*
 
 
 .. _editor_control:
 
-Utiliser les contrôles des champs de l'éditeur
-``````````````````````````````````````````````
+Using the controls in the editor's fields
+`````````````````````````````````````````
 
-Différents types de champs existent :
+There are several type of fields:
 
-- les champs de type texte simple
-- les champs de type zone de texte
+- simple text fields
+- text area fields
 
 .. figure:: textField.png
 
 
-- les listes de valeurs
-- les dates
+- lists of values
+- dates
 
 .. figure:: dateFieldAndCodeList.png
 
-   Champ date avec une liste de valeur pour le type de date
+   *Date field & date type field using a list of values*
 
-- la saisie d'emprise géographique (cf. :ref:`geobox_editor`)
-- la saisie des champs de type périodes
+- the geographic bounding box form (cf. :ref:`geobox_editor`)
+- setting date periods
 
 .. figure:: periodField.png
 
-   Champ de type période
+   *period field types*
 
 
+The fields' cardinality (how many items of this type can exist) is defined in the metadata standard's schema. This schema is used to set the corresponding controls beside the input fields.
 
-La cardinalité des champs est définie dans le schéma du standard de métadonnées. Ce schéma est utilisé pour placer les 
-contrôles correspondants à côté des champs de saisie.
+Possible controls are:
 
-Ces contrôles sont :
-
-- le plus pour ajouter un champ
-- le moins pour supprimer un champ
-- la flêche vers le haut pour déplacer le champ vers le haut
-- la flêche vers le bas pour déplacer le champ vers le bas
+- a + to add a field
+- a - to remove a field
+- an arrow pointing upward, to move the field upward
+- an arrow pointing downward to move it downward
+- a binocular means you can search in a dictionnary to get your values
 
 
 .. figure:: editorControl.png
 
-   Bouton de contrôle dans l'éditeur
+   *Conttrols in the editor*
 
-
-En complément, l'icône jumelle permet la recherche dans des dictionnaires. Elle est disponible pour les champs de type :
-
-- mots clés
-- projection
-- (optionel) contact
-
-La flêche présente devant les titres de section permettent de cacher le bloc placé en dessous.
+An arrow *before* the titles of the sections allow to fold/unfold the corresponding block (toggle control).
 
 .. figure:: toggleControl.png
 
@@ -412,7 +387,7 @@ Attribuer des catégories
 Pour finaliser le tout, vous pouvez assigner des catégories à vos métadonnées. 
 Les catégories choisies vont déterminer sous quelles catégories votre fiche 
 va s'afficher dans la page de recherche.
-Pour assigner des catégories à une carte, suivrez ces étapes :
+Pour assigner des catégories à une carte, suivrez ces étapes :
 
  - Trouver votre fiche en utilisant le formulaire de recherche.
    En fonction du nombre de résultats, positionnez-vous sur la fiche, 

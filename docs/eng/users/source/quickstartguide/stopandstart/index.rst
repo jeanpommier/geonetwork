@@ -1,7 +1,7 @@
 .. _stopandstart:
 .. include:: ../../substitutions.txt
 
-Démarrer et arrêter le catalogue
+TT   Démarrer et arrêter le catalogue
 ================================
 
 Sous windows, des menus sont normalement disponibles pour les actions de lancement et d'arrêt

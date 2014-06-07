@@ -2,7 +2,7 @@
 
 .. include:: ../substitutions.txt
 
-Recherche et consultation
+TT   New interface
 #########################
 
 Critères de recherche

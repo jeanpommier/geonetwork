@@ -4,6 +4,10 @@
 Gestion des privilèges
 ======================
 
+
+.. _metadata_privileges:
+
+
 NB : Une métadonnée publique est une métadonnée accessible à tous.
 
 Visualisation

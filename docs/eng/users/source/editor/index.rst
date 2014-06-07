@@ -1,7 +1,7 @@
 .. _edit:
 .. include:: ../substitutions.txt
 
-Création et édition de métadonnées
+[Data Provider] Creating and editing metadata
 ##################################
 
 
