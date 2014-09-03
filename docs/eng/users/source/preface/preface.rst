@@ -81,6 +81,7 @@ wide variety of geographic information along with the associated information,
 organised and documented in a standard and consistent way.
 
 Main Features are:
+
 - Instant search on local and distributed geospatial
   catalogues
 
@@ -185,8 +186,7 @@ dramatically since the release of version 2.0 in December 2005 and the subsequen
 releases. At present, the user and developer mailing lists count
 well over 250 subscriptions each. Subscription to these lists is open to anyone
 interested. 
-'The archive of the mailing lists
-<http://osgeo-org.1803224.n2.nabble.com/GeoNetwork-opensource-f2013073.html>`_  provides an important resource for
+'The archive of the mailing lists provides an important resource for
 users and can be freely browsed online. Members provide feedback within the
 community and provide translations, new functionalities, bug reports, fixes and
 instructions to the project as a whole. Building a self sustaining community of

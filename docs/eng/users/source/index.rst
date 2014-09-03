@@ -13,7 +13,7 @@ Other documents:
 `User Manual (PDF) <GeoNetworkUserManual.pdf>`_
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 5
 
     preface/preface.rst
     introduction/introduction.rst
