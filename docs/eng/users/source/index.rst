@@ -2,7 +2,7 @@
 .. include:: substitutions.txt
 
 |project_name| User Manual v\ |release|
-==========================
+=======================================
 
 Welcome to the |project_name| User Manual v\ |release|. The manual is a guide describing how to use the metadata catalog.
 
@@ -21,5 +21,6 @@ Other documents:
     search/index.rst
     editor/index.rst
     admin/index.rst
+    sysadmin/index.rst
     annexes/index.rst
     faq/faq.rst  
