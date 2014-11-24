@@ -2219,10 +2219,12 @@ public class DataManager {
         env.addContent(new Element("file").setText(file));
         env.addContent(new Element("ext").setText(ext));
 
+        String protocol    = settingMan.getValue(Geonet.Settings.SERVER_PROTOCOL);
         String host    = settingMan.getValue(Geonet.Settings.SERVER_HOST);
         String port    = settingMan.getValue(Geonet.Settings.SERVER_PORT);
         String baseUrl = context.getBaseUrl();
 
+        env.addContent(new Element("protocol").setText(protocol));
         env.addContent(new Element("host").setText(host));
         env.addContent(new Element("port").setText(port));
         env.addContent(new Element("baseUrl").setText(baseUrl));
@@ -2777,7 +2779,12 @@ public class DataManager {
                 env.addContent(new Element("id").setText(id));
                 env.addContent(new Element("uuid").setText(uuid));
                 Element schemaLoc = new Element("schemaLocation");
-                schemaLoc.setAttribute(schemaMan.getSchemaLocation(schema,context));
+								Attribute schemaLocAttr = schemaMan.getSchemaLocation(schema,context);
+								if (schemaLocAttr != null) {
+                	schemaLoc.setAttribute(schemaLocAttr);
+								} else {
+									Log.error(Geonet.DATA_MANAGER, "No schemaLocation attribute defined for schema "+schema);
+								}
                 env.addContent(schemaLoc);
 
                 if (updateDatestamp == UpdateDatestamp.yes) {
