@@ -36,7 +36,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Geoportal for Risk Management for Burundi'
+project = u'Geoportal for Risk Management'
 manual = u'User Manual'
 copyright = u'Jean Pommier, jean.pommier@pi-geosolutions.fr'
 
@@ -166,7 +166,7 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'RiskManagementGeoportal-Burundi.tex', u'Geoportal for Risk Management for Burundi',
+  ('index', 'RiskManagementGeoportal.tex', u'Geoportal for Risk Management',
    u'Jean Pommier', 'manual'),
 ]
 

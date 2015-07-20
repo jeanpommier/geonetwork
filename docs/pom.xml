@@ -154,6 +154,129 @@
                <workingDirectory>${basedir}/eng/geoportal-admin/build/latex</workingDirectory>
              </configuration>
            </execution>
+           
+           <!-- French geoportal (© Jean Pommier, jean.pommier@pi-geosoloutions.fr) documentation -->
+            <execution>
+              <id>geoportal-docs-clean</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>exec</goal>
+              </goals>
+              <configuration>
+                <executable>make</executable>
+                  <arguments>
+                    <argument>clean</argument>
+                  </arguments>
+                <workingDirectory>${basedir}/fra/geoportal</workingDirectory>
+              </configuration>
+            </execution>
+
+            <execution>
+             <id>geoportal-docs-build-html</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>html</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal</workingDirectory>
+             </configuration>
+           </execution>
+
+            <execution>
+             <id>geoportal-docs-build-latex</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>latex</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal</workingDirectory>
+             </configuration>
+           </execution>
+
+            <execution>
+             <id>geoportal-docs-build-all-pdf</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>all-pdf</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal/build/latex</workingDirectory>
+             </configuration>
+           </execution>
+           
+           
+           <!-- French geoportal Editor & Admin (© Jean Pommier, jean.pommier@pi-geosoloutions.fr) documentation -->
+            <execution>
+              <id>geoportal-docs-admin-clean</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>exec</goal>
+              </goals>
+              <configuration>
+                <executable>make</executable>
+                  <arguments>
+                    <argument>clean</argument>
+                  </arguments>
+                <workingDirectory>${basedir}/fra/geoportal-admin</workingDirectory>
+              </configuration>
+            </execution>
+
+            <execution>
+             <id>geoportal-docs-admin-build-html</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>html</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal-admin</workingDirectory>
+             </configuration>
+           </execution>
+
+            <execution>
+             <id>geoportal-docs-admin-build-latex</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>latex</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal-admin</workingDirectory>
+             </configuration>
+           </execution>
+
+            <execution>
+             <id>geoportal-docs-admin-build-all-pdf</id>
+             <phase>prepare-package</phase>
+             <goals>
+               <goal>exec</goal>
+             </goals>
+             <configuration>
+               <executable>make</executable>
+                 <arguments>
+                   <argument>all-pdf</argument>
+                 </arguments>
+               <workingDirectory>${basedir}/fra/geoportal-admin/build/latex</workingDirectory>
+             </configuration>
+           </execution>
 
 					<!-- English user documentation -->
             <execution>

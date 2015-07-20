@@ -1,7 +1,7 @@
-﻿.. |project_name| replace:: Geoportal for Risk Management in Burundi
-.. |project| replace:: Geoportal for Risk Management in Burundi
-.. |project_bold| replace:: **Geoportal for Risk Management in Burundi**
-.. |project_url| replace:: http://bi-risk.pigeo.fr
+﻿.. |project_name| replace:: Geoportal for Risk Management
+.. |project| replace:: Geoportal for Risk Management
+.. |project_bold| replace:: **Geoportal for Risk Management**
+.. |project_url| replace:: http://ne-risk.pigeo.fr
 .. |project_version| replace:: 2.10.3-1
 .. |version| replace:: 2.10.3-1
 .. |release| replace:: 2.10.3-1
