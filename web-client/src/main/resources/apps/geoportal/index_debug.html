@@ -31,10 +31,10 @@
     <div id="loading-mask"></div>
     <div id="loading">
       <div class="loading-indicator">
-      <p><b>Risk Management Geoportal for Burundi </b><br />
+      <p><b>Risk Management Geoportal for Senegal </b><br />
       Loading...</p>
       <hr />
-      <p><b>Géoportail de la Gestion des Risques au Burundi </b><br />
+      <p><b>Géoportail de la Gestion des Risques au Sénégal </b><br />
       Chargement en cours...</p></div>
       Optimized for / optimisé pour : <br />Firefox (version 17 and +), Chrome (version 29 and +), Internet Explorer 9 and 10.
     </div>
@@ -130,80 +130,45 @@
     			withGoogleLayers	: false,
     			//MAXEXTENT 			:[-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7],
     			//MAXEXTENT 			:[-1500000,1100000,500000,3000000],
-			EXTENT                  :[3226595.30,-495653.48, 3434561.55,-256277.70],
-			portalHeader            :'<img class="catLogo" src="../images/logos/88px-Blason_du_Burundi.svg.png"/><span class="bigger"> Gestion des Risques au Burundi </span><br /><span class="smaller"></span>',
-            overviewWmsUrl          : 'http://bi-risk.pigeo.fr/geoserver-prod/wms',
-            overviewWmsLayers       : 'bi_fond_carto',
+			EXTENT                  :[-1951740.11,1380068.70,-1265694.95,1884841.18],
+			portalHeader            :'<img class="catLogo" src="../images/logos/88px-Coat_of_arms_of_Senegal.svg.png"/><span class="bigger"> Gestion des Risques au Sénégal </span><br /><span class="smaller"></span>',
+            overviewWmsUrl          : 'http://sn-risk.pigeo.fr/geoserver-prod/wms',
+            overviewWmsLayers       : 'sn_fond_carto',
             overviewWmsFormat       : 'image/jpeg',
             plainMapTitle           : "Low resolution base map",
-            plainMapWmsUrl          : "http://bi-risk.pigeo.fr/geoserver-prod/wms",
-            plainMapWmsLayers       :'bi_fond_carto',
+            plainMapWmsUrl          : "http://sn-risk.pigeo.fr/geoserver-prod/wms",
+            plainMapWmsLayers       :'sn_fond_carto',
             plainMapWmsFormat       :'image/jpeg',
             geonamesSearch          : {
-                    countryString:'country=BI',
+                    countryString:'country=SN',
                     zoom : 11
             },
-    			toolsPanelConfig	: {
-    				linkedLayers : [""],
-    				disableLayersOnDeactivate : false	
-   				}/*,
-    			shortcutsZAE 		: {
-						entete : 'shortcutsZaeTitle',	
-						title : 'SLMtools',
-						dashboard : {
-							openOnSelect : true,
-							options : {
-								tabNb : 3
-							}
-						},
-    					items : 
-    						[{
-								nom:'Zones agro-écologiques...',
-								url:'http://192.168.1.86/sigdt-config/services-ilwac/getBoundsZAE.php'
-								//,linkedLayers:["Zonage Agro-ecologique (source PIRT)"]
-						}]
-    			}*/,
-				shortcutsCombo 		: {
-						entete : 'shortcutsAdminTitle',
-						title : 'searchTools',
-						items : 
-							[{
-								nom:'Provinces...',
-								url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getProvinces.php'
-							},{
-								nom:'Communes...',
-								url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getCommunes.php'
-							},{
-								nom:'Collines...',
-								url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getCollines.php'
-							},{
-								nom:'Sous-collines...',
-								url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getSousCollines.php'
-							}],
-					options: {
-						header:true
-					}
+            toolsPanelConfig        : {
+                    linkedLayers : [""],
+                    disableLayersOnDeactivate : false       
+            },
+			shortcutsCombo 		: {
+				entete : 'shortcutsAdminTitle',
+				title : 'searchTools',
+				items : 
+					[{
+						nom:'Provinces...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getProvinces.php'
+					},{
+						nom:'Communes...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCommunes.php'
+					},{
+						nom:'Collines...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCollines.php'
+					}/*,{
+						nom:'Sous-collines...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getSousCollines.php'
+				}*/],
+				options: {
+					header:true
 				}
-    			
-    			/*,
-				pratiquesConf 		: {
-						//title : '<h1 class="soberH1">Carte des pratiques GDT</h1>',
-						title : 'pratiquesConfTitle',
-						items: 
-							[{
-								nom:'Familles de Pratiques GDT...',
-								url:'http://192.168.1.86/sigdt-config/services-ilwac/getFamPratiques.php?emptyRecord=true'
-							},{
-								nom:'Pratiques...',
-								url:'http://192.168.1.86/sigdt-config/services-ilwac/getPratique.php'
-							}],
-						options: {
-							header:false,
-							style:'padding-bottom:30px;'
-						},
-						mapUrl:'http://192.168.1.86/sigdt-config/services-ilwac/getPosPratique.php?id='
-				}*/
-    	};
+			}
+	};
 /*    	if (window.Geoportal.online) {
     		document.write("\<script src='http://maps.google.com/maps/api/js?sensor=false&v=3.6'\>\</script\>");
     	}

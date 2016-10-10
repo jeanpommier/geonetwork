@@ -19,10 +19,10 @@
     <div id="loading-mask"></div>
     <div id="loading">
       <div class="loading-indicator">
-      <p><b>Risk Management Geoportal for Burundi </b><br />
+      <p><b>Risk Management Geoportal for Senegal </b><br />
       Loading...</p>
       <hr />
-      <p><b>Géoportail de la Gestion des Risques au Burundi </b><br />
+      <p><b>Géoportail de la Gestion des Risques au Sénégal </b><br />
       Chargement en cours...</p></div>
       Optimized for / optimisé pour : <br />Firefox (version 17 and +), Chrome (version 29 and +), Internet Explorer 9 and 10.
     </div>
@@ -66,17 +66,17 @@
 			withGoogleLayers	: false,
 			//MAXEXTENT 			:[-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7],
 			//MAXEXTENT 			:[-1500000,1100000,500000,3000000],
-			EXTENT                  :[3226595.30,-495653.48, 3434561.55,-256277.70],
-			portalHeader            :'<img class="catLogo" src="../images/logos/88px-Blason_du_Burundi.svg.png"/><span class="bigger"> Gestion des Risques au Burundi </span><br /><span class="smaller"></span>',
-            overviewWmsUrl          : 'http://bi-risk.pigeo.fr/geoserver-prod/wms',
-            overviewWmsLayers       : 'bi_fond_carto',
+			EXTENT                  :[-1951740.11,1380068.70,-1265694.95,1884841.18],
+			portalHeader            :'<img class="catLogo" src="../images/logos/88px-Coat_of_arms_of_Senegal.svg.png"/><span class="bigger"> Gestion des Risques au Sénégal </span><br /><span class="smaller"></span>',
+            overviewWmsUrl          : 'http://sn-risk.pigeo.fr/geoserver-prod/wms',
+            overviewWmsLayers       : 'sn_fond_carto',
             overviewWmsFormat       : 'image/jpeg',
             plainMapTitle           : "Low resolution base map",
-            plainMapWmsUrl          : "http://bi-risk.pigeo.fr/geoserver-prod/wms",
-            plainMapWmsLayers       :'bi_fond_carto',
+            plainMapWmsUrl          : "http://sn-risk.pigeo.fr/geoserver-prod/wms",
+            plainMapWmsLayers       :'sn_fond_carto',
             plainMapWmsFormat       :'image/jpeg',
             geonamesSearch          : {
-                    countryString:'country=BI',
+                    countryString:'country=SN',
                     zoom : 11
             },
             toolsPanelConfig        : {
@@ -89,23 +89,69 @@
 				items : 
 					[{
 						nom:'Provinces...',
-						url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getProvinces.php'
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getProvinces.php'
 					},{
 						nom:'Communes...',
-						url:'http://bi-risk.pigeo.fr/sigdt-config/services-burundi/getCommunes.php'
-					}],
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCommunes.php'
+					},{
+						nom:'Collines...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCollines.php'
+					}/*,{
+						nom:'Sous-collines...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getSousCollines.php'
+				}*/],
 				options: {
 					header:true
 				}
 			}
 	};
-/*	if (window.Geoportal.online) {
-		document.write("\<script src='http://maps.google.com/maps/api/js?sensor=false&v=3.6'\>\</script\>");
-	}
-	*/
+
     </script>
-    <script type="text/javascript" src="http://bi-risk.pigeo.fr/sigdt-config/config-burundi-gn2_10/infotree.js"></script>
+    <script type="text/javascript" src="http://sn-risk.pigeo.fr/sigdt-config/config-senegal-gn2_10/infotree.js"></script>
     <script type="text/javascript" src="js/App-mini.js"></script>
+   <script type="text/javascript">
+    //Last minute translation fixes
+    OpenLayers.Util.extend(OpenLayers.Lang.fr, {
+    	//Quick and dirty fixes : MD_ScopeCode codelist translations (duplications XML translation in 
+    	//data/config/schema-plugins/iso19139/loc/???/codelists.xml)
+        'attribute': "Attribut",
+        'attributeType': "Type d'attribut",
+        'collectionHardware': "Collection matérielle",
+        'collectionSession': "Collection de session",
+        'dataset': "Jeu de données",
+        'series': "Collection de données",
+        'nonGeographicDataset': "Données non géographiques",
+        'dimensionGroup': "Dimension d'un groupe",
+        'feature': "Entité",
+        'featureType': "Type d’entité",
+        'propertyType': "Type de propriété",
+        'fieldSession': "Champ de session",
+        'software': "Logiciel",
+        'service': "Service",
+        'model': "Modèle",
+        'tile': "Tuile"
+        });
+    OpenLayers.Util.extend(OpenLayers.Lang.en, {
+    	//Quick and dirty fixes : MD_ScopeCode codelist translations (duplications XML translation in 
+    	//data/config/schema-plugins/iso19139/loc/???/codelists.xml)
+        'attribute': "Attribute",
+        'attributeType': "Attribute type",
+        'collectionHardware': "Collection hardware",
+        'collectionSession': "Collection session",
+        'dataset': "Dataset",
+        'series': "Series",
+        'nonGeographicDataset': "Non geographic dataset",
+        'dimensionGroup': "Dimension group",
+        'feature': "Feature",
+        'featureType': "Feature type",
+        'propertyType': "Property type",
+        'fieldSession': "Field session",
+        'software': "Software",
+        'service': "Service",
+        'model': "Model",
+        'tile': "Tile"
+        });
+    </script>
 <!--    <script>//google analytics
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
