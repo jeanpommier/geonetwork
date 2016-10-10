@@ -1,7 +1,7 @@
 ﻿.. |project_name| replace:: Géoportail pour la Gestion des Risques
 .. |project| replace:: Géoportail pour la Gestion des Risques
 .. |project_bold| replace:: **Géoportail pour la Gestion des Risques**
-.. |project_url| replace:: http://ne-risk.pigeo.fr
+.. |project_url| replace:: http://sn-risk.pigeo.fr
 .. |project_version| replace:: 2.10.3-1
 .. |version| replace:: 2.10.3-1
 .. |release| replace:: 2.10.3-1
