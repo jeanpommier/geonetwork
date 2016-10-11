@@ -44,7 +44,7 @@ GeoNetwork.jpLang.fr = {
 	'day':'Jour',
 	'month':'Mois',
 	'year':'Année',
-	'dashBoardTooltipTitle':'Profils temporels',
+	'dashBoardTooltipTitle':'Tableau de bord',
 	'dashBoardTooltipText':"Cliquer en un point de la carte pour afficher l'outil de profils temporels. Il vous permettra d'analyser l'évolution de diverses données en fonction du temps",
 	"dash_DashBoardWindow.windowTitle" : "Profils temporels",
 	'dash_ChooseDecade':'Déterminer la décade à afficher',

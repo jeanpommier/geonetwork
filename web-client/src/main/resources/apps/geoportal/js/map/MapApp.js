@@ -1488,6 +1488,17 @@ var processLayersSuccess = function(response) {
     };
     
     var _openDashBoardAt = function (lonlat_geog, options) {
+    	var url = window.Geoportal.geodash.url + "lon="+lonlat_geog.lon+"&lat="+lonlat_geog.lat;
+    	var dest = "_geodash";
+    	if (window.Geoportal.geodash.destinationWindow!=null) {
+    		dest = window.Geoportal.geodash.destinationWindow;
+    	}
+    	var params = "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100";
+    	if (window.Geoportal.geodash.newWindowParams!=null) {
+    		params = window.Geoportal.geodash.newWindowParams;
+    	}
+    	window.open(url, dest, params);
+    	/*
     	//coords in WGS84
     	//we get them in local projection
     	var lonlat = lonlat_geog.clone();
@@ -1504,7 +1515,7 @@ var processLayersSuccess = function(response) {
         if (options.tabNb) {
             GeoNetwork.WindowManager.getWindow("dashBoard").openTab(options.tabNb);
         }
-       
+       */
         return false;
     };
 

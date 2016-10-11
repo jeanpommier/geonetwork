@@ -45,7 +45,7 @@ GeoNetwork.jpLang.en = {
 	'day':'Day',
 	'month':'Month',
 	'year':'Year',
-	'dashBoardTooltipTitle':'Temporal Profiles',
+	'dashBoardTooltipTitle':'Dashboard',
 	'dashBoardTooltipText':"Click somewhere on the map to display the Temporal Profiles tool. It will give you tools to analyze several factors upon time",
 	"dash_DashBoardWindow.windowTitle" : "Temporal Profiles",
 	'dash_ChooseDecade':'Choose which decade to query',

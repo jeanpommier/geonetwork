@@ -88,21 +88,21 @@
 				title : 'searchTools',
 				items : 
 					[{
-						nom:'Provinces...',
-						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getProvinces.php'
+						nom:'Régions...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getRegions.php'
 					},{
-						nom:'Communes...',
-						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCommunes.php'
-					},{
-						nom:'Collines...',
-						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getCollines.php'
-					}/*,{
-						nom:'Sous-collines...',
-						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getSousCollines.php'
-				}*/],
+						nom:'Départements...',
+						url:'http://sn-risk.pigeo.fr/sigdt-config/services-senegal/getDepartements.php'
+					}
+				],
 				options: {
 					header:true
 				}
+			},
+			geodash	: {
+				url : 'http://dev.padre2.pigeo.fr/geodash/dashboard/public/index.html?',
+				destinationWindow : "_geodash",
+				newWindowParams : "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100"
 			}
 	};
 
