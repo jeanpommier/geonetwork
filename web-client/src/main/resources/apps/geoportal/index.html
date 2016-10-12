@@ -19,11 +19,12 @@
     <div id="loading-mask"></div>
     <div id="loading">
       <div class="loading-indicator">
-      <p><b>Risk Management Geoportal for Senegal </b><br />
-      Loading...</p>
-      <hr />
-      <p><b>Géoportail de la Gestion des Risques au Sénégal </b><br />
-      Chargement en cours...</p></div>
+	      <p><b>Géoportail de la Gestion des Risques au Sénégal </b><br />
+	      Chargement en cours...</p>
+	      <hr />
+	      <p><b>Risk Management Geoportal for Senegal </b><br />
+	      Loading...</p>
+      </div>
       Optimized for / optimisé pour : <br />Firefox (version 17 and +), Chrome (version 29 and +), Internet Explorer 9 and 10.
     </div>
     
@@ -57,15 +58,12 @@
     <!--<![endif]-->
 	<script src="../js/queue.v1.min.js"></script>
     <script type="text/javascript">
-  //GeoNetwork.Geoportal.MAXEXTENT = new OpenLayers.Bounds(-17,13,-13.7,14);
 	window.Geoportal = {
 			online				: true, //if set to false, it will shortcut Bing and Google layers
 			withBingLayers		: true, //defaults to only Bing Aerial, as the other seem to suck
 			withBingHybrid		: false, //defaults to only Bing Aerial, as the other seem to suck
 			withBingRoads		: false, //defaults to only Bing Aerial, as the other seem to suck
 			withGoogleLayers	: false,
-			//MAXEXTENT 			:[-2.003750834E7,-2.003750834E7,2.0037508345578495E7,2.0037508345578495E7],
-			//MAXEXTENT 			:[-1500000,1100000,500000,3000000],
 			EXTENT                  :[-1951740.11,1380068.70,-1265694.95,1884841.18],
 			portalHeader            :'<img class="catLogo" src="../images/logos/88px-Coat_of_arms_of_Senegal.svg.png"/><span class="bigger"> Gestion des Risques au Sénégal </span><br /><span class="smaller"></span>',
             overviewWmsUrl          : 'http://sn-risk.pigeo.fr/geoserver-prod/wms',
@@ -103,7 +101,11 @@
 				url : 'http://dev.padre2.pigeo.fr/geodash/dashboard/public/index.html?',
 				destinationWindow : "_geodash",
 				newWindowParams : "toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=100"
-			}
+			}/*,
+			//Allows to point the Animations service to an external geoportal
+			animations	: {
+				baseUrl : "http://sn-risk.pigeo.fr/sn-risk-gn2_10"
+			}*/
 	};
 
     </script>

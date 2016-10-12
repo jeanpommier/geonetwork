@@ -134,12 +134,26 @@ Ext.extend(GeoNetwork.AnimationsWindow, GeoNetwork.BaseWindow, {
         	this.doLayout();
 		},this);
     },
+    
+    //allows to change the targeted webapp :
+    getBaseURL: function() {
+    	var baseURL = window.catalogue.URL;
+    	
+		if (window.Geoportal.animations!=null) {
+			if (window.Geoportal.animations.baseUrl!=null) {
+				if (window.Geoportal.animations.baseUrl.startsWith("http")) {
+					baseURL = window.Geoportal.animations.baseUrl;
+				} 
+			}
+		}
+		return baseURL;
+    },
     /*
      * TODO : 
      * 	- defer store loading at the moment we first open the window, not at page load
      */
 	buildLoader: function(config) {
-		var URL = window.catalogue.URL+"/srv/eng/pigeo.animations.list";
+		var URL = this.getBaseURL()+"/srv/eng/pigeo.animations.list";
 		var map_fields = [
 				           // set up the fields mapping into the xml doc
 				           {name: 'id'},
@@ -386,7 +400,7 @@ Ext.extend(GeoNetwork.AnimationsWindow, GeoNetwork.BaseWindow, {
 	
 	loadAnimation: function(btn) {	
 		//console.log(this.selectedDataset);	
-		var URL = window.catalogue.URL+"/srv/eng/pigeo.animations.listfiles.json?dataName="+this.selectedDataset.data.id;
+		var URL = this.getBaseURL()+"/srv/eng/pigeo.animations.listfiles.json?dataName="+this.selectedDataset.data.id;
 		var request = OpenLayers.Request.GET({
             url: URL,
             async: false
@@ -398,7 +412,7 @@ Ext.extend(GeoNetwork.AnimationsWindow, GeoNetwork.BaseWindow, {
 			this.animator.imgs = new Array();
 			//console.log(fileslist);
 			for (var i = 0 ; i < fileslist.record.length ; i++) {
-				this.animator.imgs.push(window.catalogue.URL+"/srv/eng/pigeo.animations.getimage?path="+fileslist.path+"&name="+fileslist.record[i].name); //imgs will be an array of absolute paths to the images
+				this.animator.imgs.push(this.getBaseURL()+"/srv/eng/pigeo.animations.getimage?path="+fileslist.path+"&name="+fileslist.record[i].name); //imgs will be an array of absolute paths to the images
 			};
 			//console.log(imgs);
 			
